@@ -1,0 +1,157 @@
+# 多船交互轨迹预测 - 统一配置
+# Unified protocol: 10min observation, variable prediction lengths
+
+sampling_interval: 20 # seconds
+
+# 时间窗口配置（步数 = 时间 / 采样间隔）
+observation:
+  duration_min: 10
+  steps: 30 # 10min / 20s = 30
+
+prediction_variants:
+  pred5:
+    duration_min: 5
+    steps: 15
+  pred10:
+    duration_min: 10
+    steps: 30
+  pred20:
+    duration_min: 20
+    steps: 60
+
+# 数据预处理参数
+preprocessing:
+  max_sog_knots: 30             # 超过此速度视为异常
+  min_sog_knots: 0.5            # 低于此速度视为静止
+  stationary_duration_min: 30   # 静止持续超过此时间则删除
+  gap_threshold_min: 10         # 时间间隔超过此值则切割轨迹
+  min_trajectory_steps: 90      # 最少步数 (30min/20s=90步)
+  min_heading_quality: 0.6      # heading 真实率低于此值的船舶在场景提取时删除
+  jump_speed_factor: 2.0        # 位置跳变检测：隐含速度 > max_sog * factor -> 移除该点
+  sog_median_window: 5          # 重采样后 SOG 中值滤波窗口 (0=不滤波)
+  min_sog_for_cog: 1.0          # SOG 低于此值时 COG 用前向填充（低速时 COG 不可靠）
+  max_sog_change_per_step: 3.0  # 单步 SOG 最大变化量(kn)，超过则裁剪
+  gps_freeze_window: 10         # GPS 冻结检测滑动窗口步数 (10步=200s@20s采样)
+  gps_freeze_sog_thr: 3.0       # GPS 冻结检测 SOG 阈值 (kn)，窗口平均 SOG 高于此值才检查
+  gps_freeze_ratio_thr: 0.1     # GPS 冻结判定：实际位移 < 预期位移 * 此值 -> 判定为冻结
+  heading_cog_max_diff_deg: 90.0 # 高速时 heading-COG 差超过此值 -> heading 替换为 COG
+  stuck_heading_std_threshold: 0.5 # heading 标准差低于此值且高速 -> heading 替换为 COG
+  lat_range: [-90, 90]
+  lon_range: [-180, 180]
+
+# 多船交互场景提取
+scene_extraction:
+  spatial_window_km: 10.0       # 空间窗口大小
+  temporal_window_min: 30       # 时间窗口
+  min_ships: 2                  # 场景最少船舶数
+  max_ships: 20                 # 场景最多船舶数
+  min_coexist_min: 30           # 最少共存时间
+  interaction_distance_nm: 3.0  # 交互判定距离（海里）
+  min_mean_sog_knots: 3.0       # 场景内船舶最低平均 SOG，低于此值视为停泊/漂航（COG 不可靠）
+  max_scene_diameter_nm: 8.0    # 场景最大直径（海里），超过此值删除空间跨度过大的场景
+  min_coverage_ratio: 0.8       # 每艘船数据覆盖公共窗口的最低比例，低于此值删除（防止常速外推产生幽灵轨迹）
+
+# 场景去重
+scene_dedup:
+  jaccard_threshold: 0.5        # 船舶集合 Jaccard 相似度阈值
+  time_overlap_sec: 1800        # 时间接近阈值（秒）
+
+# 数据集划分（时间分割，防数据泄漏）
+split:
+  method: "temporal"
+  train_date_ranges:
+    - start: "2025-06-01"
+      end: "2025-06-30"
+    - start: "2025-07-01"
+      end: "2025-07-21"
+    - start: "2025-08-01"
+      end: "2025-08-21"
+  val_date_ranges:
+    - start: "2025-09-01"
+      end: "2025-09-08"
+  test_date_ranges:
+    - start: "2025-09-10"
+      end: "2025-09-18"
+  random_seed: 42
+  stride_ratio: 3.0             # stride = pred_steps * ratio, 3.0 = 更高独立性
+  max_samples_per_scene: 5       # 每个场景最多产出样本数，0=不限制
+  require_encounter: true
+  min_ships_override: 2
+  min_pred_mean_sog: 1.0        # pred 窗口中每艘船平均 SOG 低于此值 -> 跳过该样本
+  min_obs_tail_sog: 2.0         # obs 窗口最后5步任意船平均 SOG 低于此值 -> 跳过（从停泊起航不可预测）
+
+# 特征列
+features:
+  - lat
+  - lon
+  - sog
+  - cog
+  - heading
+
+# 多区域数据集配置（均来自 DMA 原始 AIS 数据）
+datasets:
+  greatbelt:
+    name: "Great Belt"
+    lat_min: 55.0
+    lat_max: 55.8
+    lon_min: 10.5
+    lon_max: 11.5
+    description: "大贝尔特海峡 - 连接北海与波罗的海的主航道"
+
+  kattegat:
+    name: "Kattegat"
+    lat_min: 56.0
+    lat_max: 57.5
+    lon_min: 10.5
+    lon_max: 12.5
+    description: "卡特加特海峡 - 丹麦与瑞典之间的开阔水域"
+
+  oresund:
+    name: "Oresund"
+    lat_min: 55.4
+    lat_max: 56.1
+    lon_min: 12.4
+    lon_max: 13.1
+    description: "厄勒海峡 - 哥本哈根至马尔默的狭窄航道"
+
+# DMA 原始数据路径（旧，仅 4 天）
+dma_raw:
+  zip_dir: "data/raw/envship/DMA/data_raw/dma/incoming/2025-09"
+
+# DMA 多月份下载配置（60天）
+dma_download:
+  base_url: "http://aisdata.ais.dk/"
+  date_ranges:
+    - start: "2025-06-01"
+      end: "2025-06-30"
+    - start: "2025-07-01"
+      end: "2025-07-21"
+    - start: "2025-08-01"
+      end: "2025-08-21"
+    - start: "2025-09-01"
+      end: "2025-09-18"
+  output_dir: "data/raw/dma_multi"
+
+# 预处理过滤
+ais_filter:
+  class_a_only: true
+  ship_type_whitelist:
+    - Cargo
+    - Tanker
+    - Passenger
+    - Tug
+    - Towing
+    - Dredging
+    - Pilot
+    - HSC
+
+# 会遇计算参数
+encounter:
+  dcpa_threshold_nm: 2.0
+  min_dcpa_for_scene_nm: 1.0     # 场景保留阈值：至少一对船 DCPA < 此值
+  tcpa_max_sec: 1800
+  cri_d0_nm: 1.0
+  cri_t0_sec: 600
+  head_on_angle_range: [170, 190]
+  ahead_sector_deg: 15.0
+  overtaking_bearing_threshold: 112.5

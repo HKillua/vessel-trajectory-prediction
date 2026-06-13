@@ -1,0 +1,39 @@
+# OS files
+.DS_Store
+
+# Python caches and bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+.python-version
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+*.swp
+*.swo
+
+# Local data and generated artifacts
+data/raw/
+data/processed/
+data/final/
+
+# Build outputs
+build/
+dist/
+*.egg-info/
