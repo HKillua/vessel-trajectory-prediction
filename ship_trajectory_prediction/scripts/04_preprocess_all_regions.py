@@ -12,6 +12,9 @@
 """
 
 import sys
+import gc
+import shutil
+import tempfile
 import zipfile
 import pandas as pd
 import numpy as np
@@ -46,18 +49,21 @@ def load_dma_zip(zip_path):
     df["timestamp"] = df["timestamp"].apply(lambda x: int(x.timestamp()))
 
     result = pd.DataFrame({
-        "mmsi": df["MMSI"],
-        "timestamp": df["timestamp"],
-        "lat": df["Latitude"],
-        "lon": df["Longitude"],
-        "sog": df["SOG"],
-        "cog": df["COG"],
-        "heading": df["Heading"],
-        "ship_type": df.get("ship_type", "unknown"),
-        "vessel_length": pd.to_numeric(df.get("Length", 0), errors="coerce").fillna(0),
-        "vessel_width": pd.to_numeric(df.get("Width", 0), errors="coerce").fillna(0),
-        "mobile_type": df.get("Type of mobile", "unknown"),
+        "mmsi": df["MMSI"].astype("category"),
+        "timestamp": df["timestamp"].astype("int64"),
+        "lat": df["Latitude"].astype("float32"),
+        "lon": df["Longitude"].astype("float32"),
+        "sog": df["SOG"].astype("float32"),
+        "cog": df["COG"].astype("float32"),
+        "heading": df["Heading"].astype("float32"),
+        "ship_type": df.get("ship_type", "unknown").astype("category"),
+        "vessel_length": pd.to_numeric(df.get("Length", 0), errors="coerce").fillna(0).astype("float32"),
+        "vessel_width": pd.to_numeric(df.get("Width", 0), errors="coerce").fillna(0).astype("float32"),
+        "mobile_type": df.get("Type of mobile", "unknown").astype("category"),
     })
+    # 释放原始 df，单天 1-2 GB 立即收回
+    del df
+    gc.collect()
     result = result.dropna(subset=["mmsi", "timestamp", "lat", "lon", "sog", "cog"])
 
     # Heading NaN 用 COG 填充（AIS 中 heading 经常缺失，COG 是最佳替代）
@@ -247,32 +253,93 @@ def process_all_regions():
     zip_files = sorted(raw_dir.glob("aisdk-*.zip"))
     print(f"  找到 {len(zip_files)} 个 zip 文件")
 
-    print("\n[1/2] 加载原始数据...")
-    all_raw = []
-    for zf in zip_files:
-        print(f"  读取: {zf.name}")
-        df = load_dma_zip(zf)
-        print(f"    {len(df):,} 行")
-        if len(df) > 0:
-            all_raw.append(df)
-
-    if not all_raw:
-        print("  错误: 无数据")
+    if not zip_files:
+        print("  错误: 无 zip 文件")
         return False
 
-    combined = pd.concat(all_raw, ignore_index=True)
-    print(f"  合计: {len(combined):,} 行, {combined['mmsi'].nunique()} 船")
-
-    print("\n[2/2] 按区域提取...")
     datasets = config["datasets"]
-    success_count = 0
-    for region_key, region_config in datasets.items():
-        if process_region(combined, region_key, region_config, config):
-            success_count += 1
 
-    print(f"\n{'='*60}")
-    print(f"[多区域预处理] 完成！成功处理 {success_count}/{len(datasets)} 个区域")
-    return success_count > 0
+    # === 流式处理：临时分片目录，每个区域一个子目录 ===
+    # 内存策略：
+    #   1) 一次只加载一个 zip 到内存（单天 ~1-2 GB DataFrame）
+    #   2) 立即按 3 个区域 mask 过滤，把区域内数据写为分片 parquet 到磁盘
+    #   3) 立即 del + gc.collect 释放整天数据
+    #   4) 阶段 2 再逐个区域读分片 → 重采样 → 输出最终 parquet
+    # 这样内存峰值 = 单天数据 + 单区域 90 天数据，而不是 90×全国数据
+    tmp_root = Path(tempfile.mkdtemp(prefix="dma_preprocess_"))
+    print(f"  临时分片目录: {tmp_root}")
+    region_tmp = {}
+    for rk in datasets:
+        d = tmp_root / rk
+        d.mkdir(parents=True, exist_ok=True)
+        region_tmp[rk] = d
+
+    try:
+        # === 阶段 1: 流式加载 + 区域分片落盘 ===
+        print(f"\n[1/2] 流式加载 + 区域分片（{len(zip_files)} 个 zip）")
+        total_raw_rows = 0
+        region_row_counts = {rk: 0 for rk in datasets}
+        for i, zf in enumerate(zip_files, 1):
+            print(f"  [{i}/{len(zip_files)}] {zf.name}")
+            df = load_dma_zip(zf)
+            if len(df) == 0:
+                print(f"    跳过：空文件")
+                continue
+            total_raw_rows += len(df)
+            print(f"    原始: {len(df):,} 行")
+            day_stem = zf.stem  # aisdk-2025-09-01
+
+            # 立即按区域过滤，落盘分片，整天 df 在循环结束后释放
+            for region_key, region_config in datasets.items():
+                lat_min, lat_max = region_config["lat_min"], region_config["lat_max"]
+                lon_min, lon_max = region_config["lon_min"], region_config["lon_max"]
+                mask = (
+                    (df["lat"] >= lat_min) & (df["lat"] <= lat_max) &
+                    (df["lon"] >= lon_min) & (df["lon"] <= lon_max)
+                )
+                n_in = int(mask.sum())
+                if n_in == 0:
+                    continue
+                sub = df[mask]
+                sub.to_parquet(region_tmp[region_key] / f"{day_stem}.parquet", index=False)
+                region_row_counts[region_key] += n_in
+                del sub
+            del df, mask
+            gc.collect()
+
+        print(f"\n  原始总行数: {total_raw_rows:,}")
+        for rk, cnt in region_row_counts.items():
+            pct = cnt / max(total_raw_rows, 1) * 100
+            print(f"    {rk}: {cnt:,} 行 ({pct:.1f}%)")
+
+        # === 阶段 2: 按区域读取分片 → 重采样 → 输出 ===
+        print(f"\n[2/2] 按区域处理")
+        success_count = 0
+        for region_key, region_config in datasets.items():
+            parts = sorted(region_tmp[region_key].glob("*.parquet"))
+            if not parts:
+                print(f"\n  区域 {region_key}: 无数据，跳过")
+                continue
+            print(f"\n  区域 {region_key}: 合并 {len(parts)} 个分片...")
+            region_df = pd.concat(
+                [pd.read_parquet(p) for p in parts],
+                ignore_index=True,
+            )
+            print(f"    合并后: {len(region_df):,} 行, {region_df['mmsi'].nunique()} 船")
+            if process_region(region_df, region_key, region_config, config):
+                success_count += 1
+            # 释放该区域内存 + 删除该区域临时分片
+            del region_df
+            gc.collect()
+            shutil.rmtree(region_tmp[region_key], ignore_errors=True)
+
+        print(f"\n{'='*60}")
+        print(f"[多区域预处理] 完成！成功处理 {success_count}/{len(datasets)} 个区域")
+        return success_count > 0
+    finally:
+        # 兜底清理临时目录
+        if tmp_root.exists():
+            shutil.rmtree(tmp_root, ignore_errors=True)
 
 
 if __name__ == "__main__":

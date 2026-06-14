@@ -16,6 +16,7 @@
 """
 
 import sys
+import gc
 import numpy as np
 from pathlib import Path
 from datetime import datetime, timezone
@@ -240,30 +241,47 @@ def generate_samples_from_scene(scene, obs_steps, pred_steps, stride, min_pred_m
     return samples
 
 
-def save_split(samples, output_dir, split_name):
-    """保存一个 split 的所有样本"""
+def prepare_split_dir(output_dir, split_name):
+    """流式写盘前清理 split 目录。返回已就绪的目录路径"""
     split_dir = output_dir / split_name
     split_dir.mkdir(parents=True, exist_ok=True)
-
-    # 清理旧样本文件，防止多次运行后残留
     for old_file in split_dir.glob("sample_*.npz"):
         old_file.unlink()
     old_index = split_dir / f"{split_name}_index.npz"
     if old_index.exists():
         old_index.unlink()
+    return split_dir
+
+
+def save_split_index(split_dir, metas, split_name):
+    """根据已写入 sample 的 metadata 列表生成 index NPZ"""
+    if not metas:
+        return
+    index = {
+        "target_ship_idx": np.array([m["target_ship_idx"] for m in metas]),
+        "scene_id": np.array([m["scene_id"] for m in metas]),
+        "n_ships": np.array([m["n_ships"] for m in metas]),
+        "n_samples": np.int32(len(metas)),
+    }
+    np.savez_compressed(split_dir / f"{split_name}_index.npz", **index)
+
+
+def save_split(samples, output_dir, split_name):
+    """保存一个 split 的所有样本（兼容入口；新流程请用 prepare_split_dir + 流式写盘 + save_split_index）"""
+    split_dir = prepare_split_dir(output_dir, split_name)
 
     for i, sample in enumerate(samples):
         np.savez_compressed(split_dir / f"sample_{i:06d}.npz", **sample)
 
-    if samples:
-        index = {
-            "target_ship_idx": np.array([s["target_ship_idx"] for s in samples]),
-            "scene_id": np.array([s["scene_id"] for s in samples]),
-            "n_ships": np.array([s["n_ships"] for s in samples]),
-            "n_samples": np.int32(len(samples)),
+    metas = [
+        {
+            "target_ship_idx": int(s["target_ship_idx"]),
+            "scene_id": int(s["scene_id"]),
+            "n_ships": int(s["n_ships"]),
         }
-        np.savez_compressed(split_dir / f"{split_name}_index.npz", **index)
-
+        for s in samples
+    ]
+    save_split_index(split_dir, metas, split_name)
     return len(samples)
 
 
@@ -336,17 +354,34 @@ def generate_dataset():
             print(f"  obs 窗口尾部最低平均 SOG: {min_obs_tail_sog} kn")
 
         for split_name in ["train", "val", "test"]:
-            all_samples = []
+            # 流式写盘：处理一个 scene 立即写入 sample，不再累积 all_samples
+            # 内存峰值从 N_samples × 50KB（数 GB）降到单个 scene 的 samples（数 MB）
+            split_dir = prepare_split_dir(output_dir, split_name)
+            metas = []
+            sample_idx = 0
             for scene in tqdm(split_scenes[split_name], desc=f"生成 {split_name} ({variant_name})"):
                 samples = generate_samples_from_scene(scene, obs_steps, pred_steps, stride, min_pred_mean_sog, config)
                 if max_samples_per_scene > 0 and len(samples) > max_samples_per_scene:
                     np.random.seed(scene["scene_id"])
                     indices = np.random.choice(len(samples), max_samples_per_scene, replace=False)
                     samples = [samples[i] for i in sorted(indices)]
-                all_samples.extend(samples)
 
-            n_saved = save_split(all_samples, output_dir, split_name)
-            print(f"  {split_name}: {n_saved} 样本")
+                # 立即落盘 + 收集轻量 metadata（int），原始 sample 字典随循环结束被回收
+                for s in samples:
+                    np.savez_compressed(split_dir / f"sample_{sample_idx:06d}.npz", **s)
+                    metas.append({
+                        "target_ship_idx": int(s["target_ship_idx"]),
+                        "scene_id": int(s["scene_id"]),
+                        "n_ships": int(s["n_ships"]),
+                    })
+                    sample_idx += 1
+                del samples
+
+            # 该 split 全部 sample 落盘后写 index
+            save_split_index(split_dir, metas, split_name)
+            print(f"  {split_name}: {sample_idx} 样本")
+            del metas
+            gc.collect()
 
         print(f"\n  {'=' * 40}")
         for split_name in ["train", "val", "test"]:
