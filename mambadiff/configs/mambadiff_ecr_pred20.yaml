@@ -1,0 +1,109 @@
+model:
+  d_model: 256
+  n_feat: 7              # 输入特征数 (lat,lon,sog,sin_cog,cos_cog,sin_hdg,cos_hdg)
+  pred_dim: 2
+  obs_steps: 30
+  pred_steps: 60          # 20min / 20s = 60 steps
+  k_samples: 20
+  encoder_type: "mamba"
+
+interaction:
+  gat_heads: 4
+  gat_layers: 2
+  edge_dim: 16
+  encounter_embed_dim: 32    # [FIX8] increased from 16 to reduce bottleneck for multi-encounter encoding
+  n_encounter_types: 6
+  dcpa_scale: 3.0              # nm, max DCPA for normalization (clamp to [0,1])
+  tcpa_scale: 1800.0           # seconds, max |TCPA| for normalization (clamp to [-1,1])
+  sda:
+    enabled: true
+
+diffusion:
+  steps: 100
+  beta_start: 1.e-4
+  beta_end: 5.e-2
+  beta_schedule: linear
+  num_tau: 10
+  tau_start: 33
+  cfg_dropout: 0.1
+
+guidance:
+  colregs_weight: 0.5
+  dynamic_schedule: "cosine"
+  nomoto_max_turn_rate: 2.0
+  nomoto_speed_adaptive: true       # [FIX10] speed-adaptive turn rate constraint
+  nomoto_low_speed_kn: 5.0          # below this: relaxed constraint (×2.5)
+  nomoto_high_speed_kn: 15.0        # above this: base constraint
+  nomoto_low_speed_rate_mult: 2.5   # multiplier for low-speed turn rate limit
+  safe_dcpa: 0.5
+  w_proximity: 1.0
+  w_direction: 0.1
+  maneuver_threshold_deg: 5.0
+
+denoiser:
+  tf_layers: 4
+  n_head: 8
+  ff_mult: 4
+  time_embed_dim: 64
+  enc_proj_dim: 64
+
+social_circle:
+  enabled: true
+  n_bins: 12
+  n_factors: 4
+  d_out: 64
+  use_cog_for_bearing: true   # [FIX4] COG is more reliable than heading for bearing computation
+  dist_scale: 3.0
+  speed_scale: 10.0
+
+anchor:
+  use_residual: true
+  initial_var_scale: 0.3
+  n_smooth: 3
+
+nomoto_loss:
+  enabled: true
+  weight: 1.0
+  max_turn_rate_deg: 2.0
+  speed_adaptive: true              # [FIX10] matches guidance Nomoto
+  low_speed_kn: 5.0
+  high_speed_kn: 15.0
+  low_speed_rate_mult: 2.5
+
+fredf:
+  k_freq: "auto"
+  log_magnitude: true               # Log-spectral MSE: prevents over-smoothing more effectively
+  low_weight: 0.1                   # Higher floor since log domain equalizes magnitudes
+  high_weight: 1.0
+
+training:
+  batch_size: 32
+  lr: 1.e-3
+  num_epochs: 100
+  decay_step: 20
+  decay_gamma: 0.5
+  loss_dist_weight: 50
+  loss_fredf_weight: 20.0   # Higher than before (was 5.0) to compensate for log-magnitude's smaller absolute values
+  loss_anchor_weight: 10
+  loss_diversity_weight: 2.0
+  diversity_warmup_epochs: 15       # [FIX2] increased from 5 to let minADE converge first
+  fredf_topk: 3
+  test_interval: 5
+  amp: true
+  warmup_epochs: 5
+  colregs_aux_weight: 0.1
+  colregs_aux_warmup_frac: 0.3
+  biased_t_sampling: true
+  patience: 15
+  deterministic_eval: true
+  gradient_checkpointing: false
+  ccr_threshold_deg: 5.0
+  ccr_bonus: 0.05
+  loss_all_ship_anchor_weight: 1.0  # [FIX9] reduced from 2.0 to avoid over-fitting neighbor motion
+  denoiser_lr_ratio_phase2: 0.02
+  encoder_lr_ratio_phase1: 0.2
+  seed: 42
+
+data:
+  data_root: "ship_trajectory_prediction/data/final/obs10_pred20"
+  num_workers: 4
