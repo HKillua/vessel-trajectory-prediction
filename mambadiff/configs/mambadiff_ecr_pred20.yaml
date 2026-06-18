@@ -5,7 +5,7 @@ model:
   obs_steps: 30
   pred_steps: 60          # 20min / 20s = 60 steps
   k_samples: 20
-  encoder_type: "mamba"
+  encoder_type: "transformer"
 
 interaction:
   gat_heads: 4

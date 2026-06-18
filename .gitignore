@@ -1,1 +1,9 @@
 .DS_Store
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.zip
+ship_trajectory_prediction/data/raw/
+ship_trajectory_prediction/data/processed/
+ship_trajectory_prediction/data/final/

@@ -205,6 +205,47 @@ class DeltaNetEncoder(nn.Module):
         return out[:, -1, :]
 
 
+class TransformerEncoder(nn.Module):
+    """
+    Transformer encoder for ship trajectory sequences.
+    
+    
+    """
+
+    def __init__(self, channel_in=21, d_model=256, n_layers=2, n_heads=8,
+                dim_feedforward=336, dropout=0.1):
+        super().__init__()
+        self.proj_in = nn.Linear(channel_in, d_model)
+
+        pe = torch.zeros(5000, d_model)
+        position = torch.arange(0, 5000, dtype=torch.float).unsqueeze(1)
+        div_term = torch.exp(torch.arange(0, d_model, 2).float()
+                             * (-math.log(10000.0) / d_model))
+        pe[:, 0::2] = torch.sin(position * div_term)
+        pe[:, 1::2] = torch.cos(position * div_term)
+        self.register_buffer('_pe', pe.unsqueeze(0))
+
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=d_model, nhead=n_heads,
+            dim_feedforward=dim_feedforward, 
+            dropout=dropout, batch_first=True, norm_first=True,
+        )
+
+        self.backbone = nn.TransformerEncoder(
+            encoder_layer, num_layers=n_layers
+            norm_layer=nn.LayerNorm(d_model)
+        )
+
+    def forward(self, x):
+        """
+        x: [B, T, C]
+        return: [B, d_model]
+        """
+        h = self.proj_in(x)
+        h = h + self._pe[:, :h.size(1), :]
+        h = self.backbone(h)
+        return h[:, -1, :]
+
 class TemporalEncoder(nn.Module):
     def __init__(self, encoder_type='mamba', n_feat=7, d_model=256):
         super().__init__()
@@ -213,6 +254,8 @@ class TemporalEncoder(nn.Module):
             self.encoder = MambaEncoder(channel_in, d_model)
         elif encoder_type == 'deltanet':
             self.encoder = DeltaNetEncoder(channel_in, d_model)
+        elif encoder_type == 'transformer':
+            self.encoder = TransformerEncoder(channel_in, d_model)
         else:
             self.encoder = GRUEncoder(channel_in, 32, d_model)
         self.d_model = d_model
