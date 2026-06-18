@@ -92,7 +92,7 @@ class ECRTrainer:
         self._log(f'Device: {self.device}')
         if self.device.type == 'cuda':
             self._log(f'  GPU: {torch.cuda.get_device_name(self.device)}')
-            total_mem = torch.cuda.get_device_properties(self.device).total_mem / 1024**3
+            total_mem = torch.cuda.get_device_properties(self.device).total_memory / 1024**3
             self._log(f'  GPU memory: {total_mem:.1f} GB')
             self._log(f'  CUDA version: {torch.version.cuda}')
         self._log(f'PyTorch: {torch.__version__}')

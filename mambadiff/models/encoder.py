@@ -232,8 +232,8 @@ class TransformerEncoder(nn.Module):
         )
 
         self.backbone = nn.TransformerEncoder(
-            encoder_layer, num_layers=n_layers
-            norm_layer=nn.LayerNorm(d_model)
+            encoder_layer, num_layers=n_layers,
+            norm=nn.LayerNorm(d_model)
         )
 
     def forward(self, x):
