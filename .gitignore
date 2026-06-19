@@ -18,16 +18,24 @@ ship_trajectory_prediction/data/final.zip
 
 # Model checkpoints (large)
 *.pt
-!baseline/**/*.pt
+*.pth
+!baseline/results/*/best.pt
+*.bin
 
-# External cloned repos
-baseline/LLM4STP/
-baseline/maritime-autonomy/
-baseline/social-lstm/
-baseline/social-stgcnn/
-baseline/star/
-baseline/itransformer/
+# Baseline: exclude only caches/data/large files (NOT source code)
+baseline/**/__pycache__/
 baseline/gpt2_model/
+baseline/social-stgcnn/checkpoint/
+baseline/social-stgcnn/datasets/
+baseline/social-lstm/data/
+baseline/social-lstm/result/
+baseline/social-lstm/log/
+baseline/social-lstm/plot/
+baseline/social-lstm/history_version/
+baseline/social-lstm/model/
+baseline/star/data/
+baseline/LLM4STP/temp_save_dir/
+baseline/LLM4STP/dataset/
 
 # Misc
 *.zip
