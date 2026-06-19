@@ -1,0 +1,1 @@
+epoch,train_noise_loss,val_noise_loss,lr,gpu_mem_mb,gpu_mem_peak_mb,epoch_time_s

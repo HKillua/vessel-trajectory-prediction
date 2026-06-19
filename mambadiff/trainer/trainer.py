@@ -248,24 +248,42 @@ class ECRTrainer:
 
     def _backward_step(self, loss, opt, model_params, separate_clip=False,
                        encoder_params=None, denoiser_params=None):
+        # [FIX] Skip NaN losses to prevent model corruption
+        if torch.isnan(loss) or torch.isinf(loss):
+            opt.zero_grad()
+            return False  # signal: step was skipped
+
+        train_cfg = self.cfg.get('training', {})
+        enc_clip = train_cfg.get('grad_clip_encoder', 0.5)
+        den_clip = train_cfg.get('grad_clip_denoiser', 0.1)
+
         if self.scaler:
             self.scaler.scale(loss).backward()
             self.scaler.unscale_(opt)
             if separate_clip and encoder_params and denoiser_params:
-                torch.nn.utils.clip_grad_norm_(encoder_params, 1.0)
-                torch.nn.utils.clip_grad_norm_(denoiser_params, 0.1)
+                torch.nn.utils.clip_grad_norm_(encoder_params, enc_clip)
+                torch.nn.utils.clip_grad_norm_(denoiser_params, den_clip)
             else:
-                torch.nn.utils.clip_grad_norm_(model_params, 1.0)
+                torch.nn.utils.clip_grad_norm_(model_params, enc_clip)
             self.scaler.step(opt)
             self.scaler.update()
         else:
             loss.backward()
+            # [FIX] Zero out NaN gradients before clipping
+            for p in (encoder_params or model_params):
+                if p.grad is not None and (torch.isnan(p.grad).any() or torch.isinf(p.grad).any()):
+                    p.grad.zero_()
+            if denoiser_params:
+                for p in denoiser_params:
+                    if p.grad is not None and (torch.isnan(p.grad).any() or torch.isinf(p.grad).any()):
+                        p.grad.zero_()
             if separate_clip and encoder_params and denoiser_params:
-                torch.nn.utils.clip_grad_norm_(encoder_params, 1.0)
-                torch.nn.utils.clip_grad_norm_(denoiser_params, 0.1)
+                torch.nn.utils.clip_grad_norm_(encoder_params, enc_clip)
+                torch.nn.utils.clip_grad_norm_(denoiser_params, den_clip)
             else:
-                torch.nn.utils.clip_grad_norm_(model_params, 1.0)
+                torch.nn.utils.clip_grad_norm_(model_params, enc_clip)
             opt.step()
+        return True  # signal: step was applied
 
     def pretrain_denoiser(self, epochs=50, lr=1e-3):
         """Phase 1: train denoiser with noise estimation loss."""
@@ -412,6 +430,20 @@ class ECRTrainer:
         self._scheduler = scheduler
         all_params = list(self.model.parameters())
 
+        dist_weight = train_cfg.get('loss_dist_weight', 50)
+        fredf_weight = train_cfg.get('loss_fredf_weight', 0.1)
+        anchor_weight = train_cfg.get('loss_anchor_weight', 10)
+        diversity_weight = train_cfg.get('loss_diversity_weight', 1.0)
+        diversity_warmup_epochs = train_cfg.get('diversity_warmup_epochs', 5)
+        # [S2] All-ship anchor loss weight
+        all_ship_anchor_weight = train_cfg.get('loss_all_ship_anchor_weight', 2.0)
+
+        best_ade = float('inf')
+        best_ccr = -1.0
+        best_combined = float('inf')
+        ccr_bonus = train_cfg.get('ccr_bonus', 0.05)
+        patience = train_cfg.get('patience', 15)
+
         self._log(f'  Denoiser LR: {denoiser_lr:.2e} (ratio={train_cfg.get("denoiser_lr_ratio_phase2", 0.02)})')
         self._log(f'  Loss weights: dist={dist_weight} fredf={fredf_weight} anchor={anchor_weight} '
                   f'diversity={diversity_weight} nomoto={self.nomoto_weight} all_ship_anchor={all_ship_anchor_weight}')
@@ -424,14 +456,6 @@ class ECRTrainer:
         denoiser_params = [p for n, p in self.model.named_parameters()
                            if 'denoiser' in n and p.requires_grad]
 
-        dist_weight = train_cfg.get('loss_dist_weight', 50)
-        fredf_weight = train_cfg.get('loss_fredf_weight', 0.1)
-        anchor_weight = train_cfg.get('loss_anchor_weight', 10)
-        diversity_weight = train_cfg.get('loss_diversity_weight', 1.0)
-        diversity_warmup_epochs = train_cfg.get('diversity_warmup_epochs', 5)
-        # [S2] All-ship anchor loss weight
-        all_ship_anchor_weight = train_cfg.get('loss_all_ship_anchor_weight', 2.0)
-
         raw_weights = torch.arange(
             1, self.cfg['model']['pred_steps'] + 1, dtype=torch.float,
         )
@@ -440,11 +464,6 @@ class ECRTrainer:
             self.device,
         ).unsqueeze(0).unsqueeze(0)
 
-        best_ade = float('inf')
-        best_ccr = -1.0
-        best_combined = float('inf')
-        ccr_bonus = train_cfg.get('ccr_bonus', 0.05)
-        patience = train_cfg.get('patience', 15)
         no_improve = 0
 
         # Diversity loss adaptive protection: halve weight if ADE worsens 3 evals in a row

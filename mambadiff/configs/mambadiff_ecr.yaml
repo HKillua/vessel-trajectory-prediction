@@ -77,31 +77,33 @@ fredf:
   high_weight: 1.0
 
 training:
-  batch_size: 32
-  lr: 1.e-3
+  batch_size: 16                       # [FIX] reduced from 32 for float32 memory
+  lr: 2.e-4                          # [FIX] reduced from 1e-3 to prevent loss explosion
   num_epochs: 100
-  decay_step: 20
+  decay_step: 30                       # [FIX] slower decay (was 20)
   decay_gamma: 0.5
   loss_dist_weight: 50
-  loss_fredf_weight: 20.0   # Higher than before (was 5.0) to compensate for log-magnitude's smaller absolute values
+  loss_fredf_weight: 20.0
   loss_anchor_weight: 10
-  loss_diversity_weight: 2.0
-  diversity_warmup_epochs: 15       # [FIX2] increased from 5 to let minADE converge first
+  loss_diversity_weight: 0.5           # [FIX] reduced from 2.0 to prevent divergence amplification
+  diversity_warmup_epochs: 25          # [FIX] longer warmup (was 15) to stabilize before diversity
   fredf_topk: 3
   test_interval: 5
-  amp: true
-  warmup_epochs: 5
+  amp: false                           # [FIX] disabled to prevent float16 overflow in Transformer attention
+  warmup_epochs: 10                    # [FIX] longer warmup (was 5) for stable Transformer training
   colregs_aux_weight: 0.1
   colregs_aux_warmup_frac: 0.3
   biased_t_sampling: true
-  patience: 15
+  patience: 20                         # [FIX] increased patience (was 15) since convergence is slower
   deterministic_eval: true
   gradient_checkpointing: false
   ccr_threshold_deg: 5.0
   ccr_bonus: 0.05
-  loss_all_ship_anchor_weight: 1.0  # [FIX9] reduced from 2.0 to avoid over-fitting neighbor motion
+  loss_all_ship_anchor_weight: 1.0
   denoiser_lr_ratio_phase2: 0.02
   encoder_lr_ratio_phase1: 0.2
+  grad_clip_encoder: 0.5               # [FIX] tighter encoder grad clip (was 1.0)
+  grad_clip_denoiser: 0.1
   seed: 42
 
 data:

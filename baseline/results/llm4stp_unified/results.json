@@ -1,0 +1,6 @@
+{
+  "model": "LLM4STP",
+  "test_ade_nm": 0.4314958155155182,
+  "test_fde_nm": 0.6689566373825073,
+  "n_samples": 2053
+}

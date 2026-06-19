@@ -1,0 +1,323 @@
+/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/nn/modules/transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+[2026-06-19 01:30:01] Global seed: 42
+  train: 15711 samples, 490 batches
+  val: 1592 samples, 50 batches
+  test: 2052 samples, 65 batches
+[2026-06-19 01:30:06] [MambaDiffECR] Trainable/Total: 19,513,586/19,513,586
+[2026-06-19 01:30:06]   anchor              :    821,101 /    821,101
+[2026-06-19 01:30:06]   denoiser            : 16,634,692 / 16,634,692
+[2026-06-19 01:30:06]   edge_encoder        :      1,040 /      1,040
+[2026-06-19 01:30:06]   enc_attn            :      9,281 /      9,281
+[2026-06-19 01:30:06]   encoder             :    879,776 /    879,776
+[2026-06-19 01:30:06]   gat                 :  1,054,352 /  1,054,352
+[2026-06-19 01:30:06]   sc_gate             :     82,176 /     82,176
+[2026-06-19 01:30:06]   sc_proj             :     16,640 /     16,640
+[2026-06-19 01:30:06]   social_circle       :     14,528 /     14,528
+[2026-06-19 01:30:06]   SDA enabled: per-head learnable gate (4 params/layer × 2 layers)
+[2026-06-19 01:30:17] Train encounter distribution (15680 samples): safe=6403 head-on=3220 cross-GW=5980 cross-SO=6050 overtake=5669 other=5555
+[2026-06-19 01:30:17]   ships/scene: mean=3.1 median=3 max=9
+[2026-06-19 01:30:18] Val encounter distribution (1592 samples): safe=643 head-on=354 cross-GW=579 cross-SO=601 overtake=594 other=587
+[2026-06-19 01:30:18]   ships/scene: mean=3.1 median=3 max=7
+[2026-06-19 01:30:20] Test encounter distribution (2052 samples): safe=771 head-on=402 cross-GW=809 cross-SO=835 overtake=698 other=681
+[2026-06-19 01:30:20]   ships/scene: mean=3.0 median=3 max=8
+[2026-06-19 01:30:20] ============================================================
+[2026-06-19 01:30:20] MambaDiff-ECR Training Session
+[2026-06-19 01:30:20] ============================================================
+[2026-06-19 01:30:20] Config: /home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/configs/mambadiff_ecr.yaml
+[2026-06-19 01:30:20] Log dir: /home/wangguangjie/djs/vessel-trajectory-prediction/results/transformer_ecr
+[2026-06-19 01:30:20] Files:
+[2026-06-19 01:30:20]   log.txt:            /home/wangguangjie/djs/vessel-trajectory-prediction/results/transformer_ecr/log.txt
+[2026-06-19 01:30:20]   phase1_metrics.csv: results/transformer_ecr/phase1_metrics.csv
+[2026-06-19 01:30:20]   phase2_metrics.csv: results/transformer_ecr/phase2_metrics.csv
+[2026-06-19 01:30:20]   checkpoints:        results/transformer_ecr/checkpoint_*.pt
+[2026-06-19 01:30:20] Device: cuda:0
+[2026-06-19 01:30:20]   GPU: NVIDIA GeForce RTX 3090
+[2026-06-19 01:30:20]   GPU memory: 23.7 GB
+[2026-06-19 01:30:20]   CUDA version: 12.1
+[2026-06-19 01:30:20] PyTorch: 2.4.1+cu121
+[2026-06-19 01:30:20] AMP: True
+[2026-06-19 01:30:20] Train samples: 15711
+[2026-06-19 01:30:20] Val samples: 1592
+[2026-06-19 01:30:20] Test samples: 2052
+[2026-06-19 01:30:20] Batch size: 32
+[2026-06-19 01:30:20] Config snapshot saved: results/transformer_ecr/config_snapshot.yaml
+[2026-06-19 01:30:20] ============================================================
+[2026-06-19 01:30:20] === Phase 1: Pretrain Denoiser ===
+[2026-06-19 01:31:12] Phase1 Epoch 0: noise_loss=0.279364  val=nan  lr=2.08e-04  colregs_w=0.000  biased_t=False  gpu=322/525MB  t=50.1s
+[2026-06-19 01:32:00] Phase1 Epoch 1: noise_loss=0.132227  val=nan  lr=4.06e-04  colregs_w=0.007  biased_t=False  gpu=322/526MB  t=48.4s
+[2026-06-19 01:32:47] Phase1 Epoch 2: noise_loss=0.135689  val=nan  lr=6.04e-04  colregs_w=0.014  biased_t=False  gpu=318/526MB  t=46.4s
+[2026-06-19 01:33:33] Phase1 Epoch 3: noise_loss=0.134021  val=nan  lr=8.02e-04  colregs_w=0.020  biased_t=False  gpu=322/526MB  t=46.7s
+/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:232: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+[2026-06-19 01:34:24] Saved checkpoint: results/transformer_ecr/checkpoint_phase1_best.pt
+[2026-06-19 01:34:25] Saved checkpoint: results/transformer_ecr/checkpoint_phase1.pt
+[2026-06-19 01:34:25] Phase1 Epoch 4: noise_loss=0.133067  val=0.064654  lr=1.00e-03  colregs_w=0.027  biased_t=False  gpu=322/526MB  t=48.0s
+[2026-06-19 01:35:13] Phase1 Epoch 5: noise_loss=0.134866  val=nan  lr=1.00e-03  colregs_w=0.034  biased_t=False  gpu=318/526MB  t=48.1s
+[2026-06-19 01:36:01] Phase1 Epoch 6: noise_loss=0.137825  val=nan  lr=1.00e-03  colregs_w=0.041  biased_t=False  gpu=322/526MB  t=48.3s
+[2026-06-19 01:36:48] Phase1 Epoch 7: noise_loss=0.138277  val=nan  lr=1.00e-03  colregs_w=0.048  biased_t=False  gpu=318/526MB  t=47.2s
+[2026-06-19 01:37:34] Phase1 Epoch 8: noise_loss=0.138799  val=nan  lr=1.00e-03  colregs_w=0.054  biased_t=False  gpu=322/526MB  t=45.9s
+[2026-06-19 01:38:25] Saved checkpoint: results/transformer_ecr/checkpoint_phase1_best.pt
+[2026-06-19 01:38:26] Saved checkpoint: results/transformer_ecr/checkpoint_phase1.pt
+[2026-06-19 01:38:26] Phase1 Epoch 9: noise_loss=0.138676  val=0.060449  lr=1.00e-03  colregs_w=0.061  biased_t=False  gpu=322/526MB  t=46.7s
+[2026-06-19 01:39:11] Phase1 Epoch 10: noise_loss=0.142075  val=nan  lr=1.00e-03  colregs_w=0.068  biased_t=False  gpu=318/526MB  t=44.4s
+[2026-06-19 01:39:54] Phase1 Epoch 11: noise_loss=0.140513  val=nan  lr=1.00e-03  colregs_w=0.075  biased_t=False  gpu=318/526MB  t=43.3s
+[2026-06-19 01:40:41] Phase1 Epoch 12: noise_loss=0.141888  val=nan  lr=1.00e-03  colregs_w=0.082  biased_t=False  gpu=322/526MB  t=46.6s
+[2026-06-19 01:41:28] Phase1 Epoch 13: noise_loss=0.145912  val=nan  lr=1.00e-03  colregs_w=0.088  biased_t=False  gpu=318/526MB  t=47.6s
+[2026-06-19 01:42:20] Saved checkpoint: results/transformer_ecr/checkpoint_phase1.pt
+[2026-06-19 01:42:20] Phase1 Epoch 14: noise_loss=0.148547  val=0.062450  lr=1.00e-03  colregs_w=0.095  biased_t=False  gpu=322/526MB  t=47.3s
+[2026-06-19 01:43:07] Phase1 Epoch 15: noise_loss=0.144737  val=nan  lr=1.00e-03  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=47.8s
+[2026-06-19 01:43:53] Phase1 Epoch 16: noise_loss=0.150233  val=nan  lr=1.00e-03  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=45.7s
+[2026-06-19 01:44:41] Phase1 Epoch 17: noise_loss=0.146144  val=nan  lr=1.00e-03  colregs_w=0.100  biased_t=False  gpu=322/526MB  t=47.6s
+[2026-06-19 01:45:29] Phase1 Epoch 18: noise_loss=0.150840  val=nan  lr=1.00e-03  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=48.1s
+[2026-06-19 01:46:20] Saved checkpoint: results/transformer_ecr/checkpoint_phase1.pt
+[2026-06-19 01:46:20] Phase1 Epoch 19: noise_loss=0.153285  val=0.069119  lr=1.00e-03  colregs_w=0.100  biased_t=False  gpu=319/526MB  t=47.1s
+[2026-06-19 01:47:07] Phase1 Epoch 20: noise_loss=0.156218  val=nan  lr=1.00e-03  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=47.3s
+[2026-06-19 01:47:54] Phase1 Epoch 21: noise_loss=0.152772  val=nan  lr=1.00e-03  colregs_w=0.100  biased_t=False  gpu=322/526MB  t=46.4s
+[2026-06-19 01:48:41] Phase1 Epoch 22: noise_loss=0.155306  val=nan  lr=1.00e-03  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=46.9s
+[2026-06-19 01:49:28] Phase1 Epoch 23: noise_loss=0.153921  val=nan  lr=1.00e-03  colregs_w=0.100  biased_t=False  gpu=322/526MB  t=47.1s
+[2026-06-19 01:50:19] Saved checkpoint: results/transformer_ecr/checkpoint_phase1.pt
+[2026-06-19 01:50:19] Phase1 Epoch 24: noise_loss=0.157205  val=0.062512  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=47.5s
+[2026-06-19 01:51:05] Phase1 Epoch 25: noise_loss=0.157506  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=322/526MB  t=45.6s
+[2026-06-19 01:51:53] Phase1 Epoch 26: noise_loss=0.162473  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=47.7s
+[2026-06-19 01:52:40] Phase1 Epoch 27: noise_loss=0.162493  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=47.5s
+[2026-06-19 01:53:28] Phase1 Epoch 28: noise_loss=0.161729  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=47.7s
+[2026-06-19 01:54:20] Saved checkpoint: results/transformer_ecr/checkpoint_phase1_best.pt
+[2026-06-19 01:54:21] Saved checkpoint: results/transformer_ecr/checkpoint_phase1.pt
+[2026-06-19 01:54:21] Phase1 Epoch 29: noise_loss=0.158960  val=0.059841  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=322/526MB  t=47.9s
+[2026-06-19 01:55:09] Phase1 Epoch 30: noise_loss=0.165332  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=48.0s
+[2026-06-19 01:55:53] Phase1 Epoch 31: noise_loss=0.162549  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=44.3s
+[2026-06-19 01:56:41] Phase1 Epoch 32: noise_loss=0.163743  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=47.9s
+[2026-06-19 01:57:29] Phase1 Epoch 33: noise_loss=0.167753  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=322/526MB  t=47.6s
+[2026-06-19 01:58:21] Saved checkpoint: results/transformer_ecr/checkpoint_phase1.pt
+[2026-06-19 01:58:21] Phase1 Epoch 34: noise_loss=0.169934  val=0.060920  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=322/526MB  t=48.3s
+[2026-06-19 01:59:06] Phase1 Epoch 35: noise_loss=0.169306  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=45.1s
+[2026-06-19 01:59:48] Phase1 Epoch 36: noise_loss=0.171322  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=41.9s
+[2026-06-19 02:00:31] Phase1 Epoch 37: noise_loss=0.173451  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=42.9s
+[2026-06-19 02:01:15] Phase1 Epoch 38: noise_loss=0.171234  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=318/526MB  t=44.5s
+[2026-06-19 02:02:06] Saved checkpoint: results/transformer_ecr/checkpoint_phase1.pt
+[2026-06-19 02:02:06] Phase1 Epoch 39: noise_loss=0.175151  val=0.066465  lr=5.00e-04  colregs_w=0.100  biased_t=False  gpu=319/526MB  t=46.1s
+[2026-06-19 02:02:53] Phase1 Epoch 40: noise_loss=0.177656  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=True  gpu=318/526MB  t=47.6s
+[2026-06-19 02:03:41] Phase1 Epoch 41: noise_loss=0.176087  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=True  gpu=318/526MB  t=47.6s
+[2026-06-19 02:04:29] Phase1 Epoch 42: noise_loss=0.178442  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=True  gpu=322/526MB  t=47.7s
+[2026-06-19 02:05:16] Phase1 Epoch 43: noise_loss=0.178401  val=nan  lr=5.00e-04  colregs_w=0.100  biased_t=True  gpu=318/526MB  t=47.7s
+[2026-06-19 02:06:08] Saved checkpoint: results/transformer_ecr/checkpoint_phase1.pt
+[2026-06-19 02:06:08] Phase1 Epoch 44: noise_loss=0.178190  val=0.065833  lr=2.50e-04  colregs_w=0.100  biased_t=True  gpu=322/526MB  t=47.7s
+[2026-06-19 02:06:54] Phase1 Epoch 45: noise_loss=0.184170  val=nan  lr=2.50e-04  colregs_w=0.100  biased_t=True  gpu=318/526MB  t=45.8s
+[2026-06-19 02:07:42] Phase1 Epoch 46: noise_loss=0.177973  val=nan  lr=2.50e-04  colregs_w=0.100  biased_t=True  gpu=318/526MB  t=47.9s
+[2026-06-19 02:08:28] Phase1 Epoch 47: noise_loss=0.183803  val=nan  lr=2.50e-04  colregs_w=0.100  biased_t=True  gpu=319/526MB  t=46.8s
+[2026-06-19 02:09:13] Phase1 Epoch 48: noise_loss=0.187709  val=nan  lr=2.50e-04  colregs_w=0.100  biased_t=True  gpu=319/526MB  t=44.8s
+[2026-06-19 02:10:00] Saved checkpoint: results/transformer_ecr/checkpoint_phase1.pt
+[2026-06-19 02:10:00] Phase1 Epoch 49: noise_loss=0.184773  val=0.063049  lr=2.50e-04  colregs_w=0.100  biased_t=True  gpu=318/526MB  t=42.8s
+[2026-06-19 02:10:00] Saved checkpoint: results/transformer_ecr/checkpoint_phase1_final.pt
+/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/nn/modules/transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+[2026-06-19 02:10:03] Global seed: 42
+  train: 15711 samples, 490 batches
+  val: 1592 samples, 50 batches
+  test: 2052 samples, 65 batches
+[2026-06-19 02:10:08] [MambaDiffECR] Trainable/Total: 19,513,586/19,513,586
+[2026-06-19 02:10:08]   anchor              :    821,101 /    821,101
+[2026-06-19 02:10:08]   denoiser            : 16,634,692 / 16,634,692
+[2026-06-19 02:10:08]   edge_encoder        :      1,040 /      1,040
+[2026-06-19 02:10:08]   enc_attn            :      9,281 /      9,281
+[2026-06-19 02:10:08]   encoder             :    879,776 /    879,776
+[2026-06-19 02:10:08]   gat                 :  1,054,352 /  1,054,352
+[2026-06-19 02:10:08]   sc_gate             :     82,176 /     82,176
+[2026-06-19 02:10:08]   sc_proj             :     16,640 /     16,640
+[2026-06-19 02:10:08]   social_circle       :     14,528 /     14,528
+[2026-06-19 02:10:08]   SDA enabled: per-head learnable gate (4 params/layer × 2 layers)
+[2026-06-19 02:10:18] Train encounter distribution (15680 samples): safe=6403 head-on=3220 cross-GW=5980 cross-SO=6050 overtake=5669 other=5555
+[2026-06-19 02:10:18]   ships/scene: mean=3.1 median=3 max=9
+[2026-06-19 02:10:20] Val encounter distribution (1592 samples): safe=643 head-on=354 cross-GW=579 cross-SO=601 overtake=594 other=587
+[2026-06-19 02:10:20]   ships/scene: mean=3.1 median=3 max=7
+/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/trainer/trainer.py:380: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  cp = torch.load(pretrained_denoiser_path, map_location='cpu')
+Traceback (most recent call last):
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/train.py", line 57, in <module>
+    main()
+  File "/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/train.py", line 38, in main
+    trainer.train(pretrained_denoiser_path=args.pretrained)
+  File "/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/trainer/trainer.py", line 416, in train
+    self._log(f'  Loss weights: dist={dist_weight} fredf={fredf_weight} anchor={anchor_weight} '
+UnboundLocalError: local variable 'dist_weight' referenced before assignment
+[2026-06-19 02:10:22] Test encounter distribution (2052 samples): safe=771 head-on=402 cross-GW=809 cross-SO=835 overtake=698 other=681
+[2026-06-19 02:10:22]   ships/scene: mean=3.0 median=3 max=8
+[2026-06-19 02:10:22] ============================================================
+[2026-06-19 02:10:22] MambaDiff-ECR Training Session
+[2026-06-19 02:10:22] ============================================================
+[2026-06-19 02:10:22] Config: /home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/configs/mambadiff_ecr.yaml
+[2026-06-19 02:10:22] Log dir: /home/wangguangjie/djs/vessel-trajectory-prediction/results/transformer_ecr
+[2026-06-19 02:10:22] Files:
+[2026-06-19 02:10:22]   log.txt:            /home/wangguangjie/djs/vessel-trajectory-prediction/results/transformer_ecr/log.txt
+[2026-06-19 02:10:22]   phase1_metrics.csv: results/transformer_ecr/phase1_metrics.csv
+[2026-06-19 02:10:22]   phase2_metrics.csv: results/transformer_ecr/phase2_metrics.csv
+[2026-06-19 02:10:22]   checkpoints:        results/transformer_ecr/checkpoint_*.pt
+[2026-06-19 02:10:22] Device: cuda:0
+[2026-06-19 02:10:22]   GPU: NVIDIA GeForce RTX 3090
+[2026-06-19 02:10:22]   GPU memory: 23.7 GB
+[2026-06-19 02:10:22]   CUDA version: 12.1
+[2026-06-19 02:10:22] PyTorch: 2.4.1+cu121
+[2026-06-19 02:10:22] AMP: True
+[2026-06-19 02:10:22] Train samples: 15711
+[2026-06-19 02:10:22] Val samples: 1592
+[2026-06-19 02:10:22] Test samples: 2052
+[2026-06-19 02:10:22] Batch size: 32
+[2026-06-19 02:10:22] Config snapshot saved: results/transformer_ecr/config_snapshot.yaml
+[2026-06-19 02:10:22] ============================================================
+[2026-06-19 02:10:23] Loaded pretrained denoiser from results/transformer_ecr/checkpoint_phase1_best.pt
+[2026-06-19 02:10:23] === Phase 2: End-to-End Training ===
+[2026-06-19 02:10:23]   Denoiser LR: 2.00e-05 (ratio=0.02)
+/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/nn/modules/transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+[2026-06-19 02:10:26] Global seed: 42
+  train: 15711 samples, 490 batches
+  val: 1592 samples, 50 batches
+  test: 2052 samples, 65 batches
+[2026-06-19 02:10:31] [MambaDiffECR] Trainable/Total: 19,513,586/19,513,586
+[2026-06-19 02:10:31]   anchor              :    821,101 /    821,101
+[2026-06-19 02:10:31]   denoiser            : 16,634,692 / 16,634,692
+[2026-06-19 02:10:31]   edge_encoder        :      1,040 /      1,040
+[2026-06-19 02:10:31]   enc_attn            :      9,281 /      9,281
+[2026-06-19 02:10:31]   encoder             :    879,776 /    879,776
+[2026-06-19 02:10:31]   gat                 :  1,054,352 /  1,054,352
+[2026-06-19 02:10:31]   sc_gate             :     82,176 /     82,176
+[2026-06-19 02:10:31]   sc_proj             :     16,640 /     16,640
+[2026-06-19 02:10:31]   social_circle       :     14,528 /     14,528
+[2026-06-19 02:10:31]   SDA enabled: per-head learnable gate (4 params/layer × 2 layers)
+[2026-06-19 02:10:42] Train encounter distribution (15680 samples): safe=6403 head-on=3220 cross-GW=5980 cross-SO=6050 overtake=5669 other=5555
+[2026-06-19 02:10:42]   ships/scene: mean=3.1 median=3 max=9
+[2026-06-19 02:10:43] Val encounter distribution (1592 samples): safe=643 head-on=354 cross-GW=579 cross-SO=601 overtake=594 other=587
+[2026-06-19 02:10:43]   ships/scene: mean=3.1 median=3 max=7
+/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/trainer/trainer.py:949: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  cp = torch.load(checkpoint_path, map_location='cpu')
+Traceback (most recent call last):
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/train.py", line 57, in <module>
+    main()
+  File "/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/train.py", line 44, in main
+    trainer.test(checkpoint_path=args.checkpoint, guidance_scale=args.guidance_scale,
+  File "/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/trainer/trainer.py", line 949, in test
+    cp = torch.load(checkpoint_path, map_location='cpu')
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/serialization.py", line 1065, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/serialization.py", line 468, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/serialization.py", line 449, in __init__
+    super().__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'results/transformer_ecr/checkpoint_best.pt'
+[2026-06-19 02:10:45] Test encounter distribution (2052 samples): safe=771 head-on=402 cross-GW=809 cross-SO=835 overtake=698 other=681
+[2026-06-19 02:10:45]   ships/scene: mean=3.0 median=3 max=8
+[2026-06-19 02:10:45] ============================================================
+[2026-06-19 02:10:45] MambaDiff-ECR Training Session
+[2026-06-19 02:10:45] ============================================================
+[2026-06-19 02:10:45] Config: /home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/configs/mambadiff_ecr.yaml
+[2026-06-19 02:10:45] Log dir: /home/wangguangjie/djs/vessel-trajectory-prediction/results/transformer_ecr
+[2026-06-19 02:10:45] Files:
+[2026-06-19 02:10:45]   log.txt:            /home/wangguangjie/djs/vessel-trajectory-prediction/results/transformer_ecr/log.txt
+[2026-06-19 02:10:45]   phase1_metrics.csv: results/transformer_ecr/phase1_metrics.csv
+[2026-06-19 02:10:45]   phase2_metrics.csv: results/transformer_ecr/phase2_metrics.csv
+[2026-06-19 02:10:45]   checkpoints:        results/transformer_ecr/checkpoint_*.pt
+[2026-06-19 02:10:45] Device: cuda:0
+[2026-06-19 02:10:45]   GPU: NVIDIA GeForce RTX 3090
+[2026-06-19 02:10:45]   GPU memory: 23.7 GB
+[2026-06-19 02:10:45]   CUDA version: 12.1
+[2026-06-19 02:10:45] PyTorch: 2.4.1+cu121
+[2026-06-19 02:10:45] AMP: True
+[2026-06-19 02:10:45] Train samples: 15711
+[2026-06-19 02:10:45] Val samples: 1592
+[2026-06-19 02:10:45] Test samples: 2052
+[2026-06-19 02:10:45] Batch size: 32
+[2026-06-19 02:10:45] Config snapshot saved: results/transformer_ecr/config_snapshot.yaml
+[2026-06-19 02:10:45] ============================================================
+/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/nn/modules/transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+[2026-06-19 02:31:30] Global seed: 42
+  train: 15711 samples, 490 batches
+  val: 1592 samples, 50 batches
+  test: 2052 samples, 65 batches
+[2026-06-19 02:31:34] [MambaDiffECR] Trainable/Total: 19,513,586/19,513,586
+[2026-06-19 02:31:34]   anchor              :    821,101 /    821,101
+[2026-06-19 02:31:34]   denoiser            : 16,634,692 / 16,634,692
+[2026-06-19 02:31:34]   edge_encoder        :      1,040 /      1,040
+[2026-06-19 02:31:34]   enc_attn            :      9,281 /      9,281
+[2026-06-19 02:31:34]   encoder             :    879,776 /    879,776
+[2026-06-19 02:31:34]   gat                 :  1,054,352 /  1,054,352
+[2026-06-19 02:31:34]   sc_gate             :     82,176 /     82,176
+[2026-06-19 02:31:34]   sc_proj             :     16,640 /     16,640
+[2026-06-19 02:31:34]   social_circle       :     14,528 /     14,528
+[2026-06-19 02:31:34]   SDA enabled: per-head learnable gate (4 params/layer × 2 layers)
+[2026-06-19 02:31:45] Train encounter distribution (15680 samples): safe=6403 head-on=3220 cross-GW=5980 cross-SO=6050 overtake=5669 other=5555
+[2026-06-19 02:31:45]   ships/scene: mean=3.1 median=3 max=9
+/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/nn/modules/transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+[2026-06-19 02:31:48] Global seed: 42
+  train: 15711 samples, 490 batches
+  val: 1592 samples, 50 batches
+  test: 2052 samples, 65 batches
+[2026-06-19 02:31:52] [MambaDiffECR] Trainable/Total: 19,513,586/19,513,586
+[2026-06-19 02:31:52]   anchor              :    821,101 /    821,101
+[2026-06-19 02:31:52]   denoiser            : 16,634,692 / 16,634,692
+[2026-06-19 02:31:52]   edge_encoder        :      1,040 /      1,040
+[2026-06-19 02:31:52]   enc_attn            :      9,281 /      9,281
+[2026-06-19 02:31:52]   encoder             :    879,776 /    879,776
+[2026-06-19 02:31:52]   gat                 :  1,054,352 /  1,054,352
+[2026-06-19 02:31:52]   sc_gate             :     82,176 /     82,176
+[2026-06-19 02:31:52]   sc_proj             :     16,640 /     16,640
+[2026-06-19 02:31:52]   social_circle       :     14,528 /     14,528
+[2026-06-19 02:31:52]   SDA enabled: per-head learnable gate (4 params/layer × 2 layers)
+[2026-06-19 02:32:03] Train encounter distribution (15680 samples): safe=6403 head-on=3220 cross-GW=5980 cross-SO=6050 overtake=5669 other=5555
+[2026-06-19 02:32:03]   ships/scene: mean=3.1 median=3 max=9
+[2026-06-19 02:32:05] Val encounter distribution (1592 samples): safe=643 head-on=354 cross-GW=579 cross-SO=601 overtake=594 other=587
+[2026-06-19 02:32:05]   ships/scene: mean=3.1 median=3 max=7
+/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/trainer/trainer.py:950: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  cp = torch.load(checkpoint_path, map_location='cpu')
+Traceback (most recent call last):
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/train.py", line 57, in <module>
+    main()
+  File "/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/train.py", line 44, in main
+    trainer.test(checkpoint_path=args.checkpoint, guidance_scale=args.guidance_scale,
+  File "/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/trainer/trainer.py", line 950, in test
+    cp = torch.load(checkpoint_path, map_location='cpu')
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/serialization.py", line 1065, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/serialization.py", line 468, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/serialization.py", line 449, in __init__
+    super().__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'results/transformer_ecr/checkpoint_best.pt'
+[2026-06-19 02:32:07] Test encounter distribution (2052 samples): safe=771 head-on=402 cross-GW=809 cross-SO=835 overtake=698 other=681
+[2026-06-19 02:32:07]   ships/scene: mean=3.0 median=3 max=8
+[2026-06-19 02:32:07] ============================================================
+[2026-06-19 02:32:07] MambaDiff-ECR Training Session
+[2026-06-19 02:32:07] ============================================================
+[2026-06-19 02:32:07] Config: /home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/configs/mambadiff_ecr.yaml
+[2026-06-19 02:32:07] Log dir: /home/wangguangjie/djs/vessel-trajectory-prediction/results/transformer_ecr
+[2026-06-19 02:32:07] Files:
+[2026-06-19 02:32:07]   log.txt:            /home/wangguangjie/djs/vessel-trajectory-prediction/results/transformer_ecr/log.txt
+[2026-06-19 02:32:07]   phase1_metrics.csv: results/transformer_ecr/phase1_metrics.csv
+[2026-06-19 02:32:07]   phase2_metrics.csv: results/transformer_ecr/phase2_metrics.csv
+[2026-06-19 02:32:07]   checkpoints:        results/transformer_ecr/checkpoint_*.pt
+[2026-06-19 02:32:07] Device: cuda:0
+[2026-06-19 02:32:07]   GPU: NVIDIA GeForce RTX 3090
+[2026-06-19 02:32:07]   GPU memory: 23.7 GB
+[2026-06-19 02:32:07]   CUDA version: 12.1
+[2026-06-19 02:32:07] PyTorch: 2.4.1+cu121
+[2026-06-19 02:32:07] AMP: True
+[2026-06-19 02:32:07] Train samples: 15711
+[2026-06-19 02:32:07] Val samples: 1592
+[2026-06-19 02:32:07] Test samples: 2052
+[2026-06-19 02:32:07] Batch size: 32
+[2026-06-19 02:32:07] Config snapshot saved: results/transformer_ecr/config_snapshot.yaml
+[2026-06-19 02:32:07] ============================================================

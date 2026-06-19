@@ -1,0 +1,101 @@
+anchor:
+  initial_var_scale: 0.3
+  n_smooth: 3
+  use_residual: true
+data:
+  data_root: ship_trajectory_prediction/data/final/obs10_pred10
+  num_workers: 4
+denoiser:
+  enc_proj_dim: 64
+  ff_mult: 4
+  n_head: 8
+  tf_layers: 4
+  time_embed_dim: 64
+diffusion:
+  beta_end: 0.05
+  beta_schedule: linear
+  beta_start: 0.0001
+  cfg_dropout: 0.1
+  num_tau: 10
+  steps: 100
+  tau_start: 33
+fredf:
+  high_weight: 1.0
+  k_freq: auto
+  log_magnitude: true
+  low_weight: 0.1
+guidance:
+  colregs_weight: 0.5
+  dynamic_schedule: cosine
+  maneuver_threshold_deg: 5.0
+  nomoto_high_speed_kn: 15.0
+  nomoto_low_speed_kn: 5.0
+  nomoto_low_speed_rate_mult: 2.5
+  nomoto_max_turn_rate: 2.0
+  nomoto_speed_adaptive: true
+  safe_dcpa: 0.5
+  w_direction: 0.1
+  w_proximity: 1.0
+interaction:
+  dcpa_scale: 3.0
+  edge_dim: 16
+  encounter_embed_dim: 32
+  gat_heads: 4
+  gat_layers: 2
+  n_encounter_types: 6
+  sda:
+    enabled: true
+  tcpa_scale: 1800.0
+model:
+  d_model: 256
+  encoder_type: transformer
+  k_samples: 20
+  n_feat: 7
+  obs_steps: 30
+  pred_dim: 2
+  pred_steps: 30
+nomoto_loss:
+  enabled: true
+  high_speed_kn: 15.0
+  low_speed_kn: 5.0
+  low_speed_rate_mult: 2.5
+  max_turn_rate_deg: 2.0
+  speed_adaptive: true
+  weight: 1.0
+social_circle:
+  d_out: 64
+  dist_scale: 3.0
+  enabled: true
+  n_bins: 12
+  n_factors: 4
+  speed_scale: 10.0
+  use_cog_for_bearing: true
+training:
+  amp: false
+  batch_size: 16
+  biased_t_sampling: true
+  ccr_bonus: 0.05
+  ccr_threshold_deg: 5.0
+  colregs_aux_warmup_frac: 0.3
+  colregs_aux_weight: 0.1
+  decay_gamma: 0.5
+  decay_step: 30
+  denoiser_lr_ratio_phase2: 0.02
+  deterministic_eval: true
+  diversity_warmup_epochs: 25
+  encoder_lr_ratio_phase1: 0.2
+  fredf_topk: 3
+  grad_clip_denoiser: 0.1
+  grad_clip_encoder: 0.5
+  gradient_checkpointing: false
+  loss_all_ship_anchor_weight: 1.0
+  loss_anchor_weight: 10
+  loss_dist_weight: 50
+  loss_diversity_weight: 0.5
+  loss_fredf_weight: 20.0
+  lr: 0.0002
+  num_epochs: 100
+  patience: 20
+  seed: 42
+  test_interval: 5
+  warmup_epochs: 10

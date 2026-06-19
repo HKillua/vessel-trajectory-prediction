@@ -1,9 +1,39 @@
+# OS & Python
 .DS_Store
 __pycache__/
 *.pyc
+*.pyo
+
+# Virtual environments
 .venv/
 venv/
-*.zip
+ship_trajectory_prediction/venv/
+ship_trajectory_prediction/.venv/
+
+# Data files (large)
 ship_trajectory_prediction/data/raw/
 ship_trajectory_prediction/data/processed/
 ship_trajectory_prediction/data/final/
+ship_trajectory_prediction/data/final.zip
+
+# Model checkpoints (large)
+*.pt
+!baseline/**/*.pt
+
+# External cloned repos
+baseline/LLM4STP/
+baseline/maritime-autonomy/
+baseline/social-lstm/
+baseline/social-stgcnn/
+baseline/star/
+baseline/itransformer/
+baseline/gpt2_model/
+
+# Misc
+*.zip
+ship_trajectory_prediction/ship_trajectory_prediction/
+
+# IDE
+.idea/
+.vscode/
+*.swp

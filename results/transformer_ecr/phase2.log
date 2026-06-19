@@ -1,0 +1,685 @@
+/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/nn/modules/transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+[2026-06-19 11:05:51] Global seed: 42
+  train: 15711 samples, 981 batches
+  val: 1592 samples, 100 batches
+  test: 2052 samples, 129 batches
+[2026-06-19 11:05:56] [MambaDiffECR] Trainable/Total: 19,513,586/19,513,586
+[2026-06-19 11:05:56]   anchor              :    821,101 /    821,101
+[2026-06-19 11:05:56]   denoiser            : 16,634,692 / 16,634,692
+[2026-06-19 11:05:56]   edge_encoder        :      1,040 /      1,040
+[2026-06-19 11:05:56]   enc_attn            :      9,281 /      9,281
+[2026-06-19 11:05:56]   encoder             :    879,776 /    879,776
+[2026-06-19 11:05:56]   gat                 :  1,054,352 /  1,054,352
+[2026-06-19 11:05:56]   sc_gate             :     82,176 /     82,176
+[2026-06-19 11:05:56]   sc_proj             :     16,640 /     16,640
+[2026-06-19 11:05:56]   social_circle       :     14,528 /     14,528
+[2026-06-19 11:05:56]   SDA enabled: per-head learnable gate (4 params/layer × 2 layers)
+[2026-06-19 11:06:08] Train encounter distribution (15696 samples): safe=6378 head-on=3283 cross-GW=6116 cross-SO=5990 overtake=5607 other=5532
+[2026-06-19 11:06:08]   ships/scene: mean=3.1 median=3 max=9
+[2026-06-19 11:06:10] Val encounter distribution (1592 samples): safe=643 head-on=354 cross-GW=579 cross-SO=601 overtake=594 other=587
+[2026-06-19 11:06:10]   ships/scene: mean=3.1 median=3 max=7
+/home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/trainer/trainer.py:398: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  cp = torch.load(pretrained_denoiser_path, map_location='cpu')
+[2026-06-19 11:06:13] Test encounter distribution (2052 samples): safe=771 head-on=402 cross-GW=809 cross-SO=835 overtake=698 other=681
+[2026-06-19 11:06:13]   ships/scene: mean=3.0 median=3 max=8
+[2026-06-19 11:06:13] ============================================================
+[2026-06-19 11:06:13] MambaDiff-ECR Training Session
+[2026-06-19 11:06:13] ============================================================
+[2026-06-19 11:06:13] Config: /home/wangguangjie/djs/vessel-trajectory-prediction/mambadiff/configs/mambadiff_ecr.yaml
+[2026-06-19 11:06:13] Log dir: /home/wangguangjie/djs/vessel-trajectory-prediction/results/transformer_ecr
+[2026-06-19 11:06:13] Files:
+[2026-06-19 11:06:13]   log.txt:            /home/wangguangjie/djs/vessel-trajectory-prediction/results/transformer_ecr/log.txt
+[2026-06-19 11:06:13]   phase1_metrics.csv: results/transformer_ecr/phase1_metrics.csv
+[2026-06-19 11:06:13]   phase2_metrics.csv: results/transformer_ecr/phase2_metrics.csv
+[2026-06-19 11:06:13]   checkpoints:        results/transformer_ecr/checkpoint_*.pt
+[2026-06-19 11:06:13] Device: cuda:0
+[2026-06-19 11:06:13]   GPU: NVIDIA GeForce RTX 3090
+[2026-06-19 11:06:13]   GPU memory: 23.7 GB
+[2026-06-19 11:06:13]   CUDA version: 12.1
+[2026-06-19 11:06:13] PyTorch: 2.4.1+cu121
+[2026-06-19 11:06:13] AMP: False
+[2026-06-19 11:06:13] Train samples: 15711
+[2026-06-19 11:06:13] Val samples: 1592
+[2026-06-19 11:06:13] Test samples: 2052
+[2026-06-19 11:06:13] Batch size: 16
+[2026-06-19 11:06:13] Config snapshot saved: results/transformer_ecr/config_snapshot.yaml
+[2026-06-19 11:06:13] ============================================================
+[2026-06-19 11:06:13] Loaded pretrained denoiser from results/transformer_ecr/checkpoint_phase1_best.pt
+[2026-06-19 11:06:13] === Phase 2: End-to-End Training ===
+[2026-06-19 11:06:14]   Denoiser LR: 4.00e-06 (ratio=0.02)
+[2026-06-19 11:06:14]   Loss weights: dist=50 fredf=20.0 anchor=10 diversity=0.5 nomoto=1.0 all_ship_anchor=1.0
+[2026-06-19 11:06:14]   Diversity warmup: 25 epochs | Patience: 20 | CCR bonus: 0.05
+[2026-06-19 11:06:14]   Grad clip: encoder@1.0 denoiser@0.1 | AMP: False
+[2026-06-19 11:06:18]   grad_norms [0]: anchor=0.4204 denoiser=0.1000 edge_encoder=0.0011 enc_attn=0.0003 encoder=0.2085 gat=0.1723 sc_gate=0.0030 sc_proj=0.0056 social_circle=0.0051
+[2026-06-19 11:06:18]   sda_gates [0]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:06:18] Peak GPU memory after 1st batch: 15337 MB
+[2026-06-19 11:07:47]   grad_norms [50]: anchor=0.4299 denoiser=0.1000 edge_encoder=0.0011 enc_attn=0.0001 encoder=0.1983 gat=0.1607 sc_gate=0.0028 sc_proj=0.0052 social_circle=0.0047
+[2026-06-19 11:07:47]   sda_gates [50]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:09:17]   grad_norms [100]: anchor=0.4533 denoiser=0.1000 edge_encoder=0.0013 enc_attn=0.0001 encoder=0.1572 gat=0.1405 sc_gate=0.0024 sc_proj=0.0044 social_circle=0.0037
+[2026-06-19 11:09:17]   sda_gates [100]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:10:46]   grad_norms [150]: anchor=0.3937 denoiser=0.1000 edge_encoder=0.0029 enc_attn=0.0002 encoder=0.2373 gat=0.1965 sc_gate=0.0037 sc_proj=0.0063 social_circle=0.0060
+[2026-06-19 11:10:46]   sda_gates [150]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:12:15]   grad_norms [200]: anchor=0.4004 denoiser=0.1000 edge_encoder=0.0027 enc_attn=0.0007 encoder=0.2276 gat=0.1945 sc_gate=0.0031 sc_proj=0.0063 social_circle=0.0065
+[2026-06-19 11:12:15]   sda_gates [200]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:13:45]   grad_norms [250]: anchor=0.4114 denoiser=0.1000 edge_encoder=0.0016 enc_attn=0.0001 encoder=0.2125 gat=0.1885 sc_gate=0.0031 sc_proj=0.0054 social_circle=0.0053
+[2026-06-19 11:13:45]   sda_gates [250]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:15:14]   grad_norms [300]: anchor=0.4218 denoiser=0.1000 edge_encoder=0.0023 enc_attn=0.0003 encoder=0.1986 gat=0.1806 sc_gate=0.0029 sc_proj=0.0052 social_circle=0.0047
+[2026-06-19 11:15:14]   sda_gates [300]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:16:43]   grad_norms [350]: anchor=0.3851 denoiser=0.1000 edge_encoder=0.0012 enc_attn=0.0004 encoder=0.2464 gat=0.2023 sc_gate=0.0033 sc_proj=0.0062 social_circle=0.0060
+[2026-06-19 11:16:43]   sda_gates [350]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:18:13]   grad_norms [400]: anchor=0.3763 denoiser=0.1000 edge_encoder=0.0015 enc_attn=0.0008 encoder=0.2498 gat=0.2142 sc_gate=0.0037 sc_proj=0.0068 social_circle=0.0061
+[2026-06-19 11:18:13]   sda_gates [400]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:19:42]   grad_norms [450]: anchor=0.4100 denoiser=0.1000 edge_encoder=0.0020 enc_attn=0.0002 encoder=0.2223 gat=0.1800 sc_gate=0.0029 sc_proj=0.0054 social_circle=0.0052
+[2026-06-19 11:19:42]   sda_gates [450]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:21:12]   grad_norms [500]: anchor=0.3975 denoiser=0.1000 edge_encoder=0.0034 enc_attn=0.0001 encoder=0.2274 gat=0.2004 sc_gate=0.0036 sc_proj=0.0063 social_circle=0.0064
+[2026-06-19 11:21:12]   sda_gates [500]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:22:42]   grad_norms [550]: anchor=0.2588 denoiser=0.1000 edge_encoder=0.0024 enc_attn=0.0002 encoder=0.3099 gat=0.2947 sc_gate=0.0045 sc_proj=0.0082 social_circle=0.0079
+[2026-06-19 11:22:42]   sda_gates [550]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:24:11]   grad_norms [600]: anchor=0.3314 denoiser=0.1000 edge_encoder=0.0023 enc_attn=0.0004 encoder=0.2852 gat=0.2422 sc_gate=0.0044 sc_proj=0.0079 social_circle=0.0073
+[2026-06-19 11:24:11]   sda_gates [600]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:25:40]   grad_norms [650]: anchor=0.2167 denoiser=0.1000 edge_encoder=0.0025 enc_attn=0.0009 encoder=0.3539 gat=0.2786 sc_gate=0.0047 sc_proj=0.0094 social_circle=0.0078
+[2026-06-19 11:25:40]   sda_gates [650]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:27:09]   grad_norms [700]: anchor=0.3897 denoiser=0.1000 edge_encoder=0.0011 enc_attn=0.0001 encoder=0.2409 gat=0.2000 sc_gate=0.0032 sc_proj=0.0064 social_circle=0.0067
+[2026-06-19 11:27:09]   sda_gates [700]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:28:39]   grad_norms [750]: anchor=0.3757 denoiser=0.1000 edge_encoder=0.0018 enc_attn=0.0013 encoder=0.2504 gat=0.2145 sc_gate=0.0033 sc_proj=0.0068 social_circle=0.0069
+[2026-06-19 11:28:39]   sda_gates [750]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:30:09]   grad_norms [800]: anchor=0.3828 denoiser=0.1000 edge_encoder=0.0018 enc_attn=0.0008 encoder=0.2487 gat=0.2037 sc_gate=0.0034 sc_proj=0.0070 social_circle=0.0065
+[2026-06-19 11:30:09]   sda_gates [800]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:31:39]   grad_norms [850]: anchor=0.4162 denoiser=0.1000 edge_encoder=0.0015 enc_attn=0.0002 encoder=0.2082 gat=0.1826 sc_gate=0.0031 sc_proj=0.0056 social_circle=0.0046
+[2026-06-19 11:31:39]   sda_gates [850]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:33:09]   grad_norms [900]: anchor=0.4089 denoiser=0.1000 edge_encoder=0.0025 enc_attn=0.0007 encoder=0.2168 gat=0.1889 sc_gate=0.0032 sc_proj=0.0060 social_circle=0.0062
+[2026-06-19 11:33:09]   sda_gates [900]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:34:38]   grad_norms [950]: anchor=0.4010 denoiser=0.1000 edge_encoder=0.0014 enc_attn=0.0007 encoder=0.2294 gat=0.1912 sc_gate=0.0032 sc_proj=0.0056 social_circle=0.0048
+[2026-06-19 11:34:38]   sda_gates [950]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:35:31] Epoch 0: loss=42.078198 dist=20.383862 fredf=21.478514 anchor=0.195654 nomoto=0.000195 div=0.000000 pw_fde=4.0157nm lr=2.18e-05 gpu=329/15543MB t=1757.4s
+[2026-06-19 11:35:31]   loss_ratios: dist=48.4% fredf=51.0% anchor=0.5% nomoto=0.0%
+[2026-06-19 11:35:34]   grad_norms [0]: anchor=0.3854 denoiser=0.1000 edge_encoder=0.0014 enc_attn=0.0009 encoder=0.2458 gat=0.2023 sc_gate=0.0037 sc_proj=0.0068 social_circle=0.0063
+[2026-06-19 11:35:34]   sda_gates [0]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:37:06]   grad_norms [50]: anchor=0.4116 denoiser=0.1000 edge_encoder=0.0013 enc_attn=0.0002 encoder=0.2157 gat=0.1844 sc_gate=0.0032 sc_proj=0.0054 social_circle=0.0049
+[2026-06-19 11:37:06]   sda_gates [50]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:38:36]   grad_norms [100]: anchor=0.4134 denoiser=0.1000 edge_encoder=0.0015 enc_attn=0.0003 encoder=0.2160 gat=0.1800 sc_gate=0.0028 sc_proj=0.0056 social_circle=0.0054
+[2026-06-19 11:38:36]   sda_gates [100]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:40:07]   grad_norms [150]: anchor=0.3736 denoiser=0.1000 edge_encoder=0.0019 enc_attn=0.0004 encoder=0.2446 gat=0.2246 sc_gate=0.0036 sc_proj=0.0067 social_circle=0.0062
+[2026-06-19 11:40:07]   sda_gates [150]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:41:37]   grad_norms [200]: anchor=0.4364 denoiser=0.1000 edge_encoder=0.0011 enc_attn=0.0001 encoder=0.1787 gat=0.1661 sc_gate=0.0026 sc_proj=0.0047 social_circle=0.0047
+[2026-06-19 11:41:37]   sda_gates [200]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:43:08]   grad_norms [250]: anchor=0.4117 denoiser=0.1000 edge_encoder=0.0010 enc_attn=0.0007 encoder=0.2096 gat=0.1911 sc_gate=0.0033 sc_proj=0.0059 social_circle=0.0061
+[2026-06-19 11:43:08]   sda_gates [250]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:44:39]   grad_norms [300]: anchor=0.3863 denoiser=0.1000 edge_encoder=0.0013 enc_attn=0.0005 encoder=0.2294 gat=0.2191 sc_gate=0.0037 sc_proj=0.0066 social_circle=0.0059
+[2026-06-19 11:44:39]   sda_gates [300]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:46:09]   grad_norms [350]: anchor=0.4518 denoiser=0.1000 edge_encoder=0.0009 enc_attn=0.0000 encoder=0.1515 gat=0.1514 sc_gate=0.0023 sc_proj=0.0040 social_circle=0.0041
+[2026-06-19 11:46:09]   sda_gates [350]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:47:40]   grad_norms [400]: anchor=0.4047 denoiser=0.1000 edge_encoder=0.0018 enc_attn=0.0007 encoder=0.2155 gat=0.1993 sc_gate=0.0030 sc_proj=0.0055 social_circle=0.0055
+[2026-06-19 11:47:40]   sda_gates [400]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:49:10]   grad_norms [450]: anchor=0.3974 denoiser=0.1000 edge_encoder=0.0014 enc_attn=0.0012 encoder=0.2280 gat=0.2001 sc_gate=0.0033 sc_proj=0.0062 social_circle=0.0069
+[2026-06-19 11:49:10]   sda_gates [450]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:50:41]   grad_norms [500]: anchor=0.4134 denoiser=0.1000 edge_encoder=0.0023 enc_attn=0.0007 encoder=0.1974 gat=0.2001 sc_gate=0.0032 sc_proj=0.0057 social_circle=0.0060
+[2026-06-19 11:50:41]   sda_gates [500]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:52:13]   grad_norms [550]: anchor=0.3774 denoiser=0.1000 edge_encoder=0.0020 enc_attn=0.0005 encoder=0.2344 gat=0.2291 sc_gate=0.0035 sc_proj=0.0070 social_circle=0.0076
+[2026-06-19 11:52:13]   sda_gates [550]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:53:44]   grad_norms [600]: anchor=0.4067 denoiser=0.1000 edge_encoder=0.0017 enc_attn=0.0006 encoder=0.2068 gat=0.2043 sc_gate=0.0031 sc_proj=0.0057 social_circle=0.0059
+[2026-06-19 11:53:44]   sda_gates [600]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:55:14]   grad_norms [650]: anchor=0.3310 denoiser=0.1000 edge_encoder=0.0037 enc_attn=0.0001 encoder=0.2545 gat=0.2748 sc_gate=0.0042 sc_proj=0.0076 social_circle=0.0073
+[2026-06-19 11:55:14]   sda_gates [650]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:56:45]   grad_norms [700]: anchor=0.3860 denoiser=0.1000 edge_encoder=0.0019 enc_attn=0.0019 encoder=0.2162 gat=0.2327 sc_gate=0.0035 sc_proj=0.0063 social_circle=0.0067
+[2026-06-19 11:56:45]   sda_gates [700]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:58:15]   grad_norms [750]: anchor=0.3014 denoiser=0.1000 edge_encoder=0.0020 enc_attn=0.0010 encoder=0.2743 gat=0.2894 sc_gate=0.0046 sc_proj=0.0084 social_circle=0.0080
+[2026-06-19 11:58:15]   sda_gates [750]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 11:59:46]   grad_norms [800]: anchor=0.2966 denoiser=0.1000 edge_encoder=0.0031 enc_attn=0.0013 encoder=0.2787 gat=0.2901 sc_gate=0.0046 sc_proj=0.0088 social_circle=0.0098
+[2026-06-19 11:59:46]   sda_gates [800]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:01:17]   grad_norms [850]: anchor=0.3736 denoiser=0.1000 edge_encoder=0.0024 enc_attn=0.0003 encoder=0.2304 gat=0.2392 sc_gate=0.0035 sc_proj=0.0065 social_circle=0.0064
+[2026-06-19 12:01:17]   sda_gates [850]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:02:48]   grad_norms [900]: anchor=0.3386 denoiser=0.1000 edge_encoder=0.0027 enc_attn=0.0007 encoder=0.2589 gat=0.2612 sc_gate=0.0034 sc_proj=0.0073 social_circle=0.0060
+[2026-06-19 12:02:48]   sda_gates [900]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:04:19]   grad_norms [950]: anchor=0.4523 denoiser=0.1000 edge_encoder=0.0013 enc_attn=0.0001 encoder=0.1382 gat=0.1622 sc_gate=0.0023 sc_proj=0.0045 social_circle=0.0046
+[2026-06-19 12:04:19]   sda_gates [950]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:05:13] Epoch 1: loss=30.016307 dist=11.518288 fredf=18.099814 anchor=0.238688 nomoto=0.162729 div=-0.027023 pw_fde=1.9471nm lr=4.16e-05 gpu=328/15543MB t=1781.2s
+[2026-06-19 12:05:13]   loss_ratios: dist=38.4% fredf=60.3% anchor=0.8% nomoto=0.5% div=-0.1%
+[2026-06-19 12:05:16]   grad_norms [0]: anchor=0.3557 denoiser=0.1000 edge_encoder=0.0033 enc_attn=0.0002 encoder=0.2509 gat=0.2458 sc_gate=0.0036 sc_proj=0.0071 social_circle=0.0065
+[2026-06-19 12:05:16]   sda_gates [0]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:06:46]   grad_norms [50]: anchor=0.3847 denoiser=0.1000 edge_encoder=0.0024 enc_attn=0.0000 encoder=0.2215 gat=0.2299 sc_gate=0.0034 sc_proj=0.0064 social_circle=0.0062
+[2026-06-19 12:06:46]   sda_gates [50]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:08:17]   grad_norms [100]: anchor=0.4336 denoiser=0.1000 edge_encoder=0.0019 enc_attn=0.0002 encoder=0.1616 gat=0.1894 sc_gate=0.0026 sc_proj=0.0045 social_circle=0.0044
+[2026-06-19 12:08:17]   sda_gates [100]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:09:48]   grad_norms [150]: anchor=0.4314 denoiser=0.1000 edge_encoder=0.0018 enc_attn=0.0007 encoder=0.1605 gat=0.1952 sc_gate=0.0028 sc_proj=0.0051 social_circle=0.0043
+[2026-06-19 12:09:48]   sda_gates [150]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:11:18]   grad_norms [200]: anchor=0.4162 denoiser=0.1000 edge_encoder=0.0017 enc_attn=0.0000 encoder=0.1792 gat=0.2113 sc_gate=0.0032 sc_proj=0.0055 social_circle=0.0051
+[2026-06-19 12:11:18]   sda_gates [200]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:12:49]   grad_norms [250]: anchor=0.4016 denoiser=0.1000 edge_encoder=0.0016 enc_attn=0.0006 encoder=0.1935 gat=0.2262 sc_gate=0.0036 sc_proj=0.0058 social_circle=0.0057
+[2026-06-19 12:12:49]   sda_gates [250]: L0=[0.881,0.881,0.880,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:14:19]   grad_norms [300]: anchor=0.4839 denoiser=0.1000 edge_encoder=0.0004 enc_attn=0.0000 encoder=0.0792 gat=0.0978 sc_gate=0.0012 sc_proj=0.0024 social_circle=0.0023
+[2026-06-19 12:14:19]   sda_gates [300]: L0=[0.881,0.881,0.880,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:15:50]   grad_norms [350]: anchor=0.3993 denoiser=0.1000 edge_encoder=0.0030 enc_attn=0.0004 encoder=0.1795 gat=0.2415 sc_gate=0.0030 sc_proj=0.0060 social_circle=0.0057
+[2026-06-19 12:15:50]   sda_gates [350]: L0=[0.881,0.881,0.880,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:17:21]   grad_norms [400]: anchor=0.4837 denoiser=0.1000 edge_encoder=0.0002 enc_attn=0.0001 encoder=0.0782 gat=0.0994 sc_gate=0.0014 sc_proj=0.0024 social_circle=0.0023
+[2026-06-19 12:17:21]   sda_gates [400]: L0=[0.881,0.881,0.880,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:18:52]   grad_norms [450]: anchor=0.4311 denoiser=0.1000 edge_encoder=0.0016 enc_attn=0.0003 encoder=0.1488 gat=0.2047 sc_gate=0.0026 sc_proj=0.0048 social_circle=0.0050
+[2026-06-19 12:18:52]   sda_gates [450]: L0=[0.881,0.881,0.880,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:20:23]   grad_norms [500]: anchor=0.3465 denoiser=0.1000 edge_encoder=0.0032 enc_attn=0.0001 encoder=0.2267 gat=0.2799 sc_gate=0.0045 sc_proj=0.0074 social_circle=0.0065
+[2026-06-19 12:20:23]   sda_gates [500]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:21:53]   grad_norms [550]: anchor=0.2150 denoiser=0.1000 edge_encoder=0.0021 enc_attn=0.0013 encoder=0.2629 gat=0.3668 sc_gate=0.0047 sc_proj=0.0087 social_circle=0.0085
+[2026-06-19 12:21:53]   sda_gates [550]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:23:24]   grad_norms [600]: anchor=0.3000 denoiser=0.1000 edge_encoder=0.0013 enc_attn=0.0006 encoder=0.2379 gat=0.3213 sc_gate=0.0040 sc_proj=0.0082 social_circle=0.0094
+[2026-06-19 12:23:24]   sda_gates [600]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:24:55]   grad_norms [650]: anchor=0.3916 denoiser=0.1000 edge_encoder=0.0021 enc_attn=0.0008 encoder=0.1908 gat=0.2453 sc_gate=0.0032 sc_proj=0.0063 social_circle=0.0064
+[2026-06-19 12:24:55]   sda_gates [650]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:26:26]   grad_norms [700]: anchor=0.3161 denoiser=0.1000 edge_encoder=0.0038 enc_attn=0.0001 encoder=0.2187 gat=0.3196 sc_gate=0.0041 sc_proj=0.0073 social_circle=0.0060
+[2026-06-19 12:26:26]   sda_gates [700]: L0=[0.881,0.881,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:27:56]   grad_norms [750]: anchor=0.4111 denoiser=0.1000 edge_encoder=0.0017 enc_attn=0.0009 encoder=0.1607 gat=0.2347 sc_gate=0.0027 sc_proj=0.0058 social_circle=0.0044
+[2026-06-19 12:27:56]   sda_gates [750]: L0=[0.881,0.880,0.881,0.881] L1=[0.881,0.881,0.880,0.881]
+[2026-06-19 12:29:27]   grad_norms [800]: anchor=0.4083 denoiser=0.1000 edge_encoder=0.0024 enc_attn=0.0006 encoder=0.1618 gat=0.2388 sc_gate=0.0028 sc_proj=0.0053 social_circle=0.0054
+[2026-06-19 12:29:27]   sda_gates [800]: L0=[0.881,0.880,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:30:58]   grad_norms [850]: anchor=0.4437 denoiser=0.1000 edge_encoder=0.0022 enc_attn=0.0006 encoder=0.1290 gat=0.1909 sc_gate=0.0024 sc_proj=0.0043 social_circle=0.0042
+[2026-06-19 12:30:58]   sda_gates [850]: L0=[0.881,0.880,0.881,0.881] L1=[0.881,0.881,0.880,0.881]
+[2026-06-19 12:32:29]   grad_norms [900]: anchor=0.3635 denoiser=0.1000 edge_encoder=0.0018 enc_attn=0.0005 encoder=0.1854 gat=0.2887 sc_gate=0.0035 sc_proj=0.0069 social_circle=0.0053
+[2026-06-19 12:32:29]   sda_gates [900]: L0=[0.881,0.880,0.880,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:34:00]   grad_norms [950]: anchor=0.4257 denoiser=0.1000 edge_encoder=0.0051 enc_attn=0.0024 encoder=0.1477 gat=0.2164 sc_gate=0.0026 sc_proj=0.0054 social_circle=0.0063
+[2026-06-19 12:34:00]   sda_gates [950]: L0=[0.881,0.880,0.881,0.881] L1=[0.881,0.881,0.881,0.881]
+[2026-06-19 12:34:54] Epoch 2: loss=33.873436 dist=13.473221 fredf=20.175714 anchor=0.212827 nomoto=0.032590 div=-0.042381 pw_fde=1.5562nm lr=6.14e-05 gpu=330/15543MB t=1781.4s
+[2026-06-19 12:34:54]   loss_ratios: dist=39.8% fredf=59.6% anchor=0.6% nomoto=0.1% div=-0.1%
+[2026-06-19 13:04:31] Epoch 3: loss=30.233230 dist=12.809548 fredf=17.168317 anchor=0.217803 nomoto=0.062963 div=-0.047343 pw_fde=1.1826nm lr=8.12e-05 gpu=329/15543MB t=1776.9s
+[2026-06-19 13:34:10] Epoch 4: loss=29.567114 dist=13.905019 fredf=15.448037 anchor=0.217326 nomoto=0.037340 div=-0.062433 pw_fde=1.1279nm lr=1.01e-04 gpu=330/15543MB t=1778.6s
+[2026-06-19 13:34:10]   loss_ratios: dist=47.0% fredf=52.2% anchor=0.7% nomoto=0.1% div=-0.2%
+[2026-06-19 13:34:53]   Val: ADE=1.2174  FDE=0.9589  Anchor_ADE=0.0592  Anchor_FDE=0.1387  Diffusion_improvement=-1956.1%  CCR=37.19%(726)  DCPA_MAE=0.7497nm  pred_DCPA=3.6895nm  gt_DCPA=3.5574nm
+[2026-06-19 13:34:53] Saved checkpoint: results/transformer_ecr/checkpoint_best_ade.pt
+[2026-06-19 13:34:54] Saved checkpoint: results/transformer_ecr/checkpoint_best_ccr.pt
+[2026-06-19 13:34:54] Saved checkpoint: results/transformer_ecr/checkpoint_best.pt
+[2026-06-19 13:34:55] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-19 13:34:57]   grad_norms [0]: anchor=0.4231 denoiser=0.1000 edge_encoder=0.0026 enc_attn=0.0020 encoder=0.0631 gat=0.2587 sc_gate=0.0014 sc_proj=0.0028 social_circle=0.0030
+[2026-06-19 13:34:57]   sda_gates [0]: L0=[0.880,0.880,0.880,0.880] L1=[0.880,0.880,0.880,0.880]
+[2026-06-19 13:36:28]   grad_norms [50]: anchor=0.3490 denoiser=0.1000 edge_encoder=0.0023 enc_attn=0.0009 encoder=0.0726 gat=0.3506 sc_gate=0.0019 sc_proj=0.0036 social_circle=0.0040
+[2026-06-19 13:36:28]   sda_gates [50]: L0=[0.880,0.880,0.880,0.880] L1=[0.880,0.880,0.880,0.880]
+[2026-06-19 13:37:59]   grad_norms [100]: anchor=0.3118 denoiser=0.1000 edge_encoder=0.0037 enc_attn=0.0010 encoder=0.0908 gat=0.3801 sc_gate=0.0021 sc_proj=0.0042 social_circle=0.0044
+[2026-06-19 13:37:59]   sda_gates [100]: L0=[0.880,0.880,0.880,0.880] L1=[0.880,0.879,0.880,0.880]
+[2026-06-19 13:39:28]   grad_norms [150]: anchor=0.4387 denoiser=0.1000 edge_encoder=0.0017 enc_attn=0.0009 encoder=0.0557 gat=0.2333 sc_gate=0.0013 sc_proj=0.0025 social_circle=0.0025
+[2026-06-19 13:39:28]   sda_gates [150]: L0=[0.880,0.880,0.880,0.880] L1=[0.880,0.879,0.880,0.880]
+[2026-06-19 13:41:00]   grad_norms [200]: anchor=0.4777 denoiser=0.1000 edge_encoder=0.0018 enc_attn=0.0004 encoder=0.0383 gat=0.1426 sc_gate=0.0009 sc_proj=0.0016 social_circle=0.0018
+[2026-06-19 13:41:00]   sda_gates [200]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.880]
+[2026-06-19 13:42:30]   grad_norms [250]: anchor=0.3155 denoiser=0.1000 edge_encoder=0.0027 enc_attn=0.0037 encoder=0.0846 gat=0.3785 sc_gate=0.0019 sc_proj=0.0039 social_circle=0.0040
+[2026-06-19 13:42:30]   sda_gates [250]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.880]
+[2026-06-19 13:44:01]   grad_norms [300]: anchor=0.1485 denoiser=0.1000 edge_encoder=0.0050 enc_attn=0.0004 encoder=0.1071 gat=0.4652 sc_gate=0.0027 sc_proj=0.0052 social_circle=0.0056
+[2026-06-19 13:44:01]   sda_gates [300]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.880,0.880,0.880]
+[2026-06-19 13:45:32]   grad_norms [350]: anchor=0.4071 denoiser=0.1000 edge_encoder=0.0033 enc_attn=0.0014 encoder=0.0630 gat=0.2833 sc_gate=0.0016 sc_proj=0.0031 social_circle=0.0028
+[2026-06-19 13:45:32]   sda_gates [350]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.880]
+[2026-06-19 13:47:02]   grad_norms [400]: anchor=0.3812 denoiser=0.1000 edge_encoder=0.0047 enc_attn=0.0020 encoder=0.0645 gat=0.3170 sc_gate=0.0015 sc_proj=0.0030 social_circle=0.0028
+[2026-06-19 13:47:02]   sda_gates [400]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 13:48:33]   grad_norms [450]: anchor=0.1629 denoiser=0.1000 edge_encoder=0.0042 enc_attn=0.0034 encoder=0.1068 gat=0.4604 sc_gate=0.0025 sc_proj=0.0047 social_circle=0.0045
+[2026-06-19 13:48:33]   sda_gates [450]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 13:50:04]   grad_norms [500]: anchor=0.2860 denoiser=0.1000 edge_encoder=0.0041 enc_attn=0.0002 encoder=0.0681 gat=0.4044 sc_gate=0.0017 sc_proj=0.0032 social_circle=0.0031
+[2026-06-19 13:50:04]   sda_gates [500]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 13:51:35]   grad_norms [550]: anchor=0.2610 denoiser=0.1000 edge_encoder=0.0035 enc_attn=0.0012 encoder=0.0630 gat=0.4217 sc_gate=0.0017 sc_proj=0.0034 social_circle=0.0029
+[2026-06-19 13:51:35]   sda_gates [550]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 13:53:05]   grad_norms [600]: anchor=0.2704 denoiser=0.1000 edge_encoder=0.0062 enc_attn=0.0020 encoder=0.0689 gat=0.4148 sc_gate=0.0017 sc_proj=0.0035 social_circle=0.0032
+[2026-06-19 13:53:05]   sda_gates [600]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 13:54:35]   grad_norms [650]: anchor=0.4146 denoiser=0.1000 edge_encoder=0.0054 enc_attn=0.0021 encoder=0.0437 gat=0.2760 sc_gate=0.0012 sc_proj=0.0022 social_circle=0.0024
+[2026-06-19 13:54:35]   sda_gates [650]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 13:56:06]   grad_norms [700]: anchor=0.2040 denoiser=0.1000 edge_encoder=0.0041 enc_attn=0.0036 encoder=0.0610 gat=0.4523 sc_gate=0.0015 sc_proj=0.0029 social_circle=0.0033
+[2026-06-19 13:56:06]   sda_gates [700]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 13:57:37]   grad_norms [750]: anchor=0.1573 denoiser=0.1000 edge_encoder=0.0042 enc_attn=0.0019 encoder=0.0656 gat=0.4700 sc_gate=0.0017 sc_proj=0.0033 social_circle=0.0030
+[2026-06-19 13:57:37]   sda_gates [750]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 13:59:07]   grad_norms [800]: anchor=0.2069 denoiser=0.1000 edge_encoder=0.0025 enc_attn=0.0023 encoder=0.0631 gat=0.4507 sc_gate=0.0018 sc_proj=0.0035 social_circle=0.0032
+[2026-06-19 13:59:07]   sda_gates [800]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 14:00:37]   grad_norms [850]: anchor=0.4716 denoiser=0.1000 edge_encoder=0.0021 enc_attn=0.0003 encoder=0.0226 gat=0.1647 sc_gate=0.0006 sc_proj=0.0012 social_circle=0.0012
+[2026-06-19 14:00:37]   sda_gates [850]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 14:02:08]   grad_norms [900]: anchor=0.4572 denoiser=0.1000 edge_encoder=0.0021 enc_attn=0.0001 encoder=0.0248 gat=0.2009 sc_gate=0.0007 sc_proj=0.0014 social_circle=0.0013
+[2026-06-19 14:02:08]   sda_gates [900]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 14:03:39]   grad_norms [950]: anchor=0.4049 denoiser=0.1000 edge_encoder=0.0027 enc_attn=0.0007 encoder=0.0322 gat=0.2916 sc_gate=0.0009 sc_proj=0.0018 social_circle=0.0017
+[2026-06-19 14:03:39]   sda_gates [950]: L0=[0.880,0.879,0.880,0.880] L1=[0.880,0.879,0.880,0.879]
+[2026-06-19 14:04:34] Epoch 5: loss=31.984903 dist=14.762795 fredf=16.967056 anchor=0.226318 nomoto=0.054761 div=-0.048370 pw_fde=0.7135nm lr=1.21e-04 gpu=330/15543MB t=1779.0s
+[2026-06-19 14:34:22] Epoch 6: loss=28.205944 dist=12.620091 fredf=15.398237 anchor=0.220024 nomoto=0.020613 div=-0.075034 pw_fde=0.9505nm lr=1.41e-04 gpu=330/15543MB t=1788.1s
+[2026-06-19 15:04:06] Epoch 7: loss=28.620930 dist=13.297938 fredf=15.136146 anchor=0.215674 nomoto=0.011844 div=-0.062432 pw_fde=0.6997nm lr=1.60e-04 gpu=328/15543MB t=1784.5s
+[2026-06-19 15:33:42] Epoch 8: loss=22.568256 dist=11.602370 fredf=10.750173 anchor=0.207291 nomoto=0.014509 div=-0.026719 pw_fde=0.2247nm lr=1.80e-04 gpu=329/15543MB t=1775.9s
+/home/wangguangjie/anaconda3/envs/ship-traj-pred/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:232: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+[2026-06-19 16:03:12] Epoch 9: loss=26.103047 dist=12.781291 fredf=12.740821 anchor=0.305610 nomoto=0.368324 div=-0.123663 pw_fde=0.8473nm lr=2.00e-04 gpu=328/15543MB t=1770.4s
+[2026-06-19 16:03:12]   loss_ratios: dist=49.0% fredf=48.8% anchor=1.2% nomoto=1.4% div=-0.5%
+[2026-06-19 16:03:56]   Val: ADE=0.9161  FDE=0.8810  Anchor_ADE=0.1175  Anchor_FDE=0.1441  Diffusion_improvement=-679.7%  CCR=34.02%(726)  DCPA_MAE=0.6085nm  pred_DCPA=3.5578nm  gt_DCPA=3.5574nm
+[2026-06-19 16:03:57] Saved checkpoint: results/transformer_ecr/checkpoint_best_ade.pt
+[2026-06-19 16:03:59] Saved checkpoint: results/transformer_ecr/checkpoint_best.pt
+[2026-06-19 16:04:00] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-19 16:04:03]   grad_norms [0]: anchor=0.3597 denoiser=0.1000 edge_encoder=0.0022 enc_attn=0.0013 encoder=0.0291 gat=0.3461 sc_gate=0.0007 sc_proj=0.0014 social_circle=0.0013
+[2026-06-19 16:04:03]   sda_gates [0]: L0=[0.875,0.873,0.874,0.875] L1=[0.877,0.877,0.878,0.876]
+[2026-06-19 16:05:34]   grad_norms [50]: anchor=0.3045 denoiser=0.1000 edge_encoder=0.0042 enc_attn=0.0006 encoder=0.0435 gat=0.3941 sc_gate=0.0008 sc_proj=0.0014 social_circle=0.0017
+[2026-06-19 16:05:34]   sda_gates [50]: L0=[0.875,0.873,0.874,0.875] L1=[0.877,0.877,0.878,0.876]
+[2026-06-19 16:07:04]   grad_norms [100]: anchor=0.3304 denoiser=0.1000 edge_encoder=0.0033 enc_attn=0.0009 encoder=0.0398 gat=0.3731 sc_gate=0.0006 sc_proj=0.0010 social_circle=0.0010
+[2026-06-19 16:07:04]   sda_gates [100]: L0=[0.875,0.874,0.874,0.875] L1=[0.877,0.877,0.878,0.876]
+[2026-06-19 16:08:35]   grad_norms [150]: anchor=0.3092 denoiser=0.1000 edge_encoder=0.0063 enc_attn=0.0027 encoder=0.0874 gat=0.3830 sc_gate=0.0008 sc_proj=0.0012 social_circle=0.0013
+[2026-06-19 16:08:35]   sda_gates [150]: L0=[0.875,0.874,0.874,0.875] L1=[0.877,0.877,0.878,0.876]
+[2026-06-19 16:10:05]   grad_norms [200]: anchor=0.3843 denoiser=0.1000 edge_encoder=0.0028 enc_attn=0.0031 encoder=0.0103 gat=0.3197 sc_gate=0.0003 sc_proj=0.0007 social_circle=0.0008
+[2026-06-19 16:10:05]   sda_gates [200]: L0=[0.875,0.874,0.874,0.875] L1=[0.877,0.877,0.878,0.876]
+[2026-06-19 16:11:36]   grad_norms [250]: anchor=0.2909 denoiser=0.1000 edge_encoder=0.0049 enc_attn=0.0015 encoder=0.0187 gat=0.4062 sc_gate=0.0005 sc_proj=0.0010 social_circle=0.0012
+[2026-06-19 16:11:36]   sda_gates [250]: L0=[0.875,0.874,0.874,0.875] L1=[0.877,0.877,0.878,0.876]
+[2026-06-19 16:13:06]   grad_norms [300]: anchor=0.3986 denoiser=0.1000 edge_encoder=0.0030 enc_attn=0.0016 encoder=0.0136 gat=0.3015 sc_gate=0.0005 sc_proj=0.0009 social_circle=0.0009
+[2026-06-19 16:13:06]   sda_gates [300]: L0=[0.875,0.874,0.874,0.875] L1=[0.877,0.877,0.878,0.876]
+[2026-06-19 16:14:37]   grad_norms [350]: anchor=0.4037 denoiser=0.1000 edge_encoder=0.0038 enc_attn=0.0011 encoder=0.0195 gat=0.2943 sc_gate=0.0004 sc_proj=0.0008 social_circle=0.0008
+[2026-06-19 16:14:37]   sda_gates [350]: L0=[0.875,0.874,0.874,0.875] L1=[0.877,0.877,0.878,0.876]
+[2026-06-19 16:16:07]   grad_norms [400]: anchor=0.2393 denoiser=0.1000 edge_encoder=0.0051 enc_attn=0.0019 encoder=0.0297 gat=0.4380 sc_gate=0.0006 sc_proj=0.0012 social_circle=0.0010
+[2026-06-19 16:16:07]   sda_gates [400]: L0=[0.875,0.874,0.874,0.875] L1=[0.877,0.877,0.878,0.876]
+[2026-06-19 16:17:38]   grad_norms [450]: anchor=0.3383 denoiser=0.1000 edge_encoder=0.0038 enc_attn=0.0003 encoder=0.0135 gat=0.3679 sc_gate=0.0004 sc_proj=0.0009 social_circle=0.0007
+[2026-06-19 16:17:38]   sda_gates [450]: L0=[0.875,0.874,0.874,0.874] L1=[0.877,0.877,0.877,0.875]
+[2026-06-19 16:19:09]   grad_norms [500]: anchor=0.3483 denoiser=0.1000 edge_encoder=0.0028 enc_attn=0.0002 encoder=0.0082 gat=0.3586 sc_gate=0.0003 sc_proj=0.0006 social_circle=0.0007
+[2026-06-19 16:19:09]   sda_gates [500]: L0=[0.875,0.874,0.874,0.874] L1=[0.877,0.877,0.877,0.875]
+[2026-06-19 16:20:39]   grad_norms [550]: anchor=0.3026 denoiser=0.1000 edge_encoder=0.0052 enc_attn=0.0002 encoder=0.0111 gat=0.3979 sc_gate=0.0004 sc_proj=0.0009 social_circle=0.0011
+[2026-06-19 16:20:39]   sda_gates [550]: L0=[0.875,0.874,0.874,0.875] L1=[0.877,0.877,0.877,0.875]
+[2026-06-19 16:22:10]   grad_norms [600]: anchor=0.2236 denoiser=0.1000 edge_encoder=0.0022 enc_attn=0.0016 encoder=0.0111 gat=0.4471 sc_gate=0.0004 sc_proj=0.0010 social_circle=0.0010
+[2026-06-19 16:22:10]   sda_gates [600]: L0=[0.876,0.874,0.874,0.875] L1=[0.877,0.877,0.877,0.875]
+[2026-06-19 16:23:41]   grad_norms [650]: anchor=0.1781 denoiser=0.1000 edge_encoder=0.0034 enc_attn=0.0001 encoder=0.0136 gat=0.4670 sc_gate=0.0005 sc_proj=0.0011 social_circle=0.0010
+[2026-06-19 16:23:41]   sda_gates [650]: L0=[0.875,0.874,0.874,0.875] L1=[0.877,0.877,0.877,0.875]
+[2026-06-19 16:25:12]   grad_norms [700]: anchor=0.4423 denoiser=0.1000 edge_encoder=0.0027 enc_attn=0.0003 encoder=0.0038 gat=0.2331 sc_gate=0.0002 sc_proj=0.0004 social_circle=0.0003
+[2026-06-19 16:25:12]   sda_gates [700]: L0=[0.875,0.874,0.874,0.875] L1=[0.877,0.877,0.876,0.875]
+[2026-06-19 16:26:43]   grad_norms [750]: anchor=0.4628 denoiser=0.1000 edge_encoder=0.0028 enc_attn=0.0030 encoder=0.0041 gat=0.1892 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0003
+[2026-06-19 16:26:43]   sda_gates [750]: L0=[0.875,0.873,0.874,0.875] L1=[0.877,0.877,0.876,0.875]
+[2026-06-19 16:28:13]   grad_norms [800]: anchor=0.3910 denoiser=0.1000 edge_encoder=0.0041 enc_attn=0.0003 encoder=0.0049 gat=0.3116 sc_gate=0.0002 sc_proj=0.0004 social_circle=0.0004
+[2026-06-19 16:28:13]   sda_gates [800]: L0=[0.875,0.873,0.874,0.875] L1=[0.877,0.876,0.876,0.875]
+[2026-06-19 16:29:43]   grad_norms [850]: anchor=0.4715 denoiser=0.1000 edge_encoder=0.0018 enc_attn=0.0001 encoder=0.0034 gat=0.1665 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0002
+[2026-06-19 16:29:43]   sda_gates [850]: L0=[0.875,0.873,0.874,0.875] L1=[0.877,0.876,0.876,0.876]
+[2026-06-19 16:31:13]   grad_norms [900]: anchor=0.4326 denoiser=0.1000 edge_encoder=0.0024 enc_attn=0.0003 encoder=0.0037 gat=0.2506 sc_gate=0.0002 sc_proj=0.0004 social_circle=0.0003
+[2026-06-19 16:31:13]   sda_gates [900]: L0=[0.875,0.873,0.874,0.875] L1=[0.877,0.876,0.876,0.876]
+[2026-06-19 16:32:44]   grad_norms [950]: anchor=0.3818 denoiser=0.1000 edge_encoder=0.0035 enc_attn=0.0003 encoder=0.0063 gat=0.3228 sc_gate=0.0002 sc_proj=0.0004 social_circle=0.0004
+[2026-06-19 16:32:44]   sda_gates [950]: L0=[0.875,0.873,0.874,0.875] L1=[0.877,0.877,0.876,0.876]
+[2026-06-19 16:33:38] Epoch 10: loss=45.679425 dist=26.777808 fredf=18.612691 anchor=0.262891 nomoto=0.255620 div=-0.256098 pw_fde=1.8312nm lr=2.00e-04 gpu=329/15543MB t=1777.9s
+[2026-06-19 17:03:17] Epoch 11: loss=46.573786 dist=25.340613 fredf=20.417905 anchor=0.421338 nomoto=0.807669 div=-0.456286 pw_fde=2.9574nm lr=2.00e-04 gpu=327/15543MB t=1778.7s
+[2026-06-19 17:32:51] Epoch 12: loss=40.642114 dist=20.745766 fredf=17.823222 anchor=0.961151 nomoto=1.321877 div=-0.306064 pw_fde=1.9657nm lr=2.00e-04 gpu=327/15543MB t=1774.2s
+[2026-06-19 17:44:47] Epoch 13: loss=32.383242 dist=14.718255 fredf=15.936535 anchor=0.883220 nomoto=0.932860 div=-0.175944 pw_fde=0.8826nm lr=2.00e-04 gpu=329/15543MB t=716.4s
+[2026-06-19 17:54:56] Epoch 14: loss=30.333286 dist=15.421263 fredf=14.047717 anchor=0.467288 nomoto=0.476382 div=-0.125868 pw_fde=0.5755nm lr=2.00e-04 gpu=330/15543MB t=609.2s
+[2026-06-19 17:54:56]   loss_ratios: dist=50.8% fredf=46.3% anchor=1.5% nomoto=1.6% div=-0.4%
+[2026-06-19 17:55:16]   Val: ADE=0.7210  FDE=0.6776  Anchor_ADE=0.0951  Anchor_FDE=0.1414  Diffusion_improvement=-658.3%  CCR=69.28%(726)  DCPA_MAE=0.5741nm  pred_DCPA=3.4552nm  gt_DCPA=3.5574nm
+[2026-06-19 17:55:54]   CFG health: ADE_base=0.7210 ADE_cfg=0.9037 delta=+0.1827 [WARN: CFG hurts]
+[2026-06-19 17:55:56] Saved checkpoint: results/transformer_ecr/checkpoint_best_ade.pt
+[2026-06-19 17:55:57] Saved checkpoint: results/transformer_ecr/checkpoint_best_ccr.pt
+[2026-06-19 17:55:59] Saved checkpoint: results/transformer_ecr/checkpoint_best.pt
+[2026-06-19 17:56:00] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-19 17:56:01]   grad_norms [0]: anchor=0.2291 denoiser=0.1000 edge_encoder=0.0008 enc_attn=0.0001 encoder=0.0048 gat=0.4444 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0003
+[2026-06-19 17:56:01]   sda_gates [0]: L0=[0.874,0.871,0.872,0.872] L1=[0.874,0.875,0.875,0.873]
+[2026-06-19 17:56:32]   grad_norms [50]: anchor=0.1619 denoiser=0.1000 edge_encoder=0.0126 enc_attn=0.0006 encoder=0.0155 gat=0.4726 sc_gate=0.0007 sc_proj=0.0012 social_circle=0.0014
+[2026-06-19 17:56:32]   sda_gates [50]: L0=[0.873,0.871,0.872,0.872] L1=[0.874,0.875,0.875,0.873]
+[2026-06-19 17:57:03]   grad_norms [100]: anchor=0.3343 denoiser=0.1000 edge_encoder=0.0044 enc_attn=0.0002 encoder=0.0199 gat=0.3712 sc_gate=0.0006 sc_proj=0.0012 social_circle=0.0014
+[2026-06-19 17:57:03]   sda_gates [100]: L0=[0.874,0.871,0.873,0.872] L1=[0.874,0.875,0.875,0.874]
+[2026-06-19 17:57:34]   grad_norms [150]: anchor=0.4277 denoiser=0.1000 edge_encoder=0.0023 enc_attn=0.0005 encoder=0.0010 gat=0.2589 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 17:57:34]   sda_gates [150]: L0=[0.873,0.871,0.873,0.872] L1=[0.875,0.875,0.875,0.874]
+[2026-06-19 17:58:06]   grad_norms [200]: anchor=0.2722 denoiser=0.1000 edge_encoder=0.0074 enc_attn=0.0005 encoder=0.0143 gat=0.4191 sc_gate=0.0004 sc_proj=0.0007 social_circle=0.0012
+[2026-06-19 17:58:06]   sda_gates [200]: L0=[0.873,0.871,0.873,0.872] L1=[0.874,0.875,0.875,0.874]
+[2026-06-19 17:58:37]   grad_norms [250]: anchor=0.3546 denoiser=0.1000 edge_encoder=0.0098 enc_attn=0.0002 encoder=0.0032 gat=0.3524 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0002
+[2026-06-19 17:58:37]   sda_gates [250]: L0=[0.873,0.871,0.872,0.872] L1=[0.874,0.875,0.875,0.873]
+[2026-06-19 17:59:08]   grad_norms [300]: anchor=0.3223 denoiser=0.1000 edge_encoder=0.0049 enc_attn=0.0004 encoder=0.0034 gat=0.3822 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0002
+[2026-06-19 17:59:08]   sda_gates [300]: L0=[0.873,0.870,0.872,0.872] L1=[0.875,0.875,0.875,0.873]
+[2026-06-19 17:59:39]   grad_norms [350]: anchor=0.3446 denoiser=0.1000 edge_encoder=0.0074 enc_attn=0.0001 encoder=0.0041 gat=0.3622 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0003
+[2026-06-19 17:59:39]   sda_gates [350]: L0=[0.873,0.870,0.872,0.872] L1=[0.875,0.875,0.875,0.873]
+[2026-06-19 18:00:10]   grad_norms [400]: anchor=0.4429 denoiser=0.1000 edge_encoder=0.0044 enc_attn=0.0000 encoder=0.0011 gat=0.2320 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 18:00:10]   sda_gates [400]: L0=[0.873,0.870,0.872,0.872] L1=[0.874,0.875,0.875,0.873]
+[2026-06-19 18:00:41]   grad_norms [450]: anchor=0.4653 denoiser=0.1000 edge_encoder=0.0009 enc_attn=0.0001 encoder=0.0011 gat=0.1831 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 18:00:41]   sda_gates [450]: L0=[0.873,0.870,0.872,0.872] L1=[0.874,0.875,0.874,0.873]
+[2026-06-19 18:01:12]   grad_norms [500]: anchor=0.3174 denoiser=0.1000 edge_encoder=0.0039 enc_attn=0.0003 encoder=0.0038 gat=0.3863 sc_gate=0.0002 sc_proj=0.0003 social_circle=0.0004
+[2026-06-19 18:01:12]   sda_gates [500]: L0=[0.873,0.870,0.872,0.871] L1=[0.874,0.875,0.874,0.874]
+[2026-06-19 18:01:44]   grad_norms [550]: anchor=0.4764 denoiser=0.1000 edge_encoder=0.0029 enc_attn=0.0002 encoder=0.0038 gat=0.1516 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 18:01:44]   sda_gates [550]: L0=[0.873,0.870,0.872,0.872] L1=[0.874,0.876,0.874,0.874]
+[2026-06-19 18:02:15]   grad_norms [600]: anchor=0.2994 denoiser=0.1000 edge_encoder=0.0031 enc_attn=0.0010 encoder=0.0031 gat=0.4004 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0003
+[2026-06-19 18:02:15]   sda_gates [600]: L0=[0.873,0.870,0.872,0.872] L1=[0.874,0.876,0.874,0.873]
+[2026-06-19 18:02:46]   grad_norms [650]: anchor=0.2885 denoiser=0.1000 edge_encoder=0.0076 enc_attn=0.0003 encoder=0.0036 gat=0.4083 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0003
+[2026-06-19 18:02:46]   sda_gates [650]: L0=[0.873,0.870,0.872,0.872] L1=[0.874,0.876,0.874,0.874]
+[2026-06-19 18:03:17]   grad_norms [700]: anchor=0.2950 denoiser=0.1000 edge_encoder=0.0039 enc_attn=0.0001 encoder=0.0017 gat=0.4037 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 18:03:17]   sda_gates [700]: L0=[0.873,0.870,0.872,0.871] L1=[0.874,0.876,0.874,0.873]
+[2026-06-19 18:03:48]   grad_norms [750]: anchor=0.1005 denoiser=0.1000 edge_encoder=0.0071 enc_attn=0.0002 encoder=0.0016 gat=0.4897 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 18:03:48]   sda_gates [750]: L0=[0.873,0.870,0.872,0.871] L1=[0.874,0.875,0.875,0.873]
+[2026-06-19 18:04:19]   grad_norms [800]: anchor=0.1299 denoiser=0.1000 edge_encoder=0.0051 enc_attn=0.0001 encoder=0.0021 gat=0.4828 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 18:04:19]   sda_gates [800]: L0=[0.873,0.870,0.872,0.871] L1=[0.874,0.875,0.875,0.873]
+[2026-06-19 18:04:51]   grad_norms [850]: anchor=0.3029 denoiser=0.1000 edge_encoder=0.0036 enc_attn=0.0002 encoder=0.0025 gat=0.3978 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0002
+[2026-06-19 18:04:51]   sda_gates [850]: L0=[0.873,0.870,0.872,0.871] L1=[0.874,0.875,0.875,0.873]
+[2026-06-19 18:05:22]   grad_norms [900]: anchor=0.1396 denoiser=0.1000 edge_encoder=0.0085 enc_attn=0.0009 encoder=0.0078 gat=0.4800 sc_gate=0.0003 sc_proj=0.0005 social_circle=0.0008
+[2026-06-19 18:05:22]   sda_gates [900]: L0=[0.872,0.870,0.872,0.871] L1=[0.874,0.875,0.875,0.873]
+[2026-06-19 18:05:53]   grad_norms [950]: anchor=0.1723 denoiser=0.1000 edge_encoder=0.0106 enc_attn=0.0004 encoder=0.0034 gat=0.4692 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0003
+[2026-06-19 18:05:53]   sda_gates [950]: L0=[0.872,0.870,0.871,0.871] L1=[0.874,0.874,0.875,0.873]
+[2026-06-19 18:06:12] Epoch 15: loss=27.504578 dist=12.991979 fredf=14.225164 anchor=0.271083 nomoto=0.139816 div=-0.150257 pw_fde=0.6947nm lr=2.00e-04 gpu=329/15543MB t=611.4s
+[2026-06-19 18:16:22] Epoch 16: loss=28.297172 dist=13.374949 fredf=14.228857 anchor=0.443015 nomoto=0.367453 div=-0.161780 pw_fde=0.7269nm lr=2.00e-04 gpu=329/15543MB t=610.8s
+[2026-06-19 18:26:33] Epoch 17: loss=27.026816 dist=13.446842 fredf=13.459026 anchor=0.216976 nomoto=0.003288 div=-0.120712 pw_fde=0.5094nm lr=2.00e-04 gpu=329/15543MB t=610.5s
+[2026-06-19 18:36:41] Epoch 18: loss=26.983905 dist=13.345729 fredf=13.516150 anchor=0.203495 nomoto=0.001828 div=-0.103506 pw_fde=0.4300nm lr=2.00e-04 gpu=330/15543MB t=608.3s
+[2026-06-19 18:46:52] Epoch 19: loss=28.134186 dist=13.930486 fredf=13.630192 anchor=0.333721 nomoto=0.491911 div=-0.285688 pw_fde=0.9756nm lr=2.00e-04 gpu=330/15543MB t=610.4s
+[2026-06-19 18:46:52]   loss_ratios: dist=49.5% fredf=48.4% anchor=1.2% nomoto=1.7% div=-1.0%
+[2026-06-19 18:47:12]   Val: ADE=1.2376  FDE=1.3935  Anchor_ADE=0.0768  Anchor_FDE=0.1405  Diffusion_improvement=-1511.2%  CCR=46.69%(726)  DCPA_MAE=0.7427nm  pred_DCPA=3.2819nm  gt_DCPA=3.5574nm
+[2026-06-19 18:47:50]   CFG health: ADE_base=1.2376 ADE_cfg=2.2196 delta=+0.9820 [WARN: CFG hurts]
+[2026-06-19 18:47:50]   No improvement 1/20 (combined=1.214215, best=0.686340)
+[2026-06-19 18:47:51] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-19 18:47:52]   grad_norms [0]: anchor=0.4296 denoiser=0.1000 edge_encoder=0.0045 enc_attn=0.0003 encoder=0.0006 gat=0.2557 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 18:47:52]   sda_gates [0]: L0=[0.872,0.870,0.872,0.872] L1=[0.871,0.872,0.872,0.872]
+[2026-06-19 18:48:23]   grad_norms [50]: anchor=0.4477 denoiser=0.1000 edge_encoder=0.0063 enc_attn=0.0006 encoder=0.0003 gat=0.2225 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 18:48:23]   sda_gates [50]: L0=[0.872,0.870,0.872,0.871] L1=[0.871,0.872,0.872,0.872]
+[2026-06-19 18:48:54]   grad_norms [100]: anchor=0.2959 denoiser=0.1000 edge_encoder=0.0064 enc_attn=0.0000 encoder=0.0004 gat=0.4030 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 18:48:54]   sda_gates [100]: L0=[0.872,0.870,0.872,0.871] L1=[0.871,0.872,0.872,0.872]
+[2026-06-19 18:49:25]   grad_norms [150]: anchor=0.4746 denoiser=0.1000 edge_encoder=0.0035 enc_attn=0.0000 encoder=0.0003 gat=0.1573 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 18:49:25]   sda_gates [150]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.872]
+[2026-06-19 18:49:57]   grad_norms [200]: anchor=0.4844 denoiser=0.1000 edge_encoder=0.0030 enc_attn=0.0002 encoder=0.0002 gat=0.1237 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 18:49:57]   sda_gates [200]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.872]
+[2026-06-19 18:50:28]   grad_norms [250]: anchor=0.4904 denoiser=0.1000 edge_encoder=0.0022 enc_attn=0.0001 encoder=0.0003 gat=0.0976 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 18:50:28]   sda_gates [250]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.872]
+[2026-06-19 18:50:59]   grad_norms [300]: anchor=0.4799 denoiser=0.1000 edge_encoder=0.0029 enc_attn=0.0002 encoder=0.0001 gat=0.1404 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 18:50:59]   sda_gates [300]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.872]
+[2026-06-19 18:51:30]   grad_norms [350]: anchor=0.4900 denoiser=0.1000 edge_encoder=0.0017 enc_attn=0.0000 encoder=0.0001 gat=0.0994 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 18:51:30]   sda_gates [350]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.871]
+[2026-06-19 18:52:01]   grad_norms [400]: anchor=0.4879 denoiser=0.1000 edge_encoder=0.0024 enc_attn=0.0000 encoder=0.0001 gat=0.1094 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 18:52:01]   sda_gates [400]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.871]
+[2026-06-19 18:52:32]   grad_norms [450]: anchor=0.4764 denoiser=0.1000 edge_encoder=0.0033 enc_attn=0.0000 encoder=0.0002 gat=0.1517 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 18:52:32]   sda_gates [450]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.871]
+[2026-06-19 18:53:04]   grad_norms [500]: anchor=0.4841 denoiser=0.1000 edge_encoder=0.0023 enc_attn=0.0001 encoder=0.0002 gat=0.1249 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 18:53:04]   sda_gates [500]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.871]
+[2026-06-19 18:53:35]   grad_norms [550]: anchor=0.4642 denoiser=0.1000 edge_encoder=0.0031 enc_attn=0.0002 encoder=0.0004 gat=0.1857 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 18:53:35]   sda_gates [550]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.871]
+[2026-06-19 18:54:06]   grad_norms [600]: anchor=0.4699 denoiser=0.1000 edge_encoder=0.0034 enc_attn=0.0001 encoder=0.0007 gat=0.1709 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 18:54:06]   sda_gates [600]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.871,0.872,0.871]
+[2026-06-19 18:54:37]   grad_norms [650]: anchor=0.4364 denoiser=0.1000 edge_encoder=0.0050 enc_attn=0.0001 encoder=0.0004 gat=0.2439 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 18:54:37]   sda_gates [650]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.871]
+[2026-06-19 18:55:08]   grad_norms [700]: anchor=0.3563 denoiser=0.1000 edge_encoder=0.0070 enc_attn=0.0003 encoder=0.0004 gat=0.3507 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 18:55:08]   sda_gates [700]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.871]
+[2026-06-19 18:55:39]   grad_norms [750]: anchor=0.4572 denoiser=0.1000 edge_encoder=0.0029 enc_attn=0.0000 encoder=0.0002 gat=0.2024 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 18:55:39]   sda_gates [750]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.871]
+[2026-06-19 18:56:10]   grad_norms [800]: anchor=0.4488 denoiser=0.1000 edge_encoder=0.0031 enc_attn=0.0006 encoder=0.0017 gat=0.2204 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0005
+[2026-06-19 18:56:10]   sda_gates [800]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.871]
+[2026-06-19 18:56:42]   grad_norms [850]: anchor=0.3958 denoiser=0.1000 edge_encoder=0.0062 enc_attn=0.0006 encoder=0.0012 gat=0.3055 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 18:56:42]   sda_gates [850]: L0=[0.872,0.869,0.872,0.871] L1=[0.871,0.872,0.872,0.872]
+[2026-06-19 18:57:13]   grad_norms [900]: anchor=0.2568 denoiser=0.1000 edge_encoder=0.0105 enc_attn=0.0010 encoder=0.0006 gat=0.4289 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 18:57:13]   sda_gates [900]: L0=[0.872,0.870,0.872,0.871] L1=[0.871,0.872,0.872,0.872]
+[2026-06-19 18:57:44]   grad_norms [950]: anchor=0.1888 denoiser=0.1000 edge_encoder=0.0111 enc_attn=0.0010 encoder=0.0005 gat=0.4628 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 18:57:44]   sda_gates [950]: L0=[0.871,0.870,0.872,0.871] L1=[0.871,0.872,0.872,0.872]
+[2026-06-19 18:58:03] Epoch 20: loss=35.474053 dist=18.958417 fredf=15.617343 anchor=0.507273 nomoto=0.923452 div=-0.583010 pw_fde=1.9776nm lr=2.00e-04 gpu=327/15543MB t=611.6s
+[2026-06-19 19:08:15] Epoch 21: loss=26.782459 dist=12.808395 fredf=12.903994 anchor=0.552886 nomoto=0.642979 div=-0.181009 pw_fde=0.5377nm lr=2.00e-04 gpu=329/15543MB t=612.8s
+[2026-06-19 19:18:24] Epoch 22: loss=22.563894 dist=11.820304 fredf=10.664072 anchor=0.211314 nomoto=0.005455 div=-0.158464 pw_fde=0.4359nm lr=2.00e-04 gpu=329/15543MB t=608.9s
+[2026-06-19 19:28:33] Epoch 23: loss=25.222876 dist=13.053684 fredf=12.208910 anchor=0.222428 nomoto=0.010430 div=-0.294856 pw_fde=0.7627nm lr=2.00e-04 gpu=330/15543MB t=608.5s
+[2026-06-19 19:38:44] Epoch 24: loss=22.684883 dist=11.804411 fredf=10.817717 anchor=0.230712 nomoto=0.016454 div=-0.206936 pw_fde=0.5374nm lr=2.00e-04 gpu=327/15543MB t=611.0s
+[2026-06-19 19:38:44]   loss_ratios: dist=52.0% fredf=47.7% anchor=1.0% nomoto=0.1% div=-0.9%
+[2026-06-19 19:39:03]   Val: ADE=0.9251  FDE=1.2435  Anchor_ADE=0.0607  Anchor_FDE=0.1392  Diffusion_improvement=-1425.2%  CCR=69.56%(726)  DCPA_MAE=0.8447nm  pred_DCPA=3.5851nm  gt_DCPA=3.5574nm
+[2026-06-19 19:39:42]   CFG health: ADE_base=0.9251 ADE_cfg=1.2226 delta=+0.2975 [WARN: CFG hurts]
+[2026-06-19 19:39:43] Saved checkpoint: results/transformer_ecr/checkpoint_best_ccr.pt
+[2026-06-19 19:39:43]   No improvement 2/20 (combined=0.890304, best=0.686340)
+[2026-06-19 19:39:45] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-19 19:39:46]   grad_norms [0]: anchor=0.1320 denoiser=0.1000 edge_encoder=0.0083 enc_attn=0.0001 encoder=0.0007 gat=0.4822 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 19:39:46]   sda_gates [0]: L0=[0.868,0.870,0.870,0.871] L1=[0.868,0.869,0.870,0.869]
+[2026-06-19 19:40:17]   grad_norms [50]: anchor=0.2981 denoiser=0.1000 edge_encoder=0.0091 enc_attn=0.0000 encoder=0.0685 gat=0.3954 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0005
+[2026-06-19 19:40:17]   sda_gates [50]: L0=[0.868,0.870,0.870,0.871] L1=[0.868,0.869,0.869,0.869]
+[2026-06-19 19:40:48]   grad_norms [100]: anchor=0.4479 denoiser=0.1000 edge_encoder=0.0044 enc_attn=0.0002 encoder=0.0003 gat=0.2221 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 19:40:48]   sda_gates [100]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.870,0.869]
+[2026-06-19 19:41:19]   grad_norms [150]: anchor=0.4584 denoiser=0.1000 edge_encoder=0.0039 enc_attn=0.0000 encoder=0.0002 gat=0.1996 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 19:41:19]   sda_gates [150]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.869,0.869]
+[2026-06-19 19:41:51]   grad_norms [200]: anchor=0.4023 denoiser=0.1000 edge_encoder=0.0038 enc_attn=0.0001 encoder=0.0005 gat=0.2968 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 19:41:51]   sda_gates [200]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.870,0.869]
+[2026-06-19 19:42:22]   grad_norms [250]: anchor=0.4228 denoiser=0.1000 edge_encoder=0.0038 enc_attn=0.0002 encoder=0.0005 gat=0.2669 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 19:42:22]   sda_gates [250]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.870,0.869]
+[2026-06-19 19:42:53]   grad_norms [300]: anchor=0.3838 denoiser=0.1000 edge_encoder=0.0042 enc_attn=0.0006 encoder=0.0002 gat=0.3204 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 19:42:53]   sda_gates [300]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.869,0.869]
+[2026-06-19 19:43:24]   grad_norms [350]: anchor=0.4309 denoiser=0.1000 edge_encoder=0.0027 enc_attn=0.0002 encoder=0.0001 gat=0.2536 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 19:43:24]   sda_gates [350]: L0=[0.868,0.869,0.870,0.871] L1=[0.868,0.869,0.869,0.869]
+[2026-06-19 19:43:55]   grad_norms [400]: anchor=0.1769 denoiser=0.1000 edge_encoder=0.0071 enc_attn=0.0001 encoder=0.0013 gat=0.4676 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 19:43:55]   sda_gates [400]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.870,0.869]
+[2026-06-19 19:44:26]   grad_norms [450]: anchor=0.1861 denoiser=0.1000 edge_encoder=0.0069 enc_attn=0.0005 encoder=0.0023 gat=0.4640 sc_gate=0.0003 sc_proj=0.0006 social_circle=0.0009
+[2026-06-19 19:44:26]   sda_gates [450]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.870,0.869]
+[2026-06-19 19:44:57]   grad_norms [500]: anchor=0.1815 denoiser=0.1000 edge_encoder=0.0073 enc_attn=0.0001 encoder=0.0005 gat=0.4658 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 19:44:57]   sda_gates [500]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.869,0.869]
+[2026-06-19 19:45:28]   grad_norms [550]: anchor=0.3924 denoiser=0.1000 edge_encoder=0.0049 enc_attn=0.0000 encoder=0.0004 gat=0.3098 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 19:45:28]   sda_gates [550]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.869,0.868]
+[2026-06-19 19:45:59]   grad_norms [600]: anchor=0.2215 denoiser=0.1000 edge_encoder=0.0103 enc_attn=0.0001 encoder=0.0004 gat=0.4481 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 19:45:59]   sda_gates [600]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.870,0.869]
+[2026-06-19 19:46:31]   grad_norms [650]: anchor=0.2486 denoiser=0.1000 edge_encoder=0.0104 enc_attn=0.0000 encoder=0.0008 gat=0.4337 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 19:46:31]   sda_gates [650]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.870,0.869]
+[2026-06-19 19:47:02]   grad_norms [700]: anchor=0.3943 denoiser=0.1000 edge_encoder=0.0063 enc_attn=0.0001 encoder=0.0022 gat=0.3074 sc_gate=0.0003 sc_proj=0.0005 social_circle=0.0008
+[2026-06-19 19:47:02]   sda_gates [700]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.869,0.868]
+[2026-06-19 19:47:33]   grad_norms [750]: anchor=0.3877 denoiser=0.1000 edge_encoder=0.0090 enc_attn=0.0001 encoder=0.0020 gat=0.3156 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0006
+[2026-06-19 19:47:33]   sda_gates [750]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.869,0.868]
+[2026-06-19 19:48:04]   grad_norms [800]: anchor=0.2362 denoiser=0.1000 edge_encoder=0.0071 enc_attn=0.0001 encoder=0.0149 gat=0.4404 sc_gate=0.0005 sc_proj=0.0010 social_circle=0.0038
+[2026-06-19 19:48:04]   sda_gates [800]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.869,0.868]
+[2026-06-19 19:48:35]   grad_norms [850]: anchor=0.4505 denoiser=0.1000 edge_encoder=0.0036 enc_attn=0.0001 encoder=0.0011 gat=0.2170 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0003
+[2026-06-19 19:48:35]   sda_gates [850]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.869,0.868]
+[2026-06-19 19:49:06]   grad_norms [900]: anchor=0.4459 denoiser=0.1000 edge_encoder=0.0068 enc_attn=0.0000 encoder=0.0139 gat=0.2257 sc_gate=0.0006 sc_proj=0.0011 social_circle=0.0037
+[2026-06-19 19:49:06]   sda_gates [900]: L0=[0.868,0.869,0.870,0.871] L1=[0.869,0.869,0.869,0.868]
+[2026-06-19 19:49:37]   grad_norms [950]: anchor=0.2393 denoiser=0.1000 edge_encoder=0.0081 enc_attn=0.0001 encoder=0.0452 gat=0.4366 sc_gate=0.0003 sc_proj=0.0005 social_circle=0.0010
+[2026-06-19 19:49:37]   sda_gates [950]: L0=[0.868,0.869,0.870,0.870] L1=[0.869,0.869,0.870,0.868]
+[2026-06-19 19:49:56] Epoch 25: loss=24.444294 dist=12.159963 fredf=12.351394 anchor=0.217721 nomoto=0.015419 div=-0.321977 pw_fde=0.8224nm lr=2.00e-04 gpu=328/15543MB t=611.2s
+[2026-06-19 20:00:05] Epoch 26: loss=34.630971 dist=16.255666 fredf=15.562870 anchor=2.372975 nomoto=0.850532 div=-0.648536 pw_fde=1.6083nm lr=2.00e-04 gpu=329/15543MB t=608.7s
+[2026-06-19 20:10:14] Epoch 27: loss=42.296607 dist=18.246553 fredf=16.723437 anchor=5.773998 nomoto=1.585884 div=-0.610711 pw_fde=1.6242nm lr=2.00e-04 gpu=329/15543MB t=608.7s
+[2026-06-19 20:20:22] Epoch 28: loss=44.376555 dist=20.689950 fredf=16.244350 anchor=5.904527 nomoto=1.500128 div=-0.552935 pw_fde=1.4377nm lr=2.00e-04 gpu=330/15543MB t=608.3s
+[2026-06-19 20:30:32] Epoch 29: loss=38.202617 dist=16.178769 fredf=16.037704 anchor=4.554563 nomoto=1.394023 div=-0.417870 pw_fde=1.1297nm lr=2.00e-04 gpu=330/15543MB t=610.5s
+[2026-06-19 20:30:32]   loss_ratios: dist=42.3% fredf=42.0% anchor=11.9% nomoto=3.6% div=-1.1%
+[2026-06-19 20:30:52]   Val: ADE=0.8437  FDE=0.7501  Anchor_ADE=1.4669  Anchor_FDE=2.0474  Diffusion_improvement=42.5%  CCR=53.58%(726)  DCPA_MAE=0.5535nm  pred_DCPA=3.5605nm  gt_DCPA=3.5574nm
+[2026-06-19 20:31:31]   CFG health: ADE_base=0.8437 ADE_cfg=1.1301 delta=+0.2864 [WARN: CFG hurts]
+[2026-06-19 20:31:31]   No improvement 3/20 (combined=0.816914, best=0.686340)
+[2026-06-19 20:31:32] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-19 20:31:33]   grad_norms [0]: anchor=0.4971 denoiser=0.1000 edge_encoder=0.0014 enc_attn=0.0005 encoder=0.0017 gat=0.0536 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0014
+[2026-06-19 20:31:33]   sda_gates [0]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:32:04]   grad_norms [50]: anchor=0.4654 denoiser=0.1000 edge_encoder=0.0039 enc_attn=0.0005 encoder=0.0001 gat=0.1828 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 20:32:04]   sda_gates [50]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:32:35]   grad_norms [100]: anchor=0.4988 denoiser=0.1000 edge_encoder=0.0006 enc_attn=0.0001 encoder=0.0010 gat=0.0349 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 20:32:35]   sda_gates [100]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:33:06]   grad_norms [150]: anchor=0.4958 denoiser=0.1000 edge_encoder=0.0017 enc_attn=0.0000 encoder=0.0001 gat=0.0650 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 20:33:06]   sda_gates [150]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:33:37]   grad_norms [200]: anchor=0.4969 denoiser=0.1000 edge_encoder=0.0012 enc_attn=0.0002 encoder=0.0003 gat=0.0558 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 20:33:37]   sda_gates [200]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:34:08]   grad_norms [250]: anchor=0.4978 denoiser=0.1000 edge_encoder=0.0012 enc_attn=0.0000 encoder=0.0001 gat=0.0466 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 20:34:08]   sda_gates [250]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:34:39]   grad_norms [300]: anchor=0.4902 denoiser=0.1000 edge_encoder=0.0013 enc_attn=0.0002 encoder=0.0000 gat=0.0985 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 20:34:39]   sda_gates [300]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:35:10]   grad_norms [350]: anchor=0.4931 denoiser=0.1000 edge_encoder=0.0016 enc_attn=0.0003 encoder=0.0001 gat=0.0830 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 20:35:10]   sda_gates [350]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:35:41]   grad_norms [400]: anchor=0.4972 denoiser=0.1000 edge_encoder=0.0006 enc_attn=0.0002 encoder=0.0000 gat=0.0529 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 20:35:41]   sda_gates [400]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:36:12]   grad_norms [450]: anchor=0.4970 denoiser=0.1000 edge_encoder=0.0016 enc_attn=0.0000 encoder=0.0000 gat=0.0550 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 20:36:12]   sda_gates [450]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:36:43]   grad_norms [500]: anchor=0.4946 denoiser=0.1000 edge_encoder=0.0015 enc_attn=0.0002 encoder=0.0001 gat=0.0732 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 20:36:43]   sda_gates [500]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.868,0.866]
+[2026-06-19 20:37:14]   grad_norms [550]: anchor=0.4935 denoiser=0.1000 edge_encoder=0.0013 enc_attn=0.0001 encoder=0.0000 gat=0.0801 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 20:37:14]   sda_gates [550]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.867,0.866]
+[2026-06-19 20:37:44]   grad_norms [600]: anchor=0.4147 denoiser=0.1000 edge_encoder=0.0084 enc_attn=0.0002 encoder=0.0027 gat=0.2791 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0017
+[2026-06-19 20:37:44]   sda_gates [600]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.867,0.866]
+[2026-06-19 20:38:15]   grad_norms [650]: anchor=0.4271 denoiser=0.1000 edge_encoder=0.0041 enc_attn=0.0005 encoder=0.0007 gat=0.2600 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0005
+[2026-06-19 20:38:15]   sda_gates [650]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.867,0.866]
+[2026-06-19 20:38:47]   grad_norms [700]: anchor=0.4680 denoiser=0.1000 edge_encoder=0.0033 enc_attn=0.0001 encoder=0.0001 gat=0.1760 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 20:38:47]   sda_gates [700]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.867,0.867]
+[2026-06-19 20:39:18]   grad_norms [750]: anchor=0.4665 denoiser=0.1000 edge_encoder=0.0033 enc_attn=0.0004 encoder=0.0023 gat=0.1798 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0029
+[2026-06-19 20:39:18]   sda_gates [750]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.867,0.867]
+[2026-06-19 20:39:49]   grad_norms [800]: anchor=0.3305 denoiser=0.1000 edge_encoder=0.0101 enc_attn=0.0002 encoder=0.0813 gat=0.3611 sc_gate=0.0015 sc_proj=0.0055 social_circle=0.0600
+[2026-06-19 20:39:49]   sda_gates [800]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.867,0.867]
+[2026-06-19 20:40:19]   grad_norms [850]: anchor=0.4739 denoiser=0.1000 edge_encoder=0.0046 enc_attn=0.0003 encoder=0.0005 gat=0.1593 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0002
+[2026-06-19 20:40:19]   sda_gates [850]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.867,0.867]
+[2026-06-19 20:40:50]   grad_norms [900]: anchor=0.4913 denoiser=0.1000 edge_encoder=0.0031 enc_attn=0.0001 encoder=0.0001 gat=0.0928 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 20:40:50]   sda_gates [900]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.867,0.867]
+[2026-06-19 20:41:21]   grad_norms [950]: anchor=0.4084 denoiser=0.1000 edge_encoder=0.0061 enc_attn=0.0011 encoder=0.0017 gat=0.2883 sc_gate=0.0001 sc_proj=0.0004 social_circle=0.0020
+[2026-06-19 20:41:21]   sda_gates [950]: L0=[0.864,0.869,0.867,0.871] L1=[0.867,0.869,0.867,0.866]
+[2026-06-19 20:41:40] Epoch 30: loss=37.062048 dist=16.926667 fredf=15.945453 anchor=2.900608 nomoto=1.276062 div=-0.276706 pw_fde=0.6765nm lr=2.00e-04 gpu=327/15543MB t=608.2s
+[2026-06-19 20:51:49] Epoch 31: loss=32.563354 dist=15.244881 fredf=13.953269 anchor=2.047807 nomoto=1.435644 div=-0.323020 pw_fde=0.8611nm lr=2.00e-04 gpu=330/15543MB t=609.1s
+[2026-06-19 21:02:00] Epoch 32: loss=31.763298 dist=15.455325 fredf=14.747974 anchor=0.840744 nomoto=1.085270 div=-0.449960 pw_fde=1.2141nm lr=2.00e-04 gpu=329/15543MB t=610.8s
+[2026-06-19 21:12:15] Epoch 33: loss=38.607556 dist=19.740269 fredf=17.834821 anchor=0.680611 nomoto=1.210266 div=-0.926108 pw_fde=2.5866nm lr=2.00e-04 gpu=330/15543MB t=615.5s
+[2026-06-19 21:22:39] Epoch 34: loss=48.052745 dist=24.110828 fredf=21.666705 anchor=1.648208 nomoto=1.291482 div=-0.828873 pw_fde=2.2133nm lr=2.00e-04 gpu=327/15543MB t=623.8s
+[2026-06-19 21:22:39]   loss_ratios: dist=50.2% fredf=45.1% anchor=3.4% nomoto=2.7% div=-1.7%
+[2026-06-19 21:23:00]   Val: ADE=1.6361  FDE=1.4740  Anchor_ADE=1.0461  Anchor_FDE=0.4795  Diffusion_improvement=-56.4%  CCR=48.90%(726)  DCPA_MAE=0.7932nm  pred_DCPA=3.3318nm  gt_DCPA=3.5574nm
+[2026-06-19 21:23:38]   CFG health: ADE_base=1.6361 ADE_cfg=4.6110 delta=+2.9750 [WARN: CFG hurts]
+[2026-06-19 21:23:38]   No improvement 4/20 (combined=1.611612, best=0.686340)
+[2026-06-19 21:23:40] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-19 21:23:41]   grad_norms [0]: anchor=0.4982 denoiser=0.1000 edge_encoder=0.0008 enc_attn=0.0000 encoder=0.0000 gat=0.0429 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 21:23:41]   sda_gates [0]: L0=[0.862,0.868,0.864,0.871] L1=[0.864,0.868,0.864,0.863]
+[2026-06-19 21:24:13]   grad_norms [50]: anchor=0.4934 denoiser=0.1000 edge_encoder=0.0011 enc_attn=0.0000 encoder=0.0012 gat=0.0808 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0008
+[2026-06-19 21:24:13]   sda_gates [50]: L0=[0.862,0.868,0.864,0.871] L1=[0.863,0.868,0.864,0.863]
+[2026-06-19 21:24:46]   grad_norms [100]: anchor=0.4981 denoiser=0.1000 edge_encoder=0.0009 enc_attn=0.0000 encoder=0.0012 gat=0.0432 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 21:24:46]   sda_gates [100]: L0=[0.862,0.868,0.864,0.871] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:25:18]   grad_norms [150]: anchor=0.4959 denoiser=0.1000 edge_encoder=0.0016 enc_attn=0.0001 encoder=0.0001 gat=0.0642 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 21:25:18]   sda_gates [150]: L0=[0.862,0.868,0.864,0.871] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:25:51]   grad_norms [200]: anchor=0.4973 denoiser=0.1000 edge_encoder=0.0018 enc_attn=0.0001 encoder=0.0014 gat=0.0518 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-19 21:25:51]   sda_gates [200]: L0=[0.862,0.868,0.864,0.871] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:26:23]   grad_norms [250]: anchor=0.4972 denoiser=0.1000 edge_encoder=0.0008 enc_attn=0.0002 encoder=0.0180 gat=0.0498 sc_gate=0.0004 sc_proj=0.0015 social_circle=0.0031
+[2026-06-19 21:26:23]   sda_gates [250]: L0=[0.862,0.869,0.864,0.870] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:26:55]   grad_norms [300]: anchor=0.4951 denoiser=0.1000 edge_encoder=0.0016 enc_attn=0.0000 encoder=0.0035 gat=0.0694 sc_gate=0.0002 sc_proj=0.0008 social_circle=0.0018
+[2026-06-19 21:26:55]   sda_gates [300]: L0=[0.861,0.869,0.864,0.871] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:27:27]   grad_norms [350]: anchor=0.4982 denoiser=0.1000 edge_encoder=0.0008 enc_attn=0.0001 encoder=0.0010 gat=0.0424 sc_gate=0.0000 sc_proj=0.0002 social_circle=0.0011
+[2026-06-19 21:27:27]   sda_gates [350]: L0=[0.861,0.869,0.864,0.871] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:27:59]   grad_norms [400]: anchor=0.4964 denoiser=0.1000 edge_encoder=0.0011 enc_attn=0.0002 encoder=0.0002 gat=0.0603 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 21:27:59]   sda_gates [400]: L0=[0.861,0.869,0.864,0.871] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:28:30]   grad_norms [450]: anchor=0.4988 denoiser=0.1000 edge_encoder=0.0006 enc_attn=0.0002 encoder=0.0004 gat=0.0346 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-19 21:28:30]   sda_gates [450]: L0=[0.860,0.869,0.864,0.870] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:29:02]   grad_norms [500]: anchor=0.4840 denoiser=0.1000 edge_encoder=0.0072 enc_attn=0.0001 encoder=0.0525 gat=0.1118 sc_gate=0.0018 sc_proj=0.0054 social_circle=0.0212
+[2026-06-19 21:29:02]   sda_gates [500]: L0=[0.860,0.868,0.864,0.870] L1=[0.863,0.868,0.863,0.862]
+[2026-06-19 21:29:33]   grad_norms [550]: anchor=0.4982 denoiser=0.1000 edge_encoder=0.0008 enc_attn=0.0001 encoder=0.0001 gat=0.0422 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 21:29:33]   sda_gates [550]: L0=[0.860,0.868,0.864,0.870] L1=[0.863,0.868,0.863,0.862]
+[2026-06-19 21:30:05]   grad_norms [600]: anchor=0.4990 denoiser=0.1000 edge_encoder=0.0006 enc_attn=0.0001 encoder=0.0017 gat=0.0309 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-19 21:30:05]   sda_gates [600]: L0=[0.860,0.868,0.864,0.870] L1=[0.862,0.868,0.863,0.863]
+[2026-06-19 21:30:36]   grad_norms [650]: anchor=0.4987 denoiser=0.1000 edge_encoder=0.0014 enc_attn=0.0000 encoder=0.0099 gat=0.0338 sc_gate=0.0004 sc_proj=0.0014 social_circle=0.0027
+[2026-06-19 21:30:36]   sda_gates [650]: L0=[0.860,0.868,0.864,0.870] L1=[0.862,0.868,0.863,0.863]
+[2026-06-19 21:31:07]   grad_norms [700]: anchor=0.4997 denoiser=0.1000 edge_encoder=0.0005 enc_attn=0.0000 encoder=0.0009 gat=0.0169 sc_gate=0.0000 sc_proj=0.0002 social_circle=0.0006
+[2026-06-19 21:31:07]   sda_gates [700]: L0=[0.860,0.868,0.864,0.870] L1=[0.862,0.868,0.863,0.863]
+[2026-06-19 21:31:39]   grad_norms [750]: anchor=0.4988 denoiser=0.1000 edge_encoder=0.0007 enc_attn=0.0000 encoder=0.0006 gat=0.0347 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 21:31:39]   sda_gates [750]: L0=[0.860,0.868,0.864,0.870] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:32:10]   grad_norms [800]: anchor=0.4948 denoiser=0.1000 edge_encoder=0.0013 enc_attn=0.0000 encoder=0.0021 gat=0.0718 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0006
+[2026-06-19 21:32:10]   sda_gates [800]: L0=[0.860,0.868,0.864,0.871] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:32:42]   grad_norms [850]: anchor=0.4975 denoiser=0.1000 edge_encoder=0.0011 enc_attn=0.0000 encoder=0.0062 gat=0.0492 sc_gate=0.0001 sc_proj=0.0005 social_circle=0.0012
+[2026-06-19 21:32:42]   sda_gates [850]: L0=[0.860,0.868,0.864,0.870] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:33:15]   grad_norms [900]: anchor=0.4954 denoiser=0.1000 edge_encoder=0.0011 enc_attn=0.0000 encoder=0.0003 gat=0.0678 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-19 21:33:15]   sda_gates [900]: L0=[0.860,0.868,0.864,0.870] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:33:47]   grad_norms [950]: anchor=0.0208 denoiser=0.1000 edge_encoder=0.0360 enc_attn=0.0000 encoder=0.2567 gat=0.3050 sc_gate=0.0100 sc_proj=0.0421 social_circle=0.2958
+[2026-06-19 21:33:47]   sda_gates [950]: L0=[0.860,0.868,0.864,0.870] L1=[0.863,0.868,0.863,0.863]
+[2026-06-19 21:34:06] Epoch 35: loss=55.552383 dist=29.723749 fredf=21.721363 anchor=3.154461 nomoto=1.534914 div=-0.898023 pw_fde=2.5569nm lr=2.00e-04 gpu=330/15543MB t=626.0s
+[2026-06-19 21:44:31] Epoch 36: loss=47.708193 dist=25.945341 fredf=17.074406 anchor=3.262920 nomoto=1.624062 div=-0.524630 pw_fde=1.4691nm lr=2.00e-04 gpu=330/15543MB t=625.0s
+[2026-06-19 21:54:50] Epoch 37: loss=40.657572 dist=19.311412 fredf=17.240837 anchor=2.738471 nomoto=1.437341 div=-0.344674 pw_fde=0.9633nm lr=2.00e-04 gpu=328/15543MB t=619.4s
+[2026-06-19 22:05:10] Epoch 38: loss=25.676564 dist=12.885342 fredf=12.425361 anchor=0.307806 nomoto=0.185754 div=-0.158462 pw_fde=0.4626nm lr=2.00e-04 gpu=328/15543MB t=619.3s
+[2026-06-19 22:15:22] Epoch 39: loss=28.607786 dist=12.752201 fredf=15.579991 anchor=0.235636 nomoto=0.280976 div=-0.264616 pw_fde=0.7965nm lr=1.00e-04 gpu=327/15543MB t=612.6s
+[2026-06-19 22:15:22]   loss_ratios: dist=44.6% fredf=54.5% anchor=0.8% nomoto=1.0% div=-0.9%
+[2026-06-19 22:15:42]   Val: ADE=1.0089  FDE=1.1707  Anchor_ADE=0.0688  Anchor_FDE=0.1406  Diffusion_improvement=-1366.8%  CCR=28.10%(726)  DCPA_MAE=0.5720nm  pred_DCPA=3.4514nm  gt_DCPA=3.5574nm
+[2026-06-19 22:16:20]   CFG health: ADE_base=1.0089 ADE_cfg=1.2114 delta=+0.2024 [WARN: CFG hurts]
+[2026-06-19 22:16:20]   No improvement 5/20 (combined=0.994899, best=0.686340)
+[2026-06-19 22:16:22] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-19 22:16:23]   grad_norms [0]: anchor=0.4753 denoiser=0.1000 edge_encoder=0.0036 enc_attn=0.0023 encoder=0.0045 gat=0.1550 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0009
+[2026-06-19 22:16:23]   sda_gates [0]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:16:54]   grad_norms [50]: anchor=0.4836 denoiser=0.1000 edge_encoder=0.0032 enc_attn=0.0034 encoder=0.0009 gat=0.1270 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-19 22:16:54]   sda_gates [50]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:17:25]   grad_norms [100]: anchor=0.4380 denoiser=0.1000 edge_encoder=0.0026 enc_attn=0.0004 encoder=0.0011 gat=0.2412 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0008
+[2026-06-19 22:17:25]   sda_gates [100]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:17:57]   grad_norms [150]: anchor=0.3694 denoiser=0.1000 edge_encoder=0.0108 enc_attn=0.0008 encoder=0.0043 gat=0.3368 sc_gate=0.0002 sc_proj=0.0007 social_circle=0.0045
+[2026-06-19 22:17:57]   sda_gates [150]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:18:28]   grad_norms [200]: anchor=0.3884 denoiser=0.1000 edge_encoder=0.0101 enc_attn=0.0067 encoder=0.0040 gat=0.3146 sc_gate=0.0006 sc_proj=0.0016 social_circle=0.0059
+[2026-06-19 22:18:28]   sda_gates [200]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:18:59]   grad_norms [250]: anchor=0.1777 denoiser=0.1000 edge_encoder=0.0425 enc_attn=0.0006 encoder=0.0041 gat=0.4654 sc_gate=0.0002 sc_proj=0.0011 social_circle=0.0018
+[2026-06-19 22:18:59]   sda_gates [250]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:19:31]   grad_norms [300]: anchor=0.2348 denoiser=0.1000 edge_encoder=0.0112 enc_attn=0.0003 encoder=0.0231 gat=0.4405 sc_gate=0.0008 sc_proj=0.0014 social_circle=0.0123
+[2026-06-19 22:19:31]   sda_gates [300]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:20:02]   grad_norms [350]: anchor=0.4594 denoiser=0.1000 edge_encoder=0.0045 enc_attn=0.0003 encoder=0.0034 gat=0.1973 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0010
+[2026-06-19 22:20:02]   sda_gates [350]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:20:33]   grad_norms [400]: anchor=0.4620 denoiser=0.1000 edge_encoder=0.0034 enc_attn=0.0006 encoder=0.0023 gat=0.1911 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0012
+[2026-06-19 22:20:33]   sda_gates [400]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:21:04]   grad_norms [450]: anchor=0.3925 denoiser=0.1000 edge_encoder=0.0082 enc_attn=0.0003 encoder=0.0001 gat=0.3096 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-19 22:21:04]   sda_gates [450]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:21:36]   grad_norms [500]: anchor=0.3716 denoiser=0.1000 edge_encoder=0.0224 enc_attn=0.0004 encoder=0.1414 gat=0.3023 sc_gate=0.0002 sc_proj=0.0011 social_circle=0.0020
+[2026-06-19 22:21:36]   sda_gates [500]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:22:07]   grad_norms [550]: anchor=0.4365 denoiser=0.1000 edge_encoder=0.0099 enc_attn=0.0005 encoder=0.0019 gat=0.2437 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0006
+[2026-06-19 22:22:07]   sda_gates [550]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:22:38]   grad_norms [600]: anchor=0.2694 denoiser=0.1000 edge_encoder=0.0050 enc_attn=0.0011 encoder=0.3967 gat=0.1341 sc_gate=0.0022 sc_proj=0.0046 social_circle=0.0450
+[2026-06-19 22:22:38]   sda_gates [600]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:23:09]   grad_norms [650]: anchor=0.4626 denoiser=0.1000 edge_encoder=0.0043 enc_attn=0.0012 encoder=0.0047 gat=0.1895 sc_gate=0.0002 sc_proj=0.0007 social_circle=0.0038
+[2026-06-19 22:23:09]   sda_gates [650]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:23:40]   grad_norms [700]: anchor=0.4602 denoiser=0.1000 edge_encoder=0.0079 enc_attn=0.0073 encoder=0.0015 gat=0.1952 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0005
+[2026-06-19 22:23:40]   sda_gates [700]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:24:11]   grad_norms [750]: anchor=0.3966 denoiser=0.1000 edge_encoder=0.0068 enc_attn=0.0024 encoder=0.0006 gat=0.3044 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-19 22:24:11]   sda_gates [750]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:24:42]   grad_norms [800]: anchor=0.3820 denoiser=0.1000 edge_encoder=0.0046 enc_attn=0.0004 encoder=0.0488 gat=0.3187 sc_gate=0.0017 sc_proj=0.0037 social_circle=0.0090
+[2026-06-19 22:24:42]   sda_gates [800]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:25:13]   grad_norms [850]: anchor=0.4133 denoiser=0.1000 edge_encoder=0.0093 enc_attn=0.0024 encoder=0.0020 gat=0.2812 sc_gate=0.0001 sc_proj=0.0005 social_circle=0.0006
+[2026-06-19 22:25:13]   sda_gates [850]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:25:44]   grad_norms [900]: anchor=0.3776 denoiser=0.1000 edge_encoder=0.0087 enc_attn=0.0056 encoder=0.0027 gat=0.3276 sc_gate=0.0001 sc_proj=0.0004 social_circle=0.0034
+[2026-06-19 22:25:44]   sda_gates [900]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:26:15]   grad_norms [950]: anchor=0.2679 denoiser=0.1000 edge_encoder=0.0088 enc_attn=0.0039 encoder=0.0020 gat=0.4221 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0018
+[2026-06-19 22:26:15]   sda_gates [950]: L0=[0.858,0.866,0.862,0.868] L1=[0.858,0.865,0.865,0.863]
+[2026-06-19 22:26:34] Epoch 40: loss=27.744868 dist=13.105609 fredf=14.564918 anchor=0.236529 nomoto=0.169069 div=-0.354515 pw_fde=1.0007nm lr=1.00e-04 gpu=330/15543MB t=611.7s
+[2026-06-19 22:36:43] Epoch 41: loss=34.690734 dist=17.757544 fredf=17.054065 anchor=0.240666 nomoto=0.173438 div=-0.559187 pw_fde=1.7039nm lr=1.00e-04 gpu=330/15543MB t=609.2s
+[2026-06-19 22:46:52] Epoch 42: loss=31.297344 dist=14.772281 fredf=16.499675 anchor=0.264665 nomoto=0.203242 div=-0.468350 pw_fde=1.3884nm lr=1.00e-04 gpu=330/15543MB t=609.4s
+[2026-06-19 22:57:02] Epoch 43: loss=29.135331 dist=13.632522 fredf=15.092591 anchor=0.468981 nomoto=0.319027 div=-0.425103 pw_fde=1.2014nm lr=1.00e-04 gpu=330/15543MB t=609.5s
+[2026-06-19 23:07:11] Epoch 44: loss=30.901307 dist=16.368850 fredf=14.120300 anchor=0.404738 nomoto=0.323055 div=-0.356288 pw_fde=0.9556nm lr=1.00e-04 gpu=329/15543MB t=609.3s
+[2026-06-19 23:07:11]   loss_ratios: dist=53.0% fredf=45.7% anchor=1.3% nomoto=1.0% div=-1.2%
+[2026-06-19 23:07:31]   Val: ADE=1.6623  FDE=1.8398  Anchor_ADE=0.0740  Anchor_FDE=0.1446  Diffusion_improvement=-2145.3%  CCR=42.70%(726)  DCPA_MAE=0.7942nm  pred_DCPA=3.5889nm  gt_DCPA=3.5574nm
+[2026-06-19 23:08:09]   CFG health: ADE_base=1.6623 ADE_cfg=2.7387 delta=+1.0763 [WARN: CFG hurts]
+[2026-06-19 23:08:09]   No improvement 6/20 (combined=1.640995, best=0.686340)
+[2026-06-19 23:08:10] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-19 23:08:11]   grad_norms [0]: anchor=0.3898 denoiser=0.1000 edge_encoder=0.0109 enc_attn=0.0001 encoder=0.0041 gat=0.3129 sc_gate=0.0002 sc_proj=0.0004 social_circle=0.0014
+[2026-06-19 23:08:11]   sda_gates [0]: L0=[0.858,0.864,0.861,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:08:42]   grad_norms [50]: anchor=0.4056 denoiser=0.1000 edge_encoder=0.0137 enc_attn=0.0010 encoder=0.0020 gat=0.2920 sc_gate=0.0001 sc_proj=0.0004 social_circle=0.0020
+[2026-06-19 23:08:42]   sda_gates [50]: L0=[0.858,0.864,0.861,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:09:14]   grad_norms [100]: anchor=0.4480 denoiser=0.1000 edge_encoder=0.0063 enc_attn=0.0030 encoder=0.0059 gat=0.2219 sc_gate=0.0002 sc_proj=0.0006 social_circle=0.0019
+[2026-06-19 23:09:14]   sda_gates [100]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:09:45]   grad_norms [150]: anchor=0.4345 denoiser=0.1000 edge_encoder=0.0085 enc_attn=0.0006 encoder=0.0090 gat=0.2471 sc_gate=0.0006 sc_proj=0.0016 social_circle=0.0039
+[2026-06-19 23:09:45]   sda_gates [150]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:10:16]   grad_norms [200]: anchor=0.4399 denoiser=0.1000 edge_encoder=0.0097 enc_attn=0.0011 encoder=0.0293 gat=0.2356 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0006
+[2026-06-19 23:10:16]   sda_gates [200]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:10:47]   grad_norms [250]: anchor=0.4812 denoiser=0.1000 edge_encoder=0.0002 enc_attn=0.0001 encoder=0.0003 gat=0.1357 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-19 23:10:47]   sda_gates [250]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:11:18]   grad_norms [300]: anchor=0.4885 denoiser=0.1000 edge_encoder=0.0052 enc_attn=0.0006 encoder=0.0006 gat=0.1065 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0003
+[2026-06-19 23:11:18]   sda_gates [300]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:11:49]   grad_norms [350]: anchor=0.4249 denoiser=0.1000 edge_encoder=0.0032 enc_attn=0.0007 encoder=0.0023 gat=0.2635 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0009
+[2026-06-19 23:11:49]   sda_gates [350]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:12:20]   grad_norms [400]: anchor=0.3009 denoiser=0.1000 edge_encoder=0.0085 enc_attn=0.0022 encoder=0.0105 gat=0.3991 sc_gate=0.0003 sc_proj=0.0007 social_circle=0.0018
+[2026-06-19 23:12:20]   sda_gates [400]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:12:51]   grad_norms [450]: anchor=0.0829 denoiser=0.1000 edge_encoder=0.0110 enc_attn=0.0078 encoder=0.2580 gat=0.4171 sc_gate=0.0032 sc_proj=0.0083 social_circle=0.0484
+[2026-06-19 23:12:51]   sda_gates [450]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:13:22]   grad_norms [500]: anchor=0.3556 denoiser=0.1000 edge_encoder=0.0135 enc_attn=0.0048 encoder=0.1286 gat=0.3266 sc_gate=0.0008 sc_proj=0.0023 social_circle=0.0107
+[2026-06-19 23:13:22]   sda_gates [500]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:13:53]   grad_norms [550]: anchor=0.4120 denoiser=0.1000 edge_encoder=0.0168 enc_attn=0.0009 encoder=0.0228 gat=0.2818 sc_gate=0.0004 sc_proj=0.0010 social_circle=0.0027
+[2026-06-19 23:13:53]   sda_gates [550]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:14:24]   grad_norms [600]: anchor=0.4245 denoiser=0.1000 edge_encoder=0.0049 enc_attn=0.0003 encoder=0.0059 gat=0.2641 sc_gate=0.0004 sc_proj=0.0017 social_circle=0.0037
+[2026-06-19 23:14:24]   sda_gates [600]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:14:55]   grad_norms [650]: anchor=0.4431 denoiser=0.1000 edge_encoder=0.0070 enc_attn=0.0052 encoder=0.0412 gat=0.2277 sc_gate=0.0002 sc_proj=0.0004 social_circle=0.0009
+[2026-06-19 23:14:55]   sda_gates [650]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:15:26]   grad_norms [700]: anchor=0.4375 denoiser=0.1000 edge_encoder=0.0060 enc_attn=0.0006 encoder=0.0216 gat=0.2410 sc_gate=0.0002 sc_proj=0.0005 social_circle=0.0018
+[2026-06-19 23:15:26]   sda_gates [700]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:15:57]   grad_norms [750]: anchor=0.4351 denoiser=0.1000 edge_encoder=0.0068 enc_attn=0.0026 encoder=0.0009 gat=0.2462 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-19 23:15:57]   sda_gates [750]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:16:28]   grad_norms [800]: anchor=0.4009 denoiser=0.1000 edge_encoder=0.0068 enc_attn=0.0027 encoder=0.1408 gat=0.2634 sc_gate=0.0003 sc_proj=0.0007 social_circle=0.0011
+[2026-06-19 23:16:28]   sda_gates [800]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:16:59]   grad_norms [850]: anchor=0.4814 denoiser=0.1000 edge_encoder=0.0066 enc_attn=0.0002 encoder=0.0015 gat=0.1348 sc_gate=0.0001 sc_proj=0.0004 social_circle=0.0008
+[2026-06-19 23:16:59]   sda_gates [850]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:17:30]   grad_norms [900]: anchor=0.3879 denoiser=0.1000 edge_encoder=0.0117 enc_attn=0.0011 encoder=0.0644 gat=0.3079 sc_gate=0.0034 sc_proj=0.0117 social_circle=0.0168
+[2026-06-19 23:17:30]   sda_gates [900]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:18:01]   grad_norms [950]: anchor=0.4249 denoiser=0.1000 edge_encoder=0.0159 enc_attn=0.0004 encoder=0.0014 gat=0.2630 sc_gate=0.0001 sc_proj=0.0004 social_circle=0.0009
+[2026-06-19 23:18:01]   sda_gates [950]: L0=[0.858,0.864,0.862,0.867] L1=[0.858,0.865,0.863,0.862]
+[2026-06-19 23:18:20] Epoch 45: loss=36.181164 dist=20.175263 fredf=15.439675 anchor=0.408602 nomoto=0.450083 div=-0.334062 pw_fde=0.8983nm lr=1.00e-04 gpu=329/15543MB t=609.6s
+[2026-06-19 23:28:30] Epoch 46: loss=38.210898 dist=21.703333 fredf=15.510727 anchor=0.628337 nomoto=0.635493 div=-0.329582 pw_fde=0.8953nm lr=1.00e-04 gpu=330/15544MB t=609.5s
+[2026-06-19 23:38:41] Epoch 47: loss=31.913213 dist=16.009136 fredf=15.486141 anchor=0.378385 nomoto=0.492278 div=-0.490397 pw_fde=1.3174nm lr=1.00e-04 gpu=328/15544MB t=611.1s
+[2026-06-19 23:48:54] Epoch 48: loss=33.128549 dist=17.364229 fredf=15.099887 anchor=0.453487 nomoto=0.738105 div=-0.573500 pw_fde=1.5321nm lr=1.00e-04 gpu=329/15544MB t=613.7s
+[2026-06-19 23:59:10] Epoch 49: loss=36.952962 dist=20.015817 fredf=15.690052 anchor=0.653917 nomoto=1.033358 div=-0.507407 pw_fde=1.4106nm lr=1.00e-04 gpu=331/15544MB t=615.2s
+[2026-06-19 23:59:10]   loss_ratios: dist=54.2% fredf=42.5% anchor=1.8% nomoto=2.8% div=-1.4%
+[2026-06-19 23:59:30]   Val: ADE=1.5589  FDE=1.4565  Anchor_ADE=0.3343  Anchor_FDE=0.2130  Diffusion_improvement=-366.4%  CCR=44.77%(726)  DCPA_MAE=1.0095nm  pred_DCPA=3.7225nm  gt_DCPA=3.5574nm
+[2026-06-20 00:00:08]   CFG health: ADE_base=1.5589 ADE_cfg=2.2494 delta=+0.6906 [WARN: CFG hurts]
+[2026-06-20 00:00:08]   No improvement 7/20 (combined=1.536480, best=0.686340)
+[2026-06-20 00:00:09] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-20 00:00:10]   grad_norms [0]: anchor=0.4832 denoiser=0.1000 edge_encoder=0.0026 enc_attn=0.0005 encoder=0.0276 gat=0.1250 sc_gate=0.0022 sc_proj=0.0050 social_circle=0.0079
+[2026-06-20 00:00:10]   sda_gates [0]: L0=[0.857,0.863,0.861,0.866] L1=[0.856,0.864,0.863,0.861]
+[2026-06-20 00:00:41]   grad_norms [50]: anchor=0.4962 denoiser=0.1000 edge_encoder=0.0029 enc_attn=0.0000 encoder=0.0003 gat=0.0616 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-20 00:00:41]   sda_gates [50]: L0=[0.857,0.863,0.861,0.866] L1=[0.856,0.864,0.863,0.861]
+[2026-06-20 00:01:13]   grad_norms [100]: anchor=0.4780 denoiser=0.1000 edge_encoder=0.0063 enc_attn=0.0000 encoder=0.0002 gat=0.1465 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-20 00:01:13]   sda_gates [100]: L0=[0.857,0.862,0.861,0.866] L1=[0.856,0.864,0.863,0.861]
+[2026-06-20 00:01:44]   grad_norms [150]: anchor=0.4974 denoiser=0.1000 edge_encoder=0.0018 enc_attn=0.0003 encoder=0.0051 gat=0.0505 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-20 00:01:44]   sda_gates [150]: L0=[0.857,0.862,0.861,0.866] L1=[0.856,0.863,0.863,0.861]
+[2026-06-20 00:02:15]   grad_norms [200]: anchor=0.4557 denoiser=0.1000 edge_encoder=0.0104 enc_attn=0.0003 encoder=0.1080 gat=0.1731 sc_gate=0.0045 sc_proj=0.0089 social_circle=0.0221
+[2026-06-20 00:02:15]   sda_gates [200]: L0=[0.857,0.863,0.861,0.866] L1=[0.856,0.863,0.863,0.861]
+[2026-06-20 00:02:47]   grad_norms [250]: anchor=0.4967 denoiser=0.1000 edge_encoder=0.0024 enc_attn=0.0000 encoder=0.0009 gat=0.0574 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0006
+[2026-06-20 00:02:47]   sda_gates [250]: L0=[0.857,0.862,0.861,0.866] L1=[0.856,0.863,0.863,0.861]
+[2026-06-20 00:03:18]   grad_norms [300]: anchor=0.4905 denoiser=0.1000 edge_encoder=0.0053 enc_attn=0.0003 encoder=0.0093 gat=0.0965 sc_gate=0.0004 sc_proj=0.0010 social_circle=0.0027
+[2026-06-20 00:03:18]   sda_gates [300]: L0=[0.857,0.862,0.861,0.866] L1=[0.856,0.863,0.863,0.861]
+[2026-06-20 00:03:49]   grad_norms [350]: anchor=0.4909 denoiser=0.1000 edge_encoder=0.0030 enc_attn=0.0014 encoder=0.0007 gat=0.0947 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-20 00:03:49]   sda_gates [350]: L0=[0.857,0.862,0.861,0.866] L1=[0.856,0.863,0.863,0.861]
+[2026-06-20 00:04:20]   grad_norms [400]: anchor=0.4917 denoiser=0.1000 edge_encoder=0.0039 enc_attn=0.0006 encoder=0.0115 gat=0.0901 sc_gate=0.0001 sc_proj=0.0004 social_circle=0.0014
+[2026-06-20 00:04:20]   sda_gates [400]: L0=[0.857,0.862,0.861,0.866] L1=[0.856,0.863,0.863,0.861]
+[2026-06-20 00:04:51]   grad_norms [450]: anchor=0.4981 denoiser=0.1000 edge_encoder=0.0017 enc_attn=0.0001 encoder=0.0005 gat=0.0436 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0004
+[2026-06-20 00:04:51]   sda_gates [450]: L0=[0.857,0.862,0.861,0.866] L1=[0.856,0.863,0.863,0.861]
+[2026-06-20 00:05:22]   grad_norms [500]: anchor=0.4862 denoiser=0.1000 edge_encoder=0.0052 enc_attn=0.0009 encoder=0.0012 gat=0.1166 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-20 00:05:22]   sda_gates [500]: L0=[0.857,0.862,0.861,0.865] L1=[0.856,0.863,0.862,0.861]
+[2026-06-20 00:05:53]   grad_norms [550]: anchor=0.4670 denoiser=0.1000 edge_encoder=0.0064 enc_attn=0.0000 encoder=0.0009 gat=0.1786 sc_gate=0.0000 sc_proj=0.0002 social_circle=0.0010
+[2026-06-20 00:05:53]   sda_gates [550]: L0=[0.857,0.862,0.860,0.865] L1=[0.856,0.863,0.862,0.861]
+[2026-06-20 00:06:24]   grad_norms [600]: anchor=0.3752 denoiser=0.1000 edge_encoder=0.0252 enc_attn=0.0015 encoder=0.1965 gat=0.2479 sc_gate=0.0086 sc_proj=0.0201 social_circle=0.0895
+[2026-06-20 00:06:24]   sda_gates [600]: L0=[0.857,0.862,0.861,0.865] L1=[0.856,0.863,0.862,0.861]
+[2026-06-20 00:06:55]   grad_norms [650]: anchor=0.4949 denoiser=0.1000 edge_encoder=0.0025 enc_attn=0.0004 encoder=0.0016 gat=0.0710 sc_gate=0.0001 sc_proj=0.0004 social_circle=0.0039
+[2026-06-20 00:06:55]   sda_gates [650]: L0=[0.857,0.862,0.861,0.866] L1=[0.856,0.863,0.862,0.861]
+[2026-06-20 00:07:26]   grad_norms [700]: anchor=0.4881 denoiser=0.1000 edge_encoder=0.0027 enc_attn=0.0028 encoder=0.0048 gat=0.1082 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0013
+[2026-06-20 00:07:26]   sda_gates [700]: L0=[0.857,0.862,0.860,0.865] L1=[0.856,0.863,0.862,0.861]
+[2026-06-20 00:07:57]   grad_norms [750]: anchor=0.4883 denoiser=0.1000 edge_encoder=0.0046 enc_attn=0.0004 encoder=0.0150 gat=0.1063 sc_gate=0.0005 sc_proj=0.0009 social_circle=0.0027
+[2026-06-20 00:07:57]   sda_gates [750]: L0=[0.857,0.862,0.860,0.865] L1=[0.856,0.863,0.862,0.861]
+[2026-06-20 00:08:28]   grad_norms [800]: anchor=0.4979 denoiser=0.1000 edge_encoder=0.0019 enc_attn=0.0005 encoder=0.0010 gat=0.0457 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-20 00:08:28]   sda_gates [800]: L0=[0.857,0.862,0.860,0.865] L1=[0.856,0.864,0.862,0.861]
+[2026-06-20 00:08:59]   grad_norms [850]: anchor=0.4944 denoiser=0.1000 edge_encoder=0.0032 enc_attn=0.0005 encoder=0.0058 gat=0.0746 sc_gate=0.0002 sc_proj=0.0006 social_circle=0.0016
+[2026-06-20 00:08:59]   sda_gates [850]: L0=[0.857,0.863,0.860,0.865] L1=[0.856,0.863,0.862,0.861]
+[2026-06-20 00:09:30]   grad_norms [900]: anchor=0.4951 denoiser=0.1000 edge_encoder=0.0001 enc_attn=0.0000 encoder=0.0002 gat=0.0698 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-20 00:09:30]   sda_gates [900]: L0=[0.857,0.862,0.860,0.865] L1=[0.857,0.864,0.862,0.861]
+[2026-06-20 00:10:01]   grad_norms [950]: anchor=0.4363 denoiser=0.1000 edge_encoder=0.0082 enc_attn=0.0005 encoder=0.0088 gat=0.2439 sc_gate=0.0005 sc_proj=0.0013 social_circle=0.0026
+[2026-06-20 00:10:01]   sda_gates [950]: L0=[0.857,0.863,0.860,0.865] L1=[0.857,0.864,0.862,0.861]
+[2026-06-20 00:10:20] Epoch 50: loss=36.719008 dist=19.218328 fredf=15.318004 anchor=1.243554 nomoto=1.240177 div=-0.424750 pw_fde=1.1884nm lr=1.00e-04 gpu=328/15544MB t=610.9s
+[2026-06-20 00:20:29] Epoch 51: loss=41.922451 dist=22.185434 fredf=16.636854 anchor=1.975966 nomoto=1.276255 div=-0.352839 pw_fde=1.0060nm lr=1.00e-04 gpu=330/15544MB t=608.9s
