@@ -366,88 +366,134 @@ class iTransformerBaseline(nn.Module):
 
 # ===================== Social-LSTM =====================
 class SocialLSTM(nn.Module):
-    """Social-LSTM: LSTM + social pooling for multi-vessel interaction
-    
-    参考: Alahi et al. "Social LSTM" (CVPR 2016)
-    
-    Fixed: 使用 Linear(H, T_pred*2) 替代 repeat+Linear(H,2)
+    """Social-LSTM: LSTMCell + per-step hidden-state social pooling
+
+    Faithful to Alahi et al. CVPR 2016:
+    - Maintains hidden states for ALL ships (target + neighbors)
+    - At each observation step: compute social tensor from neighbor hidden states
+    - Social tensor = spatial grid pooling of neighbor hidden states
+    - Input = embed(features) + embed(social_tensor) -> LSTMCell
     """
 
-    def __init__(self, input_size=7, hidden_size=128, num_layers=2,
-                 dropout=0.1, pred_dim=2, grid_size=4, grid_radius=5.0, pred_steps=30):
+    def __init__(self, input_size=7, hidden_size=128, num_layers=1,
+                 dropout=0.1, pred_dim=2, grid_size=4, grid_radius=2.0,
+                 embedding_size=64, pred_steps=30):
         super().__init__()
-        self.grid_size = grid_size
-        self.grid_radius = grid_radius  # in nautical miles
         self.hidden_size = hidden_size
+        self.grid_size = grid_size
+        self.grid_radius = grid_radius
         self.pred_dim = pred_dim
         self._t_pred = pred_steps
-        social_pool_dim = hidden_size * grid_size * grid_size
+        self.embedding_size = embedding_size
 
-        # Embedding for social pooling features
-        self.social_embed = nn.Linear(input_size, hidden_size)
-        self.pool_proj = nn.Linear(social_pool_dim, hidden_size)
-
-        # Main LSTM: input = obs_features + pooled_social
-        self.rnn = nn.LSTM(input_size + hidden_size, hidden_size,
-                           num_layers=num_layers, batch_first=True,
-                           dropout=dropout if num_layers > 1 else 0.0)
-        # Fixed: 输出 T_pred * pred_dim
+        self.input_embed = nn.Linear(input_size, embedding_size)
+        social_pool_dim = grid_size * grid_size * hidden_size
+        self.social_embed = nn.Linear(social_pool_dim, embedding_size)
+        self.cell = nn.LSTMCell(2 * embedding_size, hidden_size)
+        self.relu = nn.ReLU()
+        self.dropout = nn.Dropout(dropout)
         self.decoder = nn.Sequential(
             nn.Linear(hidden_size, hidden_size),
             nn.ReLU(),
             nn.Linear(hidden_size, pred_steps * pred_dim),
         )
 
-    def _build_social_pool(self, obs_seq, neighbor_obs):
-        """构建 social pooling grid
-        
-        obs_seq:      [B, T, D]  目标船观测
-        neighbor_obs: [B, N, T, D] 邻居船观测
+    def _compute_social_tensor(self, positions, hidden_states, full_mask):
+        """Compute social tensor using neighbor hidden states in spatial grid.
+
+        positions:    [B, N_total, 2]  all ships' positions at current step
+        hidden_states:[B, N_total, H]  all ships' hidden states
+        full_mask:    [B, N_total]     valid ship mask (1=valid)
+
+        Returns: [B, G*G*H] social tensor for the target ship (index 0)
+        """
+        B, N, H = hidden_states.shape
+        G = self.grid_size
+        device = positions.device
+
+        if N <= 1:
+            return torch.zeros(B, G * G * H, device=device)
+
+        target_pos = positions[:, 0:1, :]
+        rel_pos = positions[:, 1:, :] - target_pos
+        neighbor_h = hidden_states[:, 1:, :] * full_mask[:, 1:].unsqueeze(-1)
+
+        cell_size = self.grid_radius / G
+        gx = ((rel_pos[..., 0] / cell_size) + G / 2).long().clamp(0, G - 1)
+        gy = ((rel_pos[..., 1] / cell_size) + G / 2).long().clamp(0, G - 1)
+        cell_idx = gx * G + gy
+
+        grid = torch.zeros(B, G * G, H, device=device)
+        ci_exp = cell_idx.unsqueeze(-1).expand_as(neighbor_h)
+        grid.scatter_add_(1, ci_exp, neighbor_h)
+
+        return grid.reshape(B, G * G * H)
+
+    def forward(self, obs_seq, neighbor_obs=None, mask=None):
+        """
+        obs_seq:      [B, T_obs, D=7]        target ship
+        neighbor_obs: [B, N_max, T_obs, D=7]  neighbor ships (padded)
+        mask:         [B, N_max]              valid neighbor mask
+        Returns: [B, T_pred, 2]
         """
         B, T, D = obs_seq.shape
-        N = neighbor_obs.shape[1]
-        
-        # 用最后时刻的位置计算相对关系
-        target_pos = obs_seq[:, -1, :2]             # [B, 2] lat,lon
-        neighbor_pos = neighbor_obs[:, :, -1, :2]    # [B, N, 2]
-        rel_pos = neighbor_pos - target_pos.unsqueeze(1)  # [B, N, 2]
+        device = obs_seq.device
+        has_neighbors = (neighbor_obs is not None and neighbor_obs.shape[1] > 0)
 
-        # Embed neighbor features at last timestep
-        neighbor_feats = self.social_embed(neighbor_obs[:, :, -1, :])  # [B, N, H]
-
-        # Build grid
-        grid = torch.zeros(B, self.grid_size, self.grid_size, self.hidden_size,
-                          device=obs_seq.device)
-        cell_size = self.grid_radius / self.grid_size
-        for n in range(N):
-            gx = ((rel_pos[:, n, 0] / cell_size) + self.grid_size / 2).long().clamp(0, self.grid_size - 1)
-            gy = ((rel_pos[:, n, 1] / cell_size) + self.grid_size / 2).long().clamp(0, self.grid_size - 1)
-            for b in range(B):
-                grid[b, gx[b], gy[b]] += neighbor_feats[b, n]
-
-        grid_flat = grid.reshape(B, -1)  # [B, grid*grid*H]
-        return self.pool_proj(grid_flat)  # [B, H]
-
-    def forward(self, obs_seq, neighbor_obs=None):
-        """
-        obs_seq:      [B, T_obs, D=7]
-        neighbor_obs: [B, N, T_obs, D=7] or None
-        """
-        B, T, D = obs_seq.shape
-
-        if neighbor_obs is not None and neighbor_obs.shape[1] > 0:
-            social = self._build_social_pool(obs_seq, neighbor_obs)  # [B, H]
-            social_expanded = social.unsqueeze(1).expand(-1, T, -1)  # [B, T, H]
-            rnn_in = torch.cat([obs_seq, social_expanded], dim=-1)   # [B, T, D+H]
+        if has_neighbors:
+            N_nb = neighbor_obs.shape[1]
+            N_total = 1 + N_nb
+            all_obs = torch.cat([obs_seq.unsqueeze(1), neighbor_obs], dim=1)
+            if mask is None:
+                full_mask = torch.ones(B, N_total, device=device)
+            else:
+                full_mask = torch.cat([torch.ones(B, 1, device=device), mask], dim=1)
         else:
-            # No neighbors: zero social features
-            zeros = torch.zeros(B, T, self.hidden_size, device=obs_seq.device)
-            rnn_in = torch.cat([obs_seq, zeros], dim=-1)
+            N_total = 1
+            all_obs = obs_seq.unsqueeze(1)
+            full_mask = torch.ones(B, 1, device=device)
 
-        rnn_out, _ = self.rnn(rnn_in)
-        last_h = rnn_out[:, -1, :]
-        pred = self.decoder(last_h)  # [B, T_pred * pred_dim]
-        return pred.view(-1, self._t_pred, self.pred_dim)  # [B, T_pred, 2]
+        h = torch.zeros(B, N_total, self.hidden_size, device=device)
+        c = torch.zeros(B, N_total, self.hidden_size, device=device)
+
+        for t in range(T):
+            current_pos = all_obs[:, :, t, :2]
+            current_feat = all_obs[:, :, t, :]
+
+            input_emb = self.dropout(self.relu(
+                self.input_embed(current_feat.reshape(B * N_total, D))
+            )).reshape(B, N_total, self.embedding_size)
+
+            social_tensor = self._compute_social_tensor(current_pos, h, full_mask)
+            social_emb = self.dropout(self.relu(self.social_embed(social_tensor)))
+
+            target_input = torch.cat([input_emb[:, 0, :], social_emb], dim=-1)
+            h_target, c_target = self.cell(target_input, (h[:, 0, :], c[:, 0, :]))
+            h = h.clone()
+            c = c.clone()
+            h[:, 0, :] = h_target
+            c[:, 0, :] = c_target
+
+            if N_total > 1:
+                N_nb = N_total - 1
+                zero_social = torch.zeros(B * N_nb, self.embedding_size, device=device)
+                nb_input = torch.cat([
+                    input_emb[:, 1:, :].reshape(B * N_nb, self.embedding_size),
+                    zero_social
+                ], dim=-1)
+                h_nb, c_nb = self.cell(
+                    nb_input,
+                    (h[:, 1:, :].reshape(B * N_nb, self.hidden_size),
+                     c[:, 1:, :].reshape(B * N_nb, self.hidden_size))
+                )
+                mask_nb = full_mask[:, 1:].unsqueeze(-1)
+                h = h.clone()
+                c = c.clone()
+                h[:, 1:, :] = h_nb.reshape(B, N_nb, self.hidden_size) * mask_nb
+                c[:, 1:, :] = c_nb.reshape(B, N_nb, self.hidden_size) * mask_nb
+
+        pred = self.decoder(h[:, 0, :])
+        return pred.view(-1, self._t_pred, self.pred_dim)
 
     def set_pred_steps(self, t_pred):
         self._t_pred = t_pred

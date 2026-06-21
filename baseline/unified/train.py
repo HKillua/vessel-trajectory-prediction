@@ -58,7 +58,7 @@ def _forward_model(model, model_name, batch, pred_steps, device):
     """统一前向传播接口"""
     if model_name == 'social_lstm':
         target_obs, target_pred, neighbor_obs, mask = [x.to(device) for x in batch]
-        pred_out = model(target_obs, neighbor_obs=neighbor_obs)
+        pred_out = model(target_obs, neighbor_obs=neighbor_obs, mask=mask)
         return pred_out, target_pred
     else:
         obs, pred_target = batch

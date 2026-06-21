@@ -1,14 +1,13 @@
 """
 Social-STGCNN 统一评估脚本
-输入: [B, 2, T_obs, V], 邻接矩阵: [T_obs, V, V] (全局固定)
-输出: [B, T_pred, 5, V] → 取 target ship 前2维
+输入: [B, 7, T_obs, V], 邻接矩阵: [B, T_obs, V, V] (per-sample)
+输出: [B, output_feat, T_pred, V] → 取 target ship 前2维
 """
 import os, sys, glob, json, time
 import numpy as np
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
-from functools import partial
 
 import argparse
 
@@ -32,7 +31,8 @@ MAX_SHIPS = 18
 class STGCNNDataset(Dataset):
     def __init__(self, data_dir, normalize=True, norm_params=None, split=None, max_ships=8):
         self.inner = MultiVesselDataset(data_dir, normalize=normalize,
-            random_target=True, norm_params=norm_params, split=split)
+            random_target=(split == 'train' or split is None),
+            norm_params=norm_params, split=split)
         self.max_ships = max_ships
         self.obs_steps = self.inner.obs_steps
         self.pred_steps = self.inner.pred_steps
@@ -45,69 +45,49 @@ class STGCNNDataset(Dataset):
         item = self.inner[idx]
         n_ships = min(item['n_ships'], self.max_ships)
         target_idx = min(item['target_ship_idx'], self.max_ships - 1)
+        if target_idx >= n_ships:
+            target_idx = 0
 
-        # 确保 target_idx < max_ships
-        if target_idx >= self.max_ships:
-            target_idx = 0  # 回退到第一艘船
-
-        obs = np.zeros((2, self.obs_steps, self.max_ships), dtype=np.float32)
+        D = 7
+        obs = np.zeros((D, self.obs_steps, self.max_ships), dtype=np.float32)
         pred = np.zeros((2, self.pred_steps, self.max_ships), dtype=np.float32)
         mask = np.zeros(self.max_ships, dtype=np.float32)
 
         for s in range(n_ships):
             obs_ship = item['obs'][s].numpy()
-            obs[0, :, s] = obs_ship[:self.obs_steps, 0]
-            obs[1, :, s] = obs_ship[:self.obs_steps, 1]
+            obs[:, :, s] = obs_ship[:self.obs_steps, :D].T
             pred_ship = item['pred'][s].numpy()
-            pred[0, :, s] = pred_ship[:self.pred_steps, 0]
-            pred[1, :, s] = pred_ship[:self.pred_steps, 1]
+            pred[:, :, s] = pred_ship[:self.pred_steps, :2].T
             mask[s] = 1.0
+
+        adj = np.eye(self.max_ships, dtype=np.float32)
+        adj_raw = item['adj_matrix'].numpy()
+        n_adj = min(n_ships, adj_raw.shape[0])
+        adj[:n_adj, :n_adj] = adj_raw[:n_adj, :n_adj]
+        for s in range(n_adj):
+            adj[s, s] = 1.0
 
         return {
             'obs': torch.from_numpy(obs),
             'pred': torch.from_numpy(pred),
+            'adj': torch.from_numpy(adj),
             'target_idx': int(target_idx),
             'mask': torch.from_numpy(mask),
         }
 
 
-def build_global_adj(data_dir, seq_len, max_ships, n_samples=500):
-    """构建全局邻接矩阵 [seq_len, V, V]"""
-    npz_files = sorted(glob.glob(os.path.join(data_dir, '*.npz')))[:n_samples]
-    adj_sum = np.zeros((max_ships, max_ships))
-    count = 0
-    for f in npz_files:
-        d = np.load(f)
-        n = min(int(d['n_ships']), max_ships)
-        pos = np.zeros((2, n))
-        for s in range(n):
-            pos[0, s] = d['obs'][s, -1, 0]
-            pos[1, s] = d['obs'][s, -1, 1]
-        for i in range(n):
-            for j in range(n):
-                dist = np.sqrt((pos[0, i] - pos[0, j])**2 + (pos[1, i] - pos[1, j])**2)
-                adj_sum[i, j] += np.exp(-dist / 5.0)
-        count += 1
-
-    adj_avg = adj_sum / max(count, 1)
-    np.fill_diagonal(adj_avg, 0.0)
-
-    # [seq_len, V, V]: 每个时间步用相同距离邻接 + 自环
-    adj_stack = np.stack([adj_avg] * seq_len, axis=0).astype(np.float32)
-    for t in range(seq_len):
-        np.fill_diagonal(adj_stack[t], 1.0)
-    return adj_stack
-
-
-def collate_stgcnn(batch, global_adj_tensor):
+def collate_stgcnn(batch):
     obs = torch.stack([b['obs'] for b in batch])
     pred = torch.stack([b['pred'] for b in batch])
     target_idx = torch.tensor([b['target_idx'] for b in batch])
     mask = torch.stack([b['mask'] for b in batch])
-    return obs, pred, global_adj_tensor, target_idx, mask
+    adj = torch.stack([b['adj'] for b in batch])
+    T = obs.shape[2]
+    adj_expanded = adj.unsqueeze(1).expand(-1, T, -1, -1)
+    return obs, pred, adj_expanded, target_idx, mask
 
 
-def run_epoch(model, loader, adj_tensor, device, norm_params, criterion, optimizer=None):
+def run_epoch(model, loader, device, norm_params, criterion, optimizer=None):
     is_train = optimizer is not None
     model.train() if is_train else model.eval()
 
@@ -118,13 +98,18 @@ def run_epoch(model, loader, adj_tensor, device, norm_params, criterion, optimiz
 
     for obs, pred, adj, target_idx, mask in loader:
         obs, pred, adj, mask = obs.to(device), pred.to(device), adj.to(device), mask.to(device)
+        target_idx = target_idx.to(device)
+
         if is_train:
             optimizer.zero_grad()
 
-        out, _ = model(obs, adj)  # [B, 5, T_pred, V]
-        target = pred.permute(0, 2, 1, 3)  # [B, T_pred, 2, V]
-        pred_xy = out[:, :2, :, :].permute(0, 2, 1, 3)  # [B, T_pred, 2, V]
-        loss = criterion(pred_xy, target)
+        out, _ = model(obs, adj)  # [B, output_feat, T_pred, V]
+        pred_xy = out[:, :2, :, :]  # [B, 2, T_pred, V]
+
+        ti = target_idx.view(-1, 1, 1, 1).expand(-1, 2, pred_xy.shape[2], 1)
+        pred_target = pred_xy.gather(3, ti).squeeze(3)  # [B, 2, T_pred]
+        gt_target = pred.gather(3, ti).squeeze(3)        # [B, 2, T_pred]
+        loss = criterion(pred_target, gt_target)
 
         if is_train:
             loss.backward()
@@ -136,9 +121,9 @@ def run_epoch(model, loader, adj_tensor, device, norm_params, criterion, optimiz
         with torch.no_grad():
             B = out.shape[0]
             for b in range(B):
-                ti = target_idx[b]
-                p = out[b, :2, :, ti].permute(1, 0) * std_t + mean_t  # [T_pred, 2]
-                t = target[b, :, :, ti] * std_t + mean_t
+                t_idx = target_idx[b]
+                p = out[b, :2, :, t_idx].permute(1, 0) * std_t + mean_t  # [T_pred, 2]
+                t = pred[b, :, :, t_idx].permute(1, 0) * std_t + mean_t  # [T_pred, 2]
                 dist = torch.norm(p - t, dim=-1)
                 all_ades.append(dist.mean().item())
                 all_fdes.append(dist[-1].item())
@@ -155,7 +140,6 @@ def main():
     DATA_ROOT = args.data_root
     device_str = f'cuda:{args.gpu}'
     dataset_name = os.path.basename(DATA_ROOT)
-    # Auto-infer results path: results/{dataset}/{pred}/social_stgcnn
     if 'NOAANY' in DATA_ROOT:
         RESULTS_DIR = os.path.join(RESULTS_BASE_DIR, 'NOAANY', f'obs30_{dataset_name}', 'social_stgcnn')
     else:
@@ -177,21 +161,15 @@ def main():
     print(f"Train: {len(train_set)}, Val: {len(val_set)}")
     print(f"Max ships: {MAX_SHIPS}, Obs: {obs_steps}, Pred: {pred_steps}")
 
-    print("Building global adjacency matrix...")
-    global_adj = build_global_adj(train_dir, seq_len=obs_steps, max_ships=MAX_SHIPS)
-    global_adj_tensor = torch.from_numpy(global_adj)
-    print(f"Adj shape: {global_adj.shape}")
-
-    _collate = partial(collate_stgcnn, global_adj_tensor=global_adj_tensor)
     train_loader = DataLoader(train_set, batch_size=BATCH_SIZE, shuffle=True,
-        collate_fn=_collate, num_workers=2)
+        collate_fn=collate_stgcnn, num_workers=2)
     val_loader = DataLoader(val_set, batch_size=BATCH_SIZE, shuffle=False,
-        collate_fn=_collate, num_workers=2)
+        collate_fn=collate_stgcnn, num_workers=2)
 
     device = torch.device(device_str)
     model = social_stgcnn(
-        n_stgcnn=1, n_txpcnn=1,
-        input_feat=2, output_feat=5,
+        n_stgcnn=2, n_txpcnn=2,
+        input_feat=7, output_feat=32,
         seq_len=obs_steps, pred_seq_len=pred_steps,
         kernel_size=3
     ).to(device)
@@ -203,7 +181,7 @@ def main():
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.5)
     criterion = nn.MSELoss()
 
-    best_val_loss = float('inf')
+    best_val_ade = float('inf')
     best_state = None
     patience_counter = 0
     history = []
@@ -211,10 +189,10 @@ def main():
     for epoch in range(1, EPOCHS + 1):
         t0 = time.time()
         tr_loss, tr_ade, tr_fde = run_epoch(
-            model, train_loader, global_adj_tensor, device, norm_params, criterion, optimizer)
+            model, train_loader, device, norm_params, criterion, optimizer)
         scheduler.step()
         vl_loss, vl_ade, vl_fde = run_epoch(
-            model, val_loader, global_adj_tensor, device, norm_params, criterion)
+            model, val_loader, device, norm_params, criterion)
         dt = time.time() - t0
 
         lr = scheduler.get_last_lr()[0]
@@ -224,8 +202,8 @@ def main():
         history.append({'epoch': epoch, 'train_loss': tr_loss, 'val_loss': vl_loss,
                         'ade_nm': vl_ade, 'fde_nm': vl_fde})
 
-        if vl_loss < best_val_loss:
-            best_val_loss = vl_loss
+        if vl_ade < best_val_ade:
+            best_val_ade = vl_ade
             best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
             patience_counter = 0
         else:
@@ -235,17 +213,16 @@ def main():
                 break
 
     # Test
-    best_ade = min(h['ade_nm'] for h in history)
-    print(f"\n  Testing (best val_loss={best_val_loss:.6f}, ADE={best_ade:.4f}nm)")
+    print(f"\n  Testing (best val ADE={best_val_ade:.4f}nm)")
     test_set = STGCNNDataset(os.path.join(DATA_ROOT, 'test'),
         norm_params=norm_params, split='test', max_ships=MAX_SHIPS)
     test_loader = DataLoader(test_set, batch_size=BATCH_SIZE, shuffle=False,
-        collate_fn=_collate, num_workers=2)
+        collate_fn=collate_stgcnn, num_workers=2)
 
     model.load_state_dict(best_state)
     model.to(device).eval()
     _, test_ade, test_fde = run_epoch(
-        model, test_loader, global_adj_tensor, device, norm_params, criterion)
+        model, test_loader, device, norm_params, criterion)
 
     print(f"  TEST ADE = {test_ade:.4f} nm")
     print(f"  TEST FDE = {test_fde:.4f} nm")

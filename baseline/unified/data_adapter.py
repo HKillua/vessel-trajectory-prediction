@@ -31,7 +31,8 @@ class BaselineDataset(Dataset):
     def __init__(self, data_dir, normalize=True, norm_params=None, split=None):
         self.inner = MultiVesselDataset(
             data_dir, normalize=normalize,
-            random_target=True, norm_params=norm_params, split=split,
+            random_target=(split == 'train' or split == None), 
+            norm_params=norm_params, spilt=spilt,
         )
         self.obs_steps = self.inner.obs_steps
         self.pred_steps = self.inner.pred_steps

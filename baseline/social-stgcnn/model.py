@@ -62,9 +62,12 @@ class ConvTemporalGraphical(nn.Module):
             bias=bias)
 
     def forward(self, x, A):
-        assert A.size(0) == self.kernel_size
         x = self.conv(x)
-        x = torch.einsum('nctv,tvw->nctw', (x, A))
+        if A.dim() == 3:
+            assert A.size(0) == self.kernel_size
+            x = torch.einsum('nctv,tvw->nctw', x, A)
+        else:
+            x = torch.einsum('nctv,ntvw->nctw', x, A)
         return x.contiguous(), A
     
 
