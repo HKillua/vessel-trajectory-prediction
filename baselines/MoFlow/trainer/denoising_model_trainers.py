@@ -61,7 +61,11 @@ def build_scheduler(optimizer, opt_cfg, total_iters_each_epoch):
     if opt_cfg.get('SCHEDULER', None) == 'cosineAnnealingLRwithWarmup':
         # cosine annealing with linear warmup
         total_iterations = total_epochs * total_iters_each_epoch
-        warmup_iterations = max(1, int(total_iterations * 0.05))  # 5% of total iterations for warmup
+        warmup_epochs = opt_cfg.get('WARMUP_EPOCHS', None)
+        if warmup_epochs is not None:
+            warmup_iterations = max(1, int(warmup_epochs * total_iters_each_epoch))
+        else:
+            warmup_iterations = max(1, int(total_iterations * 0.05))  # 5% of total iterations for warmup
         warmup_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lambda step: max(opt_cfg.LR_CLIP / opt_cfg.LR, step / warmup_iterations))
         cosine_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=total_iterations - warmup_iterations, eta_min=opt_cfg.LR_CLIP)
         scheduler = torch.optim.lr_scheduler.SequentialLR(optimizer, schedulers=[warmup_scheduler, cosine_scheduler], milestones=[warmup_iterations])

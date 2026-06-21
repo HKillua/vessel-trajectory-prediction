@@ -51,6 +51,7 @@ def parse_config():
     # Optimization
     parser.add_argument('--init_lr', type=float, default=None)
     parser.add_argument('--weight_decay', type=float, default=None)
+    parser.add_argument('--warmup_epochs', type=int, default=None)
 
     return parser.parse_args()
 
@@ -97,6 +98,8 @@ def main():
         cfg.OPTIMIZATION.LR = args.init_lr
     if args.weight_decay is not None:
         cfg.OPTIMIZATION.WEIGHT_DECAY = args.weight_decay
+    if args.warmup_epochs is not None:
+        cfg.OPTIMIZATION.WARMUP_EPOCHS = args.warmup_epochs
 
     cfg.device = 'cuda' if torch.cuda.is_available() else 'cpu'
     tag = f'_ship_{args.dataset_name}_pred{args.pred_len}'

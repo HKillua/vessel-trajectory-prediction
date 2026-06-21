@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 from data_provider.dataloader_multivessel import MultiVesselDataset
 
 
-def _ship_collate_fixed_agents(batch, max_agents, norm_params=None):
+def _ship_collate_fixed_agents(batch, max_agents):
     """Collate ship samples, always padding to max_agents.
 
     This ensures consistent tensor shapes matching cfg.agents,
@@ -60,19 +60,13 @@ def _ship_collate_fixed_agents(batch, max_agents, norm_params=None):
 
     fut_xy = pred_padded[..., :2]  # [B, A, F, 2]
 
-    if norm_params is not None:
-        mean_xy = torch.tensor(norm_params['mean'][:2], dtype=torch.float32)
-        std_xy = torch.tensor(norm_params['std'][:2], dtype=torch.float32)
-        fut_xy_orig = fut_xy * std_xy + mean_xy
-    else:
-        fut_xy_orig = fut_xy
 
     data = {
         'batch_size': batch_size,
         'past_traj': obs_padded,
         'past_traj_original_scale': obs_padded,
         'fut_traj': fut_xy,
-        'fut_traj_original_scale': fut_xy_orig,
+        'fut_traj_original_scale': fut_xy,
         'adj_matrix': adj_padded,
         'mask': mask,
         'target_ship_idx': target_idx,
@@ -127,8 +121,7 @@ def build_ship_dataloaders(data_root, cfg, batch_size_train=64, batch_size_test=
             train_norm_params = dataset.norm_params
 
         split_collate = partial(_ship_collate_fixed_agents,
-                                max_agents=max_agents,
-                                norm_params=train_norm_params)
+                                max_agents=max_agents)
 
         bs = batch_size_train if split == 'train' else batch_size_test
         loaders[split] = DataLoader(

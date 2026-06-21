@@ -12,7 +12,7 @@ from torch.utils.data import Dataset, DataLoader
 import argparse
 
 sys.path.insert(0, '/home/wangguangjie/djs/vessel-trajectory-prediction')
-sys.path.insert(0, '/home/wangguangjie/djs/baseline/social-stgcnn')
+sys.path.insert(0, '/home/wangguangjie/djs/vessel-trajectory-prediction/baseline/social-stgcnn')
 torch.backends.cudnn.enabled = False
 
 from data_provider.dataloader_multivessel import MultiVesselDataset
