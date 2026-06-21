@@ -155,7 +155,11 @@ def main():
     DATA_ROOT = args.data_root
     device_str = f'cuda:{args.gpu}'
     dataset_name = os.path.basename(DATA_ROOT)
-    RESULTS_DIR = os.path.join(RESULTS_BASE_DIR, f'social_stgcnn_{dataset_name}') if dataset_name != 'obs10_pred10' else os.path.join(RESULTS_BASE_DIR, 'social_stgcnn')
+    # Auto-infer results path: results/{dataset}/{pred}/social_stgcnn
+    if 'NOAANY' in DATA_ROOT:
+        RESULTS_DIR = os.path.join(RESULTS_BASE_DIR, 'NOAANY', f'obs30_{dataset_name}', 'social_stgcnn')
+    else:
+        RESULTS_DIR = os.path.join(RESULTS_BASE_DIR, 'DMA', dataset_name, 'social_stgcnn')
 
     print("=" * 60)
     print("  Social-STGCNN 训练")

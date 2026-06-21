@@ -107,11 +107,24 @@ def train_one_model(model_name, args):
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.5)
     criterion = nn.MSELoss()
 
-    # Results dir
+    # Results dir: auto-infer dataset/pred from data_root
     if args.results_dir:
         results_dir = os.path.join(args.results_dir, model_name)
     else:
-        results_dir = os.path.join(os.path.dirname(__file__), '..', 'results', model_name)
+        # Infer: data_root like .../DMA/obs10_pred10 or .../NOAANY/pred10
+        parts = os.path.normpath(data_root).split(os.sep)
+        pred_variant = parts[-1]  # e.g. obs10_pred10, pred10, pred30
+        dataset_name = parts[-3] if 'NOAANY' in data_root or 'DMA' in data_root.upper() or 'ship_trajectory' in data_root else 'unknown'
+        if 'NOAANY' in data_root:
+            dataset_name = 'NOAANY'
+            pred_label = 'obs30_' + pred_variant
+        elif 'ship_trajectory' in data_root or 'DMA' in data_root.upper():
+            dataset_name = 'DMA'
+            pred_label = pred_variant
+        else:
+            dataset_name = 'unknown'
+            pred_label = pred_variant
+        results_dir = os.path.join(os.path.dirname(__file__), '..', 'results', dataset_name, pred_label, model_name)
     os.makedirs(results_dir, exist_ok=True)
 
     best_val_loss = float('inf')

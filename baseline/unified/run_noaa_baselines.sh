@@ -9,8 +9,8 @@ conda activate ship-traj-pred
 PRED_VARIANT=${1:-pred10}
 DATA_ROOT="/home/wangguangjie/djs/vessel-trajectory-prediction/NOAANY/data/final/${PRED_VARIANT}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-RESULTS_BASE="${SCRIPT_DIR}/../results_noaa_${PRED_VARIANT}"
-LOG_DIR="${SCRIPT_DIR}/../logs_noaa_${PRED_VARIANT}"
+RESULTS_BASE="${SCRIPT_DIR}/../results/NOAANY/obs30_${PRED_VARIANT}"
+LOG_DIR="${SCRIPT_DIR}/../logs/noaa_obs30_${PRED_VARIANT}"
 
 mkdir -p "$RESULTS_BASE" "$LOG_DIR"
 

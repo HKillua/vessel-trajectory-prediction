@@ -23,8 +23,7 @@ ship_trajectory_prediction_DMA/raw_data/
 # Model checkpoints (large)
 *.pt
 *.pth
-!baseline/results/*/best.pt
-!baseline/results_noaa_*/**/best.pt
+!baseline/results/*/*/*/best.pt
 *.bin
 
 # Baseline: exclude only caches/data/large files (NOT source code)
@@ -43,11 +42,12 @@ baseline/LLM4STP/temp_save_dir/
 baseline/LLM4STP/dataset/
 
 # Logs
-baseline/logs_noaa_pred10/
-baseline/logs_noaa_pred30/
+baseline/logs_*/
+baseline/logs/
 
 # Misc
 *.zip
+*.npz
 ship_trajectory_prediction/ship_trajectory_prediction/
 
 # IDE
