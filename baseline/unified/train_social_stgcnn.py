@@ -12,7 +12,7 @@ from torch.utils.data import Dataset, DataLoader
 import argparse
 
 sys.path.insert(0, '/home/wangguangjie/djs/vessel-trajectory-prediction')
-sys.path.insert(0, '/home/wangguangjie/djs/vessel-trajectory-prediction/baseline/social-stgcnn')
+sys.path.insert(0, '/home/wangguangjie/djs/baseline/social-stgcnn')
 torch.backends.cudnn.enabled = False
 
 from data_provider.dataloader_multivessel import MultiVesselDataset
@@ -86,6 +86,10 @@ class STGCNNDataset(Dataset):
         adj[:n_adj, :n_adj] = adj_raw[:n_adj, :n_adj]
         for s in range(n_adj):
             adj[s, s] = 1.0
+        # Threshold weak edges
+        adj[adj < 0.05] = 0.0
+        for s in range(n_adj):
+            adj[s, s] = 1.0
         # Row-normalize: D^{-1} A
         row_sum = adj.sum(axis=1, keepdims=True)
         row_sum[row_sum == 0] = 1.0
@@ -129,10 +133,16 @@ def run_epoch(model, loader, device, norm_params, criterion, optimizer=None):
 
         out, _ = model(obs, adj)  # [B, 2, T_pred, V]
 
+        # Primary loss: target ship
         ti = target_idx.view(-1, 1, 1, 1).expand(-1, 2, out.shape[2], 1)
         pred_target = out.gather(3, ti).squeeze(3)  # [B, 2, T_pred]
         gt_target = pred.gather(3, ti).squeeze(3)        # [B, 2, T_pred]
-        loss = criterion(pred_target, gt_target)
+        loss_target = criterion(pred_target, gt_target)
+
+        # Auxiliary loss: all valid ships
+        mask_exp = mask.unsqueeze(1).unsqueeze(2)  # [B, 1, 1, V]
+        loss_all = criterion(out * mask_exp, pred * mask_exp)
+        loss = loss_target + 0.5 * loss_all
 
         if is_train:
             loss.backward()
@@ -201,7 +211,7 @@ def main():
     n_params = sum(p.numel() for p in model.parameters())
     print(f"Model params: {n_params:,}")
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=LR)
+    optimizer = torch.optim.Adam(model.parameters(), lr=LR, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.5)
     criterion = nn.MSELoss()
 
