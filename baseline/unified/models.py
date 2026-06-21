@@ -131,22 +131,31 @@ class RNNSeq2Seq(nn.Module):
 
 # ===================== Transformer =====================
 class TransformerBaseline(nn.Module):
-    """标准 Transformer Encoder-Decoder for trajectory prediction"""
+    """Transformer Encoder-Decoder for trajectory prediction.
+
+    Decoder queries are seeded from the encoder's last output (not dead PE),
+    with a causal mask so each prediction step only attends to previous steps.
+    """
 
     def __init__(self, input_size=7, d_model=128, n_heads=4, n_layers=2,
-                 dim_ff=256, dropout=0.1, pred_dim=2, max_len=100):
+                 dim_ff=256, dropout=0.1, pred_dim=2, max_len=100,
+                 pred_steps=30):
         super().__init__()
         self.d_model = d_model
+        self._pred_steps = pred_steps
         self.input_proj = nn.Linear(input_size, d_model)
         self.output_proj = nn.Linear(d_model, pred_dim)
 
-        # Positional encoding
+        # Positional encoding (shared by encoder and decoder)
         pe = torch.zeros(max_len, d_model)
         pos = torch.arange(0, max_len).unsqueeze(1).float()
         div = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
         pe[:, 0::2] = torch.sin(pos * div)
         pe[:, 1::2] = torch.cos(pos * div)
         self.register_buffer('pe', pe.unsqueeze(0))
+
+        # Learned query embedding for decoder steps
+        self.query_embed = nn.Parameter(torch.randn(1, pred_steps, d_model) * 0.02)
 
         enc_layer = nn.TransformerEncoderLayer(
             d_model=d_model, nhead=n_heads, dim_feedforward=dim_ff,
@@ -161,22 +170,36 @@ class TransformerBaseline(nn.Module):
         self.decoder = nn.TransformerDecoder(dec_layer, num_layers=n_layers,
                                               norm=nn.LayerNorm(d_model))
 
-    def forward(self, obs_seq, pred_steps=30):
+    def forward(self, obs_seq, pred_steps=None):
         """obs_seq: [B, T_obs, D] -> [B, T_pred, 2]"""
+        if pred_steps is None:
+            pred_steps = self._pred_steps
         B = obs_seq.shape[0]
         h = self.input_proj(obs_seq) * math.sqrt(self.d_model)
         h = h + self.pe[:, :h.shape[1], :]
         memory = self.encoder(h)
 
-        # Decoder queries: learned start tokens repeated
-        tgt = self.pe[:, :pred_steps, :].expand(B, -1, -1)
-        out = self.decoder(tgt, memory)
+        # Seed decoder with encoder's last output + learned per-step queries
+        enc_last = memory[:, -1:, :].expand(-1, pred_steps, -1)
+        tgt = enc_last + self.query_embed[:, :pred_steps, :] + self.pe[:, :pred_steps, :]
+
+        # Causal mask: step t can only attend to steps 0..t
+        causal_mask = nn.Transformer.generate_square_subsequent_mask(
+            pred_steps, device=obs_seq.device)
+        out = self.decoder(tgt, memory, tgt_mask=causal_mask)
         return self.output_proj(out)
 
 
-# ===================== Mamba (Pure-PyTorch) =====================
-class MambaBlock(nn.Module):
-    """纯 PyTorch Mamba block (从 vessel-trajectory-prediction 复用)"""
+# ===================== Mamba =====================
+try:
+    from mamba_ssm import Mamba as _OfficialMamba
+    _HAS_MAMBA_SSM = True
+except ImportError:
+    _HAS_MAMBA_SSM = False
+
+
+class _PurePytorchMambaBlock(nn.Module):
+    """Fallback: pure-PyTorch selective SSM (no CUDA kernel)."""
 
     def __init__(self, d_model, d_state=16, d_conv=4, expand=2):
         super().__init__()
@@ -195,11 +218,8 @@ class MambaBlock(nn.Module):
         )
         self.D = nn.Parameter(torch.ones(self.d_inner))
         self.out_proj = nn.Linear(self.d_inner, d_model, bias=False)
-        self.norm = nn.LayerNorm(d_model)
 
     def forward(self, x):
-        residual = x
-        x = self.norm(x)
         xz = self.in_proj(x)
         x_inner, z = xz.chunk(2, dim=-1)
         x_conv = self.conv1d(x_inner.transpose(1, 2))[:, :, :x_inner.shape[1]]
@@ -207,7 +227,7 @@ class MambaBlock(nn.Module):
         x_conv = F.silu(x_conv)
 
         x_proj = self.x_proj(x_conv)
-        dt = self.x_proj(x_conv)[..., :self.dt_rank]
+        dt = x_proj[..., :self.dt_rank]
         B_inp = x_proj[..., self.dt_rank:self.dt_rank + self.d_state]
         C_inp = x_proj[..., self.dt_rank + self.d_state:]
         dt = self.dt_proj(dt)
@@ -225,35 +245,64 @@ class MambaBlock(nn.Module):
             ys.append(y)
         y_seq = torch.stack(ys, dim=1)
         y_seq = (y_seq + x_conv * self.D) * F.silu(z)
-        return self.out_proj(y_seq) + residual
+        return self.out_proj(y_seq)
 
 
 class MambaBaseline(nn.Module):
-    """Mamba encoder + linear decoder
-    
-    Fixed: 使用 Linear(H, T_pred*2) 替代 repeat+Linear(H,2)
+    """Mamba encoder + MLP decoder.
+
+    Uses official mamba-ssm CUDA kernel when available (pip install mamba-ssm),
+    falls back to pure-PyTorch SSM otherwise.
     """
 
-    def __init__(self, input_size=7, d_model=128, n_layers=2, pred_dim=2, pred_steps=30):
+    def __init__(self, input_size=7, d_model=256, n_layers=4,
+                 d_state=16, d_conv=4, expand=2,
+                 pred_dim=2, pred_steps=30):
         super().__init__()
         self.pred_dim = pred_dim
         self._t_pred = pred_steps
         self.proj_in = nn.Linear(input_size, d_model)
-        self.blocks = nn.ModuleList([MambaBlock(d_model) for _ in range(n_layers)])
-        # Fixed: 输出 T_pred * pred_dim
+
+        if _HAS_MAMBA_SSM:
+            self.blocks = nn.ModuleList([
+                nn.ModuleDict({
+                    'norm': nn.LayerNorm(d_model),
+                    'mamba': _OfficialMamba(d_model=d_model, d_state=d_state,
+                                           d_conv=d_conv, expand=expand),
+                })
+                for _ in range(n_layers)
+            ])
+            self._use_official = True
+        else:
+            import warnings
+            warnings.warn(
+                "mamba-ssm not found, using pure-PyTorch fallback. "
+                "For best results: pip install mamba-ssm causal-conv1d>=1.2.0"
+            )
+            self.blocks = nn.ModuleList([
+                nn.ModuleDict({
+                    'norm': nn.LayerNorm(d_model),
+                    'mamba': _PurePytorchMambaBlock(d_model, d_state, d_conv, expand),
+                })
+                for _ in range(n_layers)
+            ])
+            self._use_official = False
+
+        self.norm_f = nn.LayerNorm(d_model)
         self.decoder = nn.Sequential(
             nn.Linear(d_model, d_model),
-            nn.ReLU(),
+            nn.GELU(),
             nn.Linear(d_model, pred_steps * pred_dim),
         )
 
     def forward(self, obs_seq):
         h = self.proj_in(obs_seq)
         for block in self.blocks:
-            h = block(h)
+            h = h + block['mamba'](block['norm'](h))  # pre-norm residual
+        h = self.norm_f(h)
         last_h = h[:, -1, :]
-        pred = self.decoder(last_h)  # [B, T_pred * pred_dim]
-        return pred.view(-1, self._t_pred, self.pred_dim)  # [B, T_pred, 2]
+        pred = self.decoder(last_h)
+        return pred.view(-1, self._t_pred, self.pred_dim)
 
     def set_pred_steps(self, t_pred):
         self._t_pred = t_pred
@@ -413,9 +462,13 @@ MODEL_REGISTRY = {
     'bigru':        lambda pred_steps, obs_steps: RNNBaseline(rnn_type='gru', bidirectional=True, pred_steps=pred_steps),
     'seq2seq_lstm': lambda pred_steps, obs_steps: RNNSeq2Seq(rnn_type='lstm', bidirectional=False),
     'seq2seq_gru':  lambda pred_steps, obs_steps: RNNSeq2Seq(rnn_type='gru', bidirectional=False),
-    'transformer':  lambda pred_steps, obs_steps: TransformerBaseline(),
-    'mamba':        lambda pred_steps, obs_steps: MambaBaseline(pred_steps=pred_steps),
-    'itransformer': lambda pred_steps, obs_steps: iTransformerBaseline(obs_steps=obs_steps, pred_steps=pred_steps),
+    'transformer':  lambda pred_steps, obs_steps: TransformerBaseline(
+        d_model=256, n_heads=8, n_layers=3, dim_ff=512, pred_steps=pred_steps),
+    'mamba':        lambda pred_steps, obs_steps: MambaBaseline(
+        d_model=256, n_layers=4, pred_steps=pred_steps),
+    'itransformer': lambda pred_steps, obs_steps: iTransformerBaseline(
+        d_model=256, n_heads=8, n_layers=3, dim_ff=512,
+        obs_steps=obs_steps, pred_steps=pred_steps),
     'social_lstm':  lambda pred_steps, obs_steps: SocialLSTM(pred_steps=pred_steps),
 }
 
