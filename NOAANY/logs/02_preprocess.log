@@ -1,0 +1,129 @@
+Streaming 122 ZIP files (extract -> process -> delete CSV)...
+Processing:   0%|          | 0/122 [00:00<?, ?it/s]Processing:   1%|          | 1/122 [01:23<2:48:38, 83.62s/it]Processing:   2%|▏         | 2/122 [02:43<2:43:17, 81.64s/it]Processing:   2%|▏         | 3/122 [04:07<2:43:33, 82.47s/it]Processing:   3%|▎         | 4/122 [05:33<2:44:42, 83.75s/it]Processing:   4%|▍         | 5/122 [06:51<2:39:53, 81.99s/it]Processing:   5%|▍         | 6/122 [08:02<2:30:41, 77.95s/it]Processing:   6%|▌         | 7/122 [09:25<2:33:07, 79.89s/it]Processing:   7%|▋         | 8/122 [10:49<2:34:11, 81.16s/it]Processing:   7%|▋         | 9/122 [12:04<2:28:51, 79.04s/it]Processing:   8%|▊         | 10/122 [13:26<2:29:36, 80.15s/it]Processing:   9%|▉         | 11/122 [14:54<2:32:46, 82.58s/it]Processing:  10%|▉         | 12/122 [16:20<2:33:03, 83.48s/it]Processing:  11%|█         | 13/122 [17:45<2:32:19, 83.85s/it]Processing:  11%|█▏        | 14/122 [19:04<2:28:36, 82.56s/it]Processing:  12%|█▏        | 15/122 [20:23<2:25:01, 81.32s/it]Processing:  13%|█▎        | 16/122 [21:43<2:23:04, 80.98s/it]Processing:  14%|█▍        | 17/122 [23:14<2:26:55, 83.95s/it]Processing:  15%|█▍        | 18/122 [24:35<2:24:21, 83.29s/it]Processing:  16%|█▌        | 19/122 [26:09<2:28:01, 86.23s/it]Processing:  16%|█▋        | 20/122 [27:40<2:29:17, 87.82s/it]Processing:  17%|█▋        | 21/122 [29:11<2:29:33, 88.84s/it]Processing:  18%|█▊        | 22/122 [30:43<2:29:31, 89.72s/it]Processing:  19%|█▉        | 23/122 [32:05<2:24:21, 87.49s/it]Processing:  20%|█▉        | 24/122 [33:31<2:22:08, 87.02s/it]Processing:  20%|██        | 25/122 [35:00<2:21:37, 87.60s/it]Processing:  21%|██▏       | 26/122 [36:29<2:20:37, 87.89s/it]Processing:  22%|██▏       | 27/122 [37:57<2:19:12, 87.92s/it]Processing:  23%|██▎       | 28/122 [39:24<2:17:10, 87.56s/it]Processing:  24%|██▍       | 29/122 [40:48<2:14:10, 86.56s/it]Processing:  25%|██▍       | 30/122 [42:02<2:07:14, 82.98s/it]Processing:  25%|██▌       | 31/122 [43:26<2:06:16, 83.26s/it]Processing:  26%|██▌       | 32/122 [44:57<2:08:13, 85.48s/it]Processing:  27%|██▋       | 33/122 [46:28<2:09:20, 87.20s/it]Processing:  28%|██▊       | 34/122 [47:54<2:07:29, 86.93s/it]Processing:  29%|██▊       | 35/122 [49:23<2:06:48, 87.46s/it]Processing:  30%|██▉       | 36/122 [50:45<2:02:56, 85.77s/it]Processing:  30%|███       | 37/122 [52:09<2:00:49, 85.29s/it]Processing:  31%|███       | 38/122 [53:35<1:59:34, 85.41s/it]Processing:  32%|███▏      | 39/122 [55:02<1:59:00, 86.03s/it]Processing:  33%|███▎      | 40/122 [56:25<1:56:18, 85.10s/it]Processing:  34%|███▎      | 41/122 [57:50<1:54:35, 84.88s/it]Processing:  34%|███▍      | 42/122 [59:15<1:53:16, 84.96s/it]Processing:  35%|███▌      | 43/122 [1:00:37<1:50:49, 84.16s/it]Processing:  36%|███▌      | 44/122 [1:02:02<1:49:32, 84.27s/it]Processing:  37%|███▋      | 45/122 [1:03:29<1:49:22, 85.22s/it]Processing:  38%|███▊      | 46/122 [1:04:55<1:48:22, 85.56s/it]Processing:  39%|███▊      | 47/122 [1:06:26<1:48:51, 87.09s/it]Processing:  39%|███▉      | 48/122 [1:07:51<1:46:43, 86.53s/it]Processing:  40%|████      | 49/122 [1:09:06<1:40:59, 83.01s/it]Processing:  41%|████      | 50/122 [1:10:31<1:40:08, 83.45s/it]Processing:  42%|████▏     | 51/122 [1:11:55<1:39:02, 83.70s/it]Processing:  43%|████▎     | 52/122 [1:13:25<1:39:52, 85.61s/it]Processing:  43%|████▎     | 53/122 [1:14:52<1:39:08, 86.21s/it]Processing:  44%|████▍     | 54/122 [1:16:22<1:38:49, 87.20s/it]Processing:  45%|████▌     | 55/122 [1:17:46<1:36:10, 86.13s/it]Processing:  46%|████▌     | 56/122 [1:19:11<1:34:31, 85.94s/it]Processing:  47%|████▋     | 57/122 [1:20:37<1:33:00, 85.86s/it]Processing:  48%|████▊     | 58/122 [1:22:00<1:30:48, 85.14s/it]Processing:  48%|████▊     | 59/122 [1:23:27<1:29:47, 85.52s/it]Processing:  49%|████▉     | 60/122 [1:24:52<1:28:21, 85.51s/it]Processing:  50%|█████     | 61/122 [1:26:22<1:28:13, 86.78s/it]Processing:  51%|█████     | 62/122 [1:27:52<1:27:41, 87.69s/it]Processing:  52%|█████▏    | 63/122 [1:29:22<1:26:52, 88.35s/it]Processing:  52%|█████▏    | 64/122 [1:30:50<1:25:29, 88.44s/it]Processing:  53%|█████▎    | 65/122 [1:32:17<1:23:31, 87.92s/it]Processing:  54%|█████▍    | 66/122 [1:33:45<1:22:06, 87.97s/it]Processing:  55%|█████▍    | 67/122 [1:35:17<1:21:38, 89.07s/it]Processing:  56%|█████▌    | 68/122 [1:36:52<1:21:59, 91.10s/it]Processing:  57%|█████▋    | 69/122 [1:38:29<1:21:46, 92.58s/it]Processing:  57%|█████▋    | 70/122 [1:40:00<1:20:04, 92.40s/it]Processing:  58%|█████▊    | 71/122 [1:41:33<1:18:39, 92.54s/it]Processing:  59%|█████▉    | 72/122 [1:43:01<1:15:53, 91.07s/it]Processing:  60%|█████▉    | 73/122 [1:44:26<1:13:00, 89.39s/it]Processing:  61%|██████    | 74/122 [1:45:53<1:10:53, 88.61s/it]Processing:  61%|██████▏   | 75/122 [1:47:29<1:11:05, 90.75s/it]Processing:  62%|██████▏   | 76/122 [1:49:03<1:10:22, 91.80s/it]Processing:  63%|██████▎   | 77/122 [1:50:38<1:09:26, 92.58s/it]Processing:  64%|██████▍   | 78/122 [1:52:07<1:07:08, 91.55s/it]Processing:  65%|██████▍   | 79/122 [1:53:35<1:04:51, 90.49s/it]Processing:  66%|██████▌   | 80/122 [1:55:04<1:03:02, 90.06s/it]Processing:  66%|██████▋   | 81/122 [1:56:37<1:02:04, 90.84s/it]Processing:  67%|██████▋   | 82/122 [1:58:13<1:01:46, 92.66s/it]Processing:  68%|██████▊   | 83/122 [1:59:51<1:01:13, 94.20s/it]Processing:  69%|██████▉   | 84/122 [2:01:26<59:43, 94.31s/it]  Processing:  70%|██████▉   | 85/122 [2:02:53<56:47, 92.09s/it]Processing:  70%|███████   | 86/122 [2:04:32<56:33, 94.26s/it]Processing:  71%|███████▏  | 87/122 [2:06:02<54:11, 92.90s/it]Processing:  72%|███████▏  | 88/122 [2:07:30<51:52, 91.53s/it]Processing:  73%|███████▎  | 89/122 [2:09:05<50:58, 92.69s/it]Processing:  74%|███████▍  | 90/122 [2:10:39<49:29, 92.81s/it]Processing:  75%|███████▍  | 91/122 [2:12:32<51:05, 98.88s/it]Processing:  75%|███████▌  | 92/122 [2:14:10<49:25, 98.86s/it]Processing:  76%|███████▌  | 93/122 [2:15:45<47:05, 97.44s/it]Processing:  77%|███████▋  | 94/122 [2:17:19<45:03, 96.55s/it]Processing:  78%|███████▊  | 95/122 [2:19:09<45:12, 100.47s/it]Processing:  79%|███████▊  | 96/122 [2:20:54<44:11, 101.99s/it]Processing:  80%|███████▉  | 97/122 [2:22:34<42:14, 101.40s/it]Processing:  80%|████████  | 98/122 [2:24:10<39:52, 99.69s/it] Processing:  81%|████████  | 99/122 [2:25:49<38:06, 99.40s/it]Processing:  82%|████████▏ | 100/122 [2:27:23<35:51, 97.78s/it]Processing:  83%|████████▎ | 101/122 [2:28:47<32:46, 93.65s/it]Processing:  84%|████████▎ | 102/122 [2:30:11<30:15, 90.78s/it]Processing:  84%|████████▍ | 103/122 [2:31:43<28:52, 91.17s/it]Processing:  85%|████████▌ | 104/122 [2:33:14<27:20, 91.14s/it]Processing:  86%|████████▌ | 105/122 [2:34:39<25:18, 89.35s/it]Processing:  87%|████████▋ | 106/122 [2:36:03<23:26, 87.88s/it]Processing:  88%|████████▊ | 107/122 [2:37:21<21:09, 84.63s/it]Processing:  89%|████████▊ | 108/122 [2:38:45<19:43, 84.54s/it]Processing:  89%|████████▉ | 109/122 [2:40:10<18:22, 84.82s/it]Processing:  90%|█████████ | 110/122 [2:41:37<17:02, 85.23s/it]Processing:  91%|█████████ | 111/122 [2:42:58<15:24, 84.08s/it]Processing:  92%|█████████▏| 112/122 [2:44:04<13:06, 78.60s/it]Processing:  93%|█████████▎| 113/122 [2:45:24<11:51, 79.03s/it]Processing:  93%|█████████▎| 114/122 [2:46:51<10:51, 81.40s/it]Processing:  94%|█████████▍| 115/122 [2:48:22<09:50, 84.36s/it]Processing:  95%|█████████▌| 116/122 [2:49:53<08:37, 86.26s/it]Processing:  96%|█████████▌| 117/122 [2:51:00<06:43, 80.65s/it]Processing:  97%|█████████▋| 118/122 [2:52:23<05:25, 81.38s/it]Processing:  98%|█████████▊| 119/122 [2:53:46<04:05, 81.78s/it]Processing:  98%|█████████▊| 120/122 [2:54:40<02:26, 73.49s/it]Processing:  99%|█████████▉| 121/122 [2:55:56<01:14, 74.22s/it]Processing: 100%|██████████| 122/122 [2:57:15<00:00, 75.71s/it]Processing: 100%|██████████| 122/122 [2:57:15<00:00, 87.18s/it]
+  AIS_2024_06_01: 9,041,738 raw → 81,020 filtered (160 ships)
+  AIS_2024_06_02: 9,423,022 raw → 77,368 filtered (153 ships)
+  AIS_2024_06_03: 8,962,216 raw → 87,213 filtered (164 ships)
+  AIS_2024_06_04: 9,275,606 raw → 86,226 filtered (175 ships)
+  AIS_2024_06_05: 9,290,928 raw → 82,814 filtered (166 ships)
+  AIS_2024_06_06: 8,509,512 raw → 63,978 filtered (157 ships)
+  AIS_2024_06_07: 9,783,212 raw → 83,524 filtered (171 ships)
+  AIS_2024_06_08: 10,427,294 raw → 82,057 filtered (154 ships)
+  AIS_2024_06_09: 10,070,359 raw → 76,866 filtered (144 ships)
+  AIS_2024_06_10: 9,736,265 raw → 87,484 filtered (172 ships)
+  AIS_2024_06_11: 9,780,476 raw → 87,727 filtered (174 ships)
+  AIS_2024_06_12: 9,787,455 raw → 92,982 filtered (169 ships)
+  AIS_2024_06_13: 9,956,874 raw → 89,647 filtered (170 ships)
+  AIS_2024_06_14: 9,559,106 raw → 83,770 filtered (162 ships)
+  AIS_2024_06_15: 9,985,832 raw → 83,781 filtered (146 ships)
+  AIS_2024_06_16: 9,856,924 raw → 86,790 filtered (159 ships)
+  AIS_2024_06_17: 9,620,731 raw → 96,939 filtered (170 ships)
+  AIS_2024_06_18: 8,783,281 raw → 88,065 filtered (172 ships)
+  AIS_2024_06_19: 9,915,787 raw → 99,779 filtered (185 ships)
+  AIS_2024_06_20: 9,919,261 raw → 97,364 filtered (187 ships)
+  AIS_2024_06_21: 9,658,712 raw → 98,766 filtered (169 ships)
+  AIS_2024_06_22: 10,258,818 raw → 99,559 filtered (173 ships)
+  AIS_2024_06_23: 9,801,263 raw → 92,687 filtered (153 ships)
+  AIS_2024_06_24: 9,714,140 raw → 94,930 filtered (180 ships)
+  AIS_2024_06_25: 9,411,507 raw → 101,070 filtered (187 ships)
+  AIS_2024_06_26: 9,970,223 raw → 99,722 filtered (167 ships)
+  AIS_2024_06_27: 9,935,665 raw → 96,174 filtered (182 ships)
+  AIS_2024_06_28: 10,081,826 raw → 95,919 filtered (177 ships)
+  AIS_2024_06_29: 10,099,195 raw → 90,760 filtered (175 ships)
+  AIS_2024_06_30: 9,034,505 raw → 81,521 filtered (149 ships)
+  AIS_2024_07_01: 8,999,649 raw → 93,337 filtered (169 ships)
+  AIS_2024_07_02: 9,897,546 raw → 102,382 filtered (185 ships)
+  AIS_2024_07_03: 10,106,774 raw → 100,892 filtered (191 ships)
+  AIS_2024_07_04: 9,717,956 raw → 98,745 filtered (181 ships)
+  AIS_2024_07_05: 9,560,111 raw → 100,444 filtered (179 ships)
+  AIS_2024_07_06: 9,300,986 raw → 92,999 filtered (162 ships)
+  AIS_2024_07_07: 9,464,693 raw → 95,279 filtered (168 ships)
+  AIS_2024_07_08: 9,629,521 raw → 95,429 filtered (181 ships)
+  AIS_2024_07_09: 9,858,546 raw → 98,044 filtered (180 ships)
+  AIS_2024_07_10: 9,629,668 raw → 89,664 filtered (176 ships)
+  AIS_2024_07_11: 9,330,145 raw → 95,912 filtered (164 ships)
+  AIS_2024_07_12: 9,512,264 raw → 94,869 filtered (172 ships)
+  AIS_2024_07_13: 9,809,008 raw → 90,208 filtered (171 ships)
+  AIS_2024_07_14: 10,054,809 raw → 94,334 filtered (168 ships)
+  AIS_2024_07_15: 9,844,782 raw → 95,364 filtered (182 ships)
+  AIS_2024_07_16: 9,439,624 raw → 96,186 filtered (171 ships)
+  AIS_2024_07_17: 10,018,475 raw → 101,079 filtered (174 ships)
+  AIS_2024_07_18: 10,016,092 raw → 93,420 filtered (169 ships)
+  AIS_2024_07_19: 9,035,487 raw → 81,559 filtered (170 ships)
+  AIS_2024_07_20: 10,237,974 raw → 93,030 filtered (163 ships)
+  AIS_2024_07_21: 9,406,142 raw → 94,183 filtered (172 ships)
+  AIS_2024_07_22: 9,293,357 raw → 103,474 filtered (183 ships)
+  AIS_2024_07_23: 9,586,546 raw → 98,641 filtered (179 ships)
+  AIS_2024_07_24: 9,875,025 raw → 98,177 filtered (184 ships)
+  AIS_2024_07_25: 9,974,422 raw → 90,142 filtered (171 ships)
+  AIS_2024_07_26: 10,086,304 raw → 90,387 filtered (175 ships)
+  AIS_2024_07_27: 9,895,937 raw → 92,882 filtered (167 ships)
+  AIS_2024_07_28: 9,684,038 raw → 90,202 filtered (168 ships)
+  AIS_2024_07_29: 9,459,948 raw → 94,182 filtered (187 ships)
+  AIS_2024_07_30: 9,266,479 raw → 98,146 filtered (166 ships)
+  AIS_2024_07_31: 9,485,250 raw → 103,556 filtered (175 ships)
+  AIS_2024_08_01: 10,064,211 raw → 99,040 filtered (183 ships)
+  AIS_2024_08_02: 10,465,250 raw → 97,506 filtered (184 ships)
+  AIS_2024_08_03: 10,344,430 raw → 97,737 filtered (185 ships)
+  AIS_2024_08_04: 10,228,764 raw → 95,603 filtered (156 ships)
+  AIS_2024_08_05: 10,219,827 raw → 96,122 filtered (170 ships)
+  AIS_2024_08_06: 9,689,992 raw → 105,203 filtered (193 ships)
+  AIS_2024_08_07: 9,920,653 raw → 108,958 filtered (189 ships)
+  AIS_2024_08_08: 10,046,384 raw → 103,182 filtered (180 ships)
+  AIS_2024_08_09: 9,875,676 raw → 97,746 filtered (164 ships)
+  AIS_2024_08_10: 10,159,109 raw → 100,794 filtered (177 ships)
+  AIS_2024_08_11: 10,109,461 raw → 96,822 filtered (167 ships)
+  AIS_2024_08_12: 9,485,116 raw → 93,409 filtered (175 ships)
+  AIS_2024_08_13: 9,640,506 raw → 90,750 filtered (163 ships)
+  AIS_2024_08_14: 10,415,288 raw → 101,214 filtered (176 ships)
+  AIS_2024_08_15: 10,404,220 raw → 94,480 filtered (175 ships)
+  AIS_2024_08_16: 10,294,954 raw → 93,059 filtered (179 ships)
+  AIS_2024_08_17: 10,216,867 raw → 92,255 filtered (179 ships)
+  AIS_2024_08_18: 9,882,026 raw → 91,333 filtered (163 ships)
+  AIS_2024_08_19: 9,114,456 raw → 94,474 filtered (175 ships)
+  AIS_2024_08_20: 8,932,166 raw → 98,329 filtered (176 ships)
+  AIS_2024_08_21: 10,030,814 raw → 96,911 filtered (181 ships)
+  AIS_2024_08_22: 9,753,572 raw → 96,703 filtered (190 ships)
+  AIS_2024_08_23: 10,184,842 raw → 100,469 filtered (187 ships)
+  AIS_2024_08_24: 9,705,452 raw → 88,510 filtered (178 ships)
+  AIS_2024_08_25: 10,566,217 raw → 93,270 filtered (178 ships)
+  AIS_2024_08_26: 9,870,901 raw → 91,159 filtered (172 ships)
+  AIS_2024_08_27: 9,552,898 raw → 92,464 filtered (173 ships)
+  AIS_2024_08_28: 9,521,645 raw → 92,139 filtered (165 ships)
+  AIS_2024_08_29: 10,148,295 raw → 93,088 filtered (166 ships)
+  AIS_2024_08_30: 10,431,899 raw → 100,721 filtered (179 ships)
+  AIS_2024_08_31: 9,784,262 raw → 96,990 filtered (171 ships)
+  AIS_2024_09_01: 9,568,438 raw → 99,761 filtered (177 ships)
+  AIS_2024_09_02: 10,321,286 raw → 103,781 filtered (179 ships)
+  AIS_2024_09_03: 9,993,144 raw → 114,535 filtered (202 ships)
+  AIS_2024_09_04: 10,080,734 raw → 114,138 filtered (199 ships)
+  AIS_2024_09_05: 10,137,280 raw → 111,771 filtered (196 ships)
+  AIS_2024_09_06: 9,225,671 raw → 112,495 filtered (192 ships)
+  AIS_2024_09_07: 9,266,420 raw → 116,148 filtered (198 ships)
+  AIS_2024_09_08: 9,345,261 raw → 109,427 filtered (187 ships)
+  AIS_2024_09_09: 8,811,553 raw → 94,194 filtered (192 ships)
+  AIS_2024_09_10: 8,223,481 raw → 95,347 filtered (197 ships)
+  AIS_2024_09_11: 9,073,922 raw → 103,229 filtered (195 ships)
+  AIS_2024_09_12: 9,544,640 raw → 100,261 filtered (192 ships)
+  AIS_2024_09_13: 8,777,093 raw → 93,635 filtered (187 ships)
+  AIS_2024_09_14: 9,807,961 raw → 90,859 filtered (179 ships)
+  AIS_2024_09_15: 8,777,187 raw → 85,922 filtered (176 ships)
+  AIS_2024_09_16: 9,104,040 raw → 93,547 filtered (182 ships)
+  AIS_2024_09_17: 9,277,282 raw → 92,477 filtered (184 ships)
+  AIS_2024_09_18: 9,174,245 raw → 93,263 filtered (184 ships)
+  AIS_2024_09_19: 8,749,509 raw → 86,140 filtered (196 ships)
+  AIS_2024_09_20: 8,424,812 raw → 67,925 filtered (187 ships)
+  AIS_2024_09_21: 8,926,936 raw → 86,020 filtered (189 ships)
+  AIS_2024_09_22: 8,289,684 raw → 102,221 filtered (184 ships)
+  AIS_2024_09_23: 8,615,824 raw → 106,016 filtered (193 ships)
+  AIS_2024_09_24: 8,212,083 raw → 106,045 filtered (196 ships)
+  AIS_2024_09_25: 8,499,221 raw → 68,649 filtered (190 ships)
+  AIS_2024_09_26: 8,852,407 raw → 89,625 filtered (191 ships)
+  AIS_2024_09_27: 8,876,825 raw → 88,055 filtered (193 ships)
+  AIS_2024_09_28: 7,947,160 raw → 51,415 filtered (172 ships)
+  AIS_2024_09_29: 8,043,484 raw → 86,166 filtered (175 ships)
+  AIS_2024_09_30: 7,978,452 raw → 89,735 filtered (173 ships)
+
+Total: 122 days processed (0 skipped)
+  Unique ships: 1347
+  Total segments: 27518
+  Output dir: /home/wangguangjie/djs/vessel-trajectory-prediction/NOAANY/data/processed

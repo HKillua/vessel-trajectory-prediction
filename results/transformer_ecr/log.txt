@@ -1795,3 +1795,462 @@
 [2026-06-20 00:10:01]   sda_gates [950]: L0=[0.857,0.863,0.860,0.865] L1=[0.857,0.864,0.862,0.861]
 [2026-06-20 00:10:20] Epoch 50: loss=36.719008 dist=19.218328 fredf=15.318004 anchor=1.243554 nomoto=1.240177 div=-0.424750 pw_fde=1.1884nm lr=1.00e-04 gpu=328/15544MB t=610.9s
 [2026-06-20 00:20:29] Epoch 51: loss=41.922451 dist=22.185434 fredf=16.636854 anchor=1.975966 nomoto=1.276255 div=-0.352839 pw_fde=1.0060nm lr=1.00e-04 gpu=330/15544MB t=608.9s
+[2026-06-20 00:30:39] Epoch 52: loss=31.539105 dist=14.018992 fredf=15.019465 anchor=1.376061 nomoto=1.255199 div=-0.268724 pw_fde=0.7562nm lr=1.00e-04 gpu=328/15544MB t=610.4s
+[2026-06-20 00:40:49] Epoch 53: loss=33.090982 dist=15.439653 fredf=15.237341 anchor=1.266812 nomoto=1.329528 div=-0.309739 pw_fde=0.8775nm lr=1.00e-04 gpu=329/15544MB t=609.9s
+[2026-06-20 00:50:59] Epoch 54: loss=31.213043 dist=13.168760 fredf=15.653823 anchor=1.229782 nomoto=1.292268 div=-0.255304 pw_fde=0.6778nm lr=1.00e-04 gpu=330/15544MB t=610.0s
+[2026-06-20 00:50:59]   loss_ratios: dist=42.2% fredf=50.2% anchor=3.9% nomoto=4.1% div=-0.8%
+[2026-06-20 00:51:19]   Val: ADE=1.8583  FDE=1.9806  Anchor_ADE=0.4302  Anchor_FDE=0.1965  Diffusion_improvement=-331.9%  CCR=18.04%(726)  DCPA_MAE=1.1617nm  pred_DCPA=3.9741nm  gt_DCPA=3.5574nm
+[2026-06-20 00:51:57]   CFG health: ADE_base=1.8583 ADE_cfg=1.7465 delta=-0.1118 [OK]
+[2026-06-20 00:51:57]   No improvement 8/20 (combined=1.849239, best=0.686340)
+[2026-06-20 00:51:59] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-20 00:52:00]   grad_norms [0]: anchor=0.4466 denoiser=0.1000 edge_encoder=0.0071 enc_attn=0.0072 encoder=0.0104 gat=0.2243 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0023
+[2026-06-20 00:52:00]   sda_gates [0]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:52:31]   grad_norms [50]: anchor=0.4832 denoiser=0.1000 edge_encoder=0.0043 enc_attn=0.0001 encoder=0.0326 gat=0.1223 sc_gate=0.0005 sc_proj=0.0021 social_circle=0.0204
+[2026-06-20 00:52:31]   sda_gates [50]: L0=[0.856,0.861,0.859,0.865] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:53:02]   grad_norms [100]: anchor=0.4647 denoiser=0.1000 edge_encoder=0.0093 enc_attn=0.0004 encoder=0.0092 gat=0.1840 sc_gate=0.0005 sc_proj=0.0015 social_circle=0.0031
+[2026-06-20 00:53:02]   sda_gates [100]: L0=[0.855,0.861,0.859,0.865] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:53:33]   grad_norms [150]: anchor=0.4662 denoiser=0.1000 edge_encoder=0.0060 enc_attn=0.0009 encoder=0.1079 gat=0.1445 sc_gate=0.0011 sc_proj=0.0035 social_circle=0.0081
+[2026-06-20 00:53:33]   sda_gates [150]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:54:04]   grad_norms [200]: anchor=0.4798 denoiser=0.1000 edge_encoder=0.0052 enc_attn=0.0040 encoder=0.0060 gat=0.1397 sc_gate=0.0003 sc_proj=0.0014 social_circle=0.0121
+[2026-06-20 00:54:04]   sda_gates [200]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:54:35]   grad_norms [250]: anchor=0.4490 denoiser=0.1000 edge_encoder=0.0065 enc_attn=0.0017 encoder=0.0107 gat=0.2196 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0007
+[2026-06-20 00:54:35]   sda_gates [250]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:55:06]   grad_norms [300]: anchor=0.4593 denoiser=0.1000 edge_encoder=0.0065 enc_attn=0.0018 encoder=0.0061 gat=0.1974 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0005
+[2026-06-20 00:55:06]   sda_gates [300]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:55:37]   grad_norms [350]: anchor=0.2678 denoiser=0.1000 edge_encoder=0.0092 enc_attn=0.0005 encoder=0.2181 gat=0.3614 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0015
+[2026-06-20 00:55:37]   sda_gates [350]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:56:09]   grad_norms [400]: anchor=0.4289 denoiser=0.1000 edge_encoder=0.0068 enc_attn=0.0000 encoder=0.0025 gat=0.2568 sc_gate=0.0001 sc_proj=0.0006 social_circle=0.0040
+[2026-06-20 00:56:09]   sda_gates [400]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:56:40]   grad_norms [450]: anchor=0.4870 denoiser=0.1000 edge_encoder=0.0038 enc_attn=0.0001 encoder=0.0003 gat=0.1134 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-20 00:56:40]   sda_gates [450]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:57:11]   grad_norms [500]: anchor=0.4067 denoiser=0.1000 edge_encoder=0.0261 enc_attn=0.0018 encoder=0.0015 gat=0.2897 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0005
+[2026-06-20 00:57:11]   sda_gates [500]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:57:42]   grad_norms [550]: anchor=0.4056 denoiser=0.1000 edge_encoder=0.0139 enc_attn=0.0020 encoder=0.0408 gat=0.2892 sc_gate=0.0004 sc_proj=0.0006 social_circle=0.0024
+[2026-06-20 00:57:42]   sda_gates [550]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:58:13]   grad_norms [600]: anchor=0.4496 denoiser=0.1000 edge_encoder=0.0050 enc_attn=0.0008 encoder=0.0021 gat=0.2188 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0011
+[2026-06-20 00:58:13]   sda_gates [600]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:58:44]   grad_norms [650]: anchor=0.4472 denoiser=0.1000 edge_encoder=0.0052 enc_attn=0.0006 encoder=0.0011 gat=0.2235 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0009
+[2026-06-20 00:58:44]   sda_gates [650]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.860,0.861]
+[2026-06-20 00:59:15]   grad_norms [700]: anchor=0.4943 denoiser=0.1000 edge_encoder=0.0036 enc_attn=0.0001 encoder=0.0049 gat=0.0741 sc_gate=0.0002 sc_proj=0.0010 social_circle=0.0129
+[2026-06-20 00:59:15]   sda_gates [700]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.861,0.861]
+[2026-06-20 00:59:46]   grad_norms [750]: anchor=0.3621 denoiser=0.1000 edge_encoder=0.0318 enc_attn=0.0003 encoder=0.0151 gat=0.3430 sc_gate=0.0003 sc_proj=0.0008 social_circle=0.0060
+[2026-06-20 00:59:46]   sda_gates [750]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.860,0.861]
+[2026-06-20 01:00:17]   grad_norms [800]: anchor=0.4756 denoiser=0.1000 edge_encoder=0.0057 enc_attn=0.0001 encoder=0.0008 gat=0.1541 sc_gate=0.0000 sc_proj=0.0002 social_circle=0.0004
+[2026-06-20 01:00:17]   sda_gates [800]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.860,0.861]
+[2026-06-20 01:00:48]   grad_norms [850]: anchor=0.3295 denoiser=0.1000 edge_encoder=0.0276 enc_attn=0.0003 encoder=0.0037 gat=0.3751 sc_gate=0.0002 sc_proj=0.0008 social_circle=0.0012
+[2026-06-20 01:00:48]   sda_gates [850]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.860,0.860]
+[2026-06-20 01:01:19]   grad_norms [900]: anchor=0.4945 denoiser=0.1000 edge_encoder=0.0035 enc_attn=0.0003 encoder=0.0077 gat=0.0737 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0019
+[2026-06-20 01:01:19]   sda_gates [900]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.860,0.861]
+[2026-06-20 01:01:50]   grad_norms [950]: anchor=0.4943 denoiser=0.1000 edge_encoder=0.0051 enc_attn=0.0006 encoder=0.0002 gat=0.0750 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-20 01:01:50]   sda_gates [950]: L0=[0.855,0.861,0.859,0.864] L1=[0.856,0.863,0.860,0.861]
+[2026-06-20 01:02:09] Epoch 55: loss=30.365226 dist=14.718706 fredf=13.523290 anchor=1.097841 nomoto=1.075168 div=-0.161822 pw_fde=0.4135nm lr=1.00e-04 gpu=329/15544MB t=610.3s
+[2026-06-20 01:12:19] Epoch 56: loss=26.884443 dist=11.372476 fredf=13.584241 anchor=1.049943 nomoto=1.025740 div=-0.256671 pw_fde=0.6800nm lr=1.00e-04 gpu=328/15544MB t=610.4s
+[2026-06-20 01:22:29] Epoch 57: loss=32.112392 dist=15.529291 fredf=14.614323 anchor=0.998764 nomoto=1.092741 div=-0.223459 pw_fde=0.5420nm lr=1.00e-04 gpu=328/15544MB t=609.4s
+[2026-06-20 01:32:39] Epoch 58: loss=29.966117 dist=12.300236 fredf=15.860599 anchor=0.972795 nomoto=1.015104 div=-0.281003 pw_fde=0.6849nm lr=1.00e-04 gpu=330/15544MB t=609.8s
+[2026-06-20 01:43:05] Epoch 59: loss=29.153032 dist=13.339876 fredf=14.219651 anchor=0.621082 nomoto=1.224471 div=-0.314326 pw_fde=0.7773nm lr=1.00e-04 gpu=329/15544MB t=626.7s
+[2026-06-20 01:43:05]   loss_ratios: dist=45.8% fredf=48.8% anchor=2.1% nomoto=4.2% div=-1.1%
+[2026-06-20 01:43:26]   Val: ADE=1.0927  FDE=1.0786  Anchor_ADE=0.2267  Anchor_FDE=0.2195  Diffusion_improvement=-382.0%  CCR=55.92%(726)  DCPA_MAE=0.5950nm  pred_DCPA=3.4905nm  gt_DCPA=3.5574nm
+[2026-06-20 01:44:04]   CFG health: ADE_base=1.0927 ADE_cfg=1.6619 delta=+0.5692 [WARN: CFG hurts]
+[2026-06-20 01:44:04]   No improvement 9/20 (combined=1.064736, best=0.686340)
+[2026-06-20 01:44:05] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-20 01:44:06]   grad_norms [0]: anchor=0.4850 denoiser=0.1000 edge_encoder=0.0069 enc_attn=0.0051 encoder=0.0210 gat=0.1194 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0005
+[2026-06-20 01:44:06]   sda_gates [0]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:44:37]   grad_norms [50]: anchor=0.2609 denoiser=0.1000 edge_encoder=0.0542 enc_attn=0.0034 encoder=0.0057 gat=0.4231 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0008
+[2026-06-20 01:44:37]   sda_gates [50]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:45:09]   grad_norms [100]: anchor=0.4797 denoiser=0.1000 edge_encoder=0.0008 enc_attn=0.0005 encoder=0.0022 gat=0.1410 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0002
+[2026-06-20 01:45:09]   sda_gates [100]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:45:40]   grad_norms [150]: anchor=0.4789 denoiser=0.1000 edge_encoder=0.0044 enc_attn=0.0032 encoder=0.0166 gat=0.1427 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0013
+[2026-06-20 01:45:40]   sda_gates [150]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:46:12]   grad_norms [200]: anchor=0.4873 denoiser=0.1000 edge_encoder=0.0022 enc_attn=0.0013 encoder=0.0002 gat=0.1119 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-20 01:46:12]   sda_gates [200]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:46:44]   grad_norms [250]: anchor=0.3391 denoiser=0.1000 edge_encoder=0.0141 enc_attn=0.0014 encoder=0.0007 gat=0.3672 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-20 01:46:44]   sda_gates [250]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:47:16]   grad_norms [300]: anchor=0.4653 denoiser=0.1000 edge_encoder=0.0115 enc_attn=0.0000 encoder=0.0001 gat=0.1826 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-20 01:47:16]   sda_gates [300]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:47:48]   grad_norms [350]: anchor=0.4771 denoiser=0.1000 edge_encoder=0.0072 enc_attn=0.0024 encoder=0.0008 gat=0.1494 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0001
+[2026-06-20 01:47:48]   sda_gates [350]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:48:20]   grad_norms [400]: anchor=0.4959 denoiser=0.1000 edge_encoder=0.0029 enc_attn=0.0029 encoder=0.0012 gat=0.0640 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-20 01:48:20]   sda_gates [400]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:48:52]   grad_norms [450]: anchor=0.4944 denoiser=0.1000 edge_encoder=0.0038 enc_attn=0.0023 encoder=0.0007 gat=0.0746 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0004
+[2026-06-20 01:48:52]   sda_gates [450]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:49:23]   grad_norms [500]: anchor=0.4823 denoiser=0.1000 edge_encoder=0.0055 enc_attn=0.0013 encoder=0.0012 gat=0.1319 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-20 01:49:23]   sda_gates [500]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:49:56]   grad_norms [550]: anchor=0.4932 denoiser=0.1000 edge_encoder=0.0037 enc_attn=0.0008 encoder=0.0003 gat=0.0821 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-20 01:49:56]   sda_gates [550]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:50:27]   grad_norms [600]: anchor=0.4872 denoiser=0.1000 edge_encoder=0.0062 enc_attn=0.0021 encoder=0.0470 gat=0.1020 sc_gate=0.0002 sc_proj=0.0004 social_circle=0.0010
+[2026-06-20 01:50:27]   sda_gates [600]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:50:59]   grad_norms [650]: anchor=0.2392 denoiser=0.1000 edge_encoder=0.0022 enc_attn=0.0003 encoder=0.4348 gat=0.0603 sc_gate=0.0007 sc_proj=0.0016 social_circle=0.0086
+[2026-06-20 01:50:59]   sda_gates [650]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:51:31]   grad_norms [700]: anchor=0.4672 denoiser=0.1000 edge_encoder=0.0065 enc_attn=0.0029 encoder=0.0601 gat=0.1674 sc_gate=0.0005 sc_proj=0.0013 social_circle=0.0045
+[2026-06-20 01:51:31]   sda_gates [700]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:52:02]   grad_norms [750]: anchor=0.4056 denoiser=0.1000 edge_encoder=0.0089 enc_attn=0.0013 encoder=0.0465 gat=0.2885 sc_gate=0.0004 sc_proj=0.0019 social_circle=0.0050
+[2026-06-20 01:52:02]   sda_gates [750]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:52:34]   grad_norms [800]: anchor=0.4994 denoiser=0.1000 edge_encoder=0.0004 enc_attn=0.0003 encoder=0.0012 gat=0.0249 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-20 01:52:34]   sda_gates [800]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:53:05]   grad_norms [850]: anchor=0.4823 denoiser=0.1000 edge_encoder=0.0063 enc_attn=0.0003 encoder=0.0009 gat=0.1316 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-20 01:53:05]   sda_gates [850]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:53:37]   grad_norms [900]: anchor=0.4899 denoiser=0.1000 edge_encoder=0.0035 enc_attn=0.0000 encoder=0.0011 gat=0.1000 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-20 01:53:37]   sda_gates [900]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.862,0.859,0.859]
+[2026-06-20 01:54:09]   grad_norms [950]: anchor=0.4925 denoiser=0.1000 edge_encoder=0.0036 enc_attn=0.0008 encoder=0.0041 gat=0.0862 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0024
+[2026-06-20 01:54:09]   sda_gates [950]: L0=[0.853,0.861,0.858,0.863] L1=[0.855,0.863,0.859,0.859]
+[2026-06-20 01:54:28] Epoch 60: loss=32.543993 dist=17.031088 fredf=13.815794 anchor=0.750555 nomoto=1.231801 div=-0.359826 pw_fde=0.9213nm lr=1.00e-04 gpu=329/15544MB t=622.4s
+[2026-06-20 02:04:44] Epoch 61: loss=32.288356 dist=13.876875 fredf=16.784923 anchor=0.680216 nomoto=1.217077 div=-0.338921 pw_fde=0.8571nm lr=1.00e-04 gpu=328/15544MB t=616.4s
+[2026-06-20 02:14:55] Epoch 62: loss=33.331447 dist=15.150261 fredf=16.767126 anchor=0.612896 nomoto=1.181112 div=-0.441134 pw_fde=1.1434nm lr=1.00e-04 gpu=330/15544MB t=611.0s
+[2026-06-20 02:25:05] Epoch 63: loss=32.972973 dist=15.495837 fredf=16.055706 anchor=0.698610 nomoto=1.306650 div=-0.653496 pw_fde=1.7172nm lr=1.00e-04 gpu=328/15544MB t=610.1s
+[2026-06-20 02:35:14] Epoch 64: loss=34.122175 dist=15.886834 fredf=16.507060 anchor=0.730619 nomoto=1.290412 div=-0.365608 pw_fde=0.9486nm lr=1.00e-04 gpu=330/15544MB t=609.1s
+[2026-06-20 02:35:14]   loss_ratios: dist=46.6% fredf=48.4% anchor=2.1% nomoto=3.8% div=-1.1%
+[2026-06-20 02:35:34]   Val: ADE=1.0610  FDE=1.0935  Anchor_ADE=0.2027  Anchor_FDE=0.1489  Diffusion_improvement=-423.3%  CCR=52.89%(726)  DCPA_MAE=0.6441nm  pred_DCPA=3.6826nm  gt_DCPA=3.5574nm
+[2026-06-20 02:36:12]   CFG health: ADE_base=1.0610 ADE_cfg=1.6882 delta=+0.6272 [WARN: CFG hurts]
+[2026-06-20 02:36:12]   No improvement 10/20 (combined=1.034566, best=0.686340)
+[2026-06-20 02:36:14] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-20 02:36:15]   grad_norms [0]: anchor=0.4890 denoiser=0.1000 edge_encoder=0.0033 enc_attn=0.0077 encoder=0.0013 gat=0.1041 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0007
+[2026-06-20 02:36:15]   sda_gates [0]: L0=[0.852,0.861,0.857,0.863] L1=[0.852,0.862,0.859,0.859]
+[2026-06-20 02:36:46]   grad_norms [50]: anchor=0.2396 denoiser=0.1000 edge_encoder=0.0448 enc_attn=0.0019 encoder=0.0027 gat=0.4366 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0008
+[2026-06-20 02:36:46]   sda_gates [50]: L0=[0.852,0.861,0.858,0.862] L1=[0.852,0.862,0.859,0.859]
+[2026-06-20 02:37:17]   grad_norms [100]: anchor=0.3387 denoiser=0.1000 edge_encoder=0.0102 enc_attn=0.0017 encoder=0.0045 gat=0.3676 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0011
+[2026-06-20 02:37:17]   sda_gates [100]: L0=[0.852,0.861,0.858,0.862] L1=[0.853,0.862,0.859,0.859]
+[2026-06-20 02:37:48]   grad_norms [150]: anchor=0.4879 denoiser=0.1000 edge_encoder=0.0031 enc_attn=0.0048 encoder=0.0002 gat=0.1091 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-20 02:37:48]   sda_gates [150]: L0=[0.852,0.861,0.858,0.862] L1=[0.852,0.862,0.859,0.859]
+[2026-06-20 02:38:19]   grad_norms [200]: anchor=0.4788 denoiser=0.1000 edge_encoder=0.0043 enc_attn=0.0004 encoder=0.0021 gat=0.1439 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0008
+[2026-06-20 02:38:19]   sda_gates [200]: L0=[0.852,0.861,0.858,0.862] L1=[0.852,0.862,0.859,0.859]
+[2026-06-20 02:38:50]   grad_norms [250]: anchor=0.4747 denoiser=0.1000 edge_encoder=0.0025 enc_attn=0.0005 encoder=0.0001 gat=0.1569 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0000
+[2026-06-20 02:38:50]   sda_gates [250]: L0=[0.852,0.861,0.858,0.862] L1=[0.852,0.862,0.859,0.859]
+[2026-06-20 02:39:21]   grad_norms [300]: anchor=0.4633 denoiser=0.1000 edge_encoder=0.0046 enc_attn=0.0074 encoder=0.0009 gat=0.1878 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-20 02:39:21]   sda_gates [300]: L0=[0.852,0.861,0.858,0.862] L1=[0.852,0.862,0.859,0.859]
+[2026-06-20 02:39:52]   grad_norms [350]: anchor=0.3605 denoiser=0.1000 edge_encoder=0.0091 enc_attn=0.0015 encoder=0.0163 gat=0.3459 sc_gate=0.0006 sc_proj=0.0017 social_circle=0.0087
+[2026-06-20 02:39:52]   sda_gates [350]: L0=[0.852,0.861,0.858,0.862] L1=[0.852,0.862,0.859,0.859]
+[2026-06-20 02:40:23]   grad_norms [400]: anchor=0.4185 denoiser=0.1000 edge_encoder=0.0266 enc_attn=0.0022 encoder=0.0024 gat=0.2723 sc_gate=0.0001 sc_proj=0.0006 social_circle=0.0006
+[2026-06-20 02:40:23]   sda_gates [400]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.862,0.859,0.859]
+[2026-06-20 02:40:54]   grad_norms [450]: anchor=0.4360 denoiser=0.1000 edge_encoder=0.0088 enc_attn=0.0030 encoder=0.0056 gat=0.2445 sc_gate=0.0003 sc_proj=0.0011 social_circle=0.0027
+[2026-06-20 02:40:54]   sda_gates [450]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.859]
+[2026-06-20 02:41:25]   grad_norms [500]: anchor=0.4121 denoiser=0.1000 edge_encoder=0.0128 enc_attn=0.0052 encoder=0.0014 gat=0.2828 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0007
+[2026-06-20 02:41:25]   sda_gates [500]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.859]
+[2026-06-20 02:41:56]   grad_norms [550]: anchor=0.4296 denoiser=0.1000 edge_encoder=0.0064 enc_attn=0.0010 encoder=0.0004 gat=0.2557 sc_gate=0.0000 sc_proj=0.0000 social_circle=0.0001
+[2026-06-20 02:41:56]   sda_gates [550]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.858]
+[2026-06-20 02:42:27]   grad_norms [600]: anchor=0.2729 denoiser=0.1000 edge_encoder=0.0046 enc_attn=0.0020 encoder=0.3789 gat=0.1695 sc_gate=0.0042 sc_proj=0.0112 social_circle=0.0554
+[2026-06-20 02:42:27]   sda_gates [600]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.858]
+[2026-06-20 02:42:58]   grad_norms [650]: anchor=0.4139 denoiser=0.1000 edge_encoder=0.0245 enc_attn=0.0004 encoder=0.0029 gat=0.2794 sc_gate=0.0002 sc_proj=0.0006 social_circle=0.0011
+[2026-06-20 02:42:58]   sda_gates [650]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.858]
+[2026-06-20 02:43:29]   grad_norms [700]: anchor=0.4416 denoiser=0.1000 edge_encoder=0.0079 enc_attn=0.0022 encoder=0.0028 gat=0.2342 sc_gate=0.0003 sc_proj=0.0006 social_circle=0.0018
+[2026-06-20 02:43:29]   sda_gates [700]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.858]
+[2026-06-20 02:44:00]   grad_norms [750]: anchor=0.2608 denoiser=0.1000 edge_encoder=0.0302 enc_attn=0.0013 encoder=0.0029 gat=0.4255 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0008
+[2026-06-20 02:44:00]   sda_gates [750]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.858]
+[2026-06-20 02:44:31]   grad_norms [800]: anchor=0.4565 denoiser=0.1000 edge_encoder=0.0088 enc_attn=0.0012 encoder=0.0062 gat=0.2037 sc_gate=0.0006 sc_proj=0.0016 social_circle=0.0012
+[2026-06-20 02:44:31]   sda_gates [800]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.858]
+[2026-06-20 02:45:02]   grad_norms [850]: anchor=0.3889 denoiser=0.1000 edge_encoder=0.0149 enc_attn=0.0035 encoder=0.0177 gat=0.3133 sc_gate=0.0003 sc_proj=0.0010 social_circle=0.0034
+[2026-06-20 02:45:02]   sda_gates [850]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.858]
+[2026-06-20 02:45:33]   grad_norms [900]: anchor=0.4673 denoiser=0.1000 edge_encoder=0.0061 enc_attn=0.0008 encoder=0.0021 gat=0.1777 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0016
+[2026-06-20 02:45:33]   sda_gates [900]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.858]
+[2026-06-20 02:46:04]   grad_norms [950]: anchor=0.3353 denoiser=0.1000 edge_encoder=0.0137 enc_attn=0.0159 encoder=0.0016 gat=0.3703 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0004
+[2026-06-20 02:46:04]   sda_gates [950]: L0=[0.852,0.861,0.857,0.862] L1=[0.852,0.861,0.859,0.858]
+[2026-06-20 02:46:23] Epoch 65: loss=38.931827 dist=18.850455 fredf=18.730919 anchor=0.569330 nomoto=1.048141 div=-0.323932 pw_fde=0.8242nm lr=1.00e-04 gpu=328/15544MB t=609.3s
+[2026-06-20 02:56:32] Epoch 66: loss=34.674998 dist=17.622841 fredf=15.749560 anchor=0.498020 nomoto=1.056822 div=-0.302280 pw_fde=0.7272nm lr=1.00e-04 gpu=330/15544MB t=608.9s
+[2026-06-20 03:06:40] Epoch 67: loss=36.611561 dist=19.250706 fredf=16.210071 anchor=0.622943 nomoto=0.969577 div=-0.503979 pw_fde=1.3595nm lr=1.00e-04 gpu=329/15544MB t=608.5s
+[2026-06-20 03:16:49] Epoch 68: loss=39.297423 dist=20.133753 fredf=17.731348 anchor=0.692937 nomoto=1.036297 div=-0.366382 pw_fde=0.8997nm lr=1.00e-04 gpu=327/15544MB t=608.7s
+[2026-06-20 03:26:57] Epoch 69: loss=45.949129 dist=27.128115 fredf=17.331653 anchor=0.716231 nomoto=0.981935 div=-0.280555 pw_fde=0.6980nm lr=5.00e-05 gpu=328/15544MB t=607.8s
+[2026-06-20 03:26:57]   loss_ratios: dist=59.0% fredf=37.7% anchor=1.6% nomoto=2.1% div=-0.6%
+[2026-06-20 03:27:17]   Val: ADE=2.6420  FDE=2.8000  Anchor_ADE=0.1837  Anchor_FDE=0.1631  Diffusion_improvement=-1338.3%  CCR=62.40%(726)  DCPA_MAE=1.1884nm  pred_DCPA=4.3380nm  gt_DCPA=3.5574nm
+[2026-06-20 03:27:55]   CFG health: ADE_base=2.6420 ADE_cfg=3.4169 delta=+0.7749 [WARN: CFG hurts]
+[2026-06-20 03:27:55]   No improvement 11/20 (combined=2.610789, best=0.686340)
+[2026-06-20 03:27:56] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-20 03:27:57]   grad_norms [0]: anchor=0.4747 denoiser=0.1000 edge_encoder=0.0091 enc_attn=0.0054 encoder=0.0589 gat=0.1450 sc_gate=0.0011 sc_proj=0.0024 social_circle=0.0068
+[2026-06-20 03:27:57]   sda_gates [0]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.857]
+[2026-06-20 03:28:28]   grad_norms [50]: anchor=0.2698 denoiser=0.1000 edge_encoder=0.0123 enc_attn=0.0024 encoder=0.2374 gat=0.3473 sc_gate=0.0014 sc_proj=0.0035 social_circle=0.0096
+[2026-06-20 03:28:28]   sda_gates [50]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:28:59]   grad_norms [100]: anchor=0.1459 denoiser=0.1000 edge_encoder=0.0148 enc_attn=0.0177 encoder=0.0207 gat=0.4772 sc_gate=0.0011 sc_proj=0.0037 social_circle=0.0059
+[2026-06-20 03:28:59]   sda_gates [100]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.856,0.856]
+[2026-06-20 03:29:30]   grad_norms [150]: anchor=0.3601 denoiser=0.1000 edge_encoder=0.0122 enc_attn=0.0023 encoder=0.0311 gat=0.3446 sc_gate=0.0024 sc_proj=0.0058 social_circle=0.0204
+[2026-06-20 03:29:30]   sda_gates [150]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.856,0.856]
+[2026-06-20 03:30:01]   grad_norms [200]: anchor=0.4849 denoiser=0.1000 edge_encoder=0.0039 enc_attn=0.0003 encoder=0.0022 gat=0.1219 sc_gate=0.0001 sc_proj=0.0003 social_circle=0.0007
+[2026-06-20 03:30:01]   sda_gates [200]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:30:32]   grad_norms [250]: anchor=0.4191 denoiser=0.1000 edge_encoder=0.0091 enc_attn=0.0127 encoder=0.0181 gat=0.2716 sc_gate=0.0006 sc_proj=0.0018 social_circle=0.0057
+[2026-06-20 03:30:32]   sda_gates [250]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:31:03]   grad_norms [300]: anchor=0.2755 denoiser=0.1000 edge_encoder=0.0097 enc_attn=0.0005 encoder=0.3993 gat=0.1071 sc_gate=0.0065 sc_proj=0.0137 social_circle=0.0534
+[2026-06-20 03:31:03]   sda_gates [300]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.861,0.857,0.856]
+[2026-06-20 03:31:34]   grad_norms [350]: anchor=0.4086 denoiser=0.1000 edge_encoder=0.0084 enc_attn=0.0008 encoder=0.1022 gat=0.2693 sc_gate=0.0003 sc_proj=0.0007 social_circle=0.0019
+[2026-06-20 03:31:34]   sda_gates [350]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.861,0.857,0.856]
+[2026-06-20 03:32:05]   grad_norms [400]: anchor=0.1627 denoiser=0.1000 edge_encoder=0.0101 enc_attn=0.0010 encoder=0.3821 gat=0.2648 sc_gate=0.0063 sc_proj=0.0211 social_circle=0.0824
+[2026-06-20 03:32:05]   sda_gates [400]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.861,0.857,0.857]
+[2026-06-20 03:32:36]   grad_norms [450]: anchor=0.4863 denoiser=0.1000 edge_encoder=0.0050 enc_attn=0.0019 encoder=0.0008 gat=0.1162 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0003
+[2026-06-20 03:32:36]   sda_gates [450]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.861,0.857,0.856]
+[2026-06-20 03:33:07]   grad_norms [500]: anchor=0.3803 denoiser=0.1000 edge_encoder=0.0145 enc_attn=0.0039 encoder=0.2013 gat=0.2529 sc_gate=0.0039 sc_proj=0.0105 social_circle=0.0234
+[2026-06-20 03:33:07]   sda_gates [500]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.861,0.857,0.856]
+[2026-06-20 03:33:38]   grad_norms [550]: anchor=0.4396 denoiser=0.1000 edge_encoder=0.0099 enc_attn=0.0004 encoder=0.0207 gat=0.2371 sc_gate=0.0006 sc_proj=0.0012 social_circle=0.0034
+[2026-06-20 03:33:38]   sda_gates [550]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:34:09]   grad_norms [600]: anchor=0.3951 denoiser=0.1000 edge_encoder=0.0123 enc_attn=0.0025 encoder=0.0044 gat=0.3062 sc_gate=0.0003 sc_proj=0.0008 social_circle=0.0012
+[2026-06-20 03:34:09]   sda_gates [600]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.861,0.857,0.856]
+[2026-06-20 03:34:40]   grad_norms [650]: anchor=0.2768 denoiser=0.1000 edge_encoder=0.0085 enc_attn=0.0030 encoder=0.1104 gat=0.4010 sc_gate=0.0015 sc_proj=0.0054 social_circle=0.0155
+[2026-06-20 03:34:40]   sda_gates [650]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:35:11]   grad_norms [700]: anchor=0.1564 denoiser=0.1000 edge_encoder=0.0446 enc_attn=0.0009 encoder=0.2143 gat=0.4080 sc_gate=0.0152 sc_proj=0.0234 social_circle=0.1021
+[2026-06-20 03:35:11]   sda_gates [700]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:35:42]   grad_norms [750]: anchor=0.4370 denoiser=0.1000 edge_encoder=0.0114 enc_attn=0.0008 encoder=0.0193 gat=0.2416 sc_gate=0.0013 sc_proj=0.0034 social_circle=0.0111
+[2026-06-20 03:35:42]   sda_gates [750]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:36:13]   grad_norms [800]: anchor=0.0567 denoiser=0.1000 edge_encoder=0.0114 enc_attn=0.0006 encoder=0.0206 gat=0.4962 sc_gate=0.0003 sc_proj=0.0011 social_circle=0.0036
+[2026-06-20 03:36:13]   sda_gates [800]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:36:44]   grad_norms [850]: anchor=0.4358 denoiser=0.1000 edge_encoder=0.0083 enc_attn=0.0006 encoder=0.0408 gat=0.2415 sc_gate=0.0007 sc_proj=0.0017 social_circle=0.0063
+[2026-06-20 03:36:44]   sda_gates [850]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:37:15]   grad_norms [900]: anchor=0.4274 denoiser=0.1000 edge_encoder=0.0088 enc_attn=0.0026 encoder=0.0124 gat=0.2589 sc_gate=0.0005 sc_proj=0.0019 social_circle=0.0023
+[2026-06-20 03:37:15]   sda_gates [900]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:37:45]   grad_norms [950]: anchor=0.2015 denoiser=0.1000 edge_encoder=0.0045 enc_attn=0.0010 encoder=0.4481 gat=0.0924 sc_gate=0.0017 sc_proj=0.0054 social_circle=0.0064
+[2026-06-20 03:37:45]   sda_gates [950]: L0=[0.851,0.860,0.856,0.861] L1=[0.853,0.860,0.857,0.856]
+[2026-06-20 03:38:04] Epoch 70: loss=38.098187 dist=21.178069 fredf=15.907533 anchor=0.508943 nomoto=0.744965 div=-0.292280 pw_fde=0.7487nm lr=5.00e-05 gpu=329/15544MB t=608.0s
+[2026-06-20 03:48:12] Epoch 71: loss=36.282241 dist=17.934444 fredf=17.393842 anchor=0.452492 nomoto=0.705628 div=-0.249478 pw_fde=0.5950nm lr=5.00e-05 gpu=328/15544MB t=608.3s
+[2026-06-20 03:58:21] Epoch 72: loss=35.966914 dist=17.916101 fredf=17.123179 anchor=0.434601 nomoto=0.685279 div=-0.235494 pw_fde=0.5719nm lr=5.00e-05 gpu=327/15544MB t=608.3s
+[2026-06-20 04:08:28] Epoch 73: loss=34.160228 dist=17.292390 fredf=16.111752 anchor=0.384701 nomoto=0.587495 div=-0.254331 pw_fde=0.6384nm lr=5.00e-05 gpu=328/15544MB t=607.6s
+[2026-06-20 04:18:37] Epoch 74: loss=33.939763 dist=17.064710 fredf=16.296058 anchor=0.346123 nomoto=0.494104 div=-0.295511 pw_fde=0.7338nm lr=5.00e-05 gpu=329/15544MB t=608.4s
+[2026-06-20 04:18:37]   loss_ratios: dist=50.3% fredf=48.0% anchor=1.0% nomoto=1.5% div=-0.9%
+[2026-06-20 04:18:56]   Val: ADE=1.9582  FDE=2.2226  Anchor_ADE=0.1012  Anchor_FDE=0.1616  Diffusion_improvement=-1835.1%  CCR=88.02%(726)  DCPA_MAE=1.0632nm  pred_DCPA=4.0265nm  gt_DCPA=3.5574nm
+[2026-06-20 04:19:34]   CFG health: ADE_base=1.9582 ADE_cfg=2.4385 delta=+0.4803 [WARN: CFG hurts]
+[2026-06-20 04:19:36] Saved checkpoint: results/transformer_ecr/checkpoint_best_ccr.pt
+[2026-06-20 04:19:36]   No improvement 12/20 (combined=1.914196, best=0.686340)
+[2026-06-20 04:19:37] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-20 04:19:39]   grad_norms [0]: anchor=0.1972 denoiser=0.1000 edge_encoder=0.0062 enc_attn=0.0198 encoder=0.3184 gat=0.3305 sc_gate=0.0013 sc_proj=0.0035 social_circle=0.0087
+[2026-06-20 04:19:39]   sda_gates [0]: L0=[0.851,0.860,0.856,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:20:10]   grad_norms [50]: anchor=0.0692 denoiser=0.1000 edge_encoder=0.0058 enc_attn=0.0006 encoder=0.4792 gat=0.1204 sc_gate=0.0037 sc_proj=0.0132 social_circle=0.0297
+[2026-06-20 04:20:10]   sda_gates [50]: L0=[0.851,0.860,0.856,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:20:40]   grad_norms [100]: anchor=0.4726 denoiser=0.1000 edge_encoder=0.0090 enc_attn=0.0023 encoder=0.0136 gat=0.1622 sc_gate=0.0008 sc_proj=0.0023 social_circle=0.0083
+[2026-06-20 04:20:40]   sda_gates [100]: L0=[0.851,0.860,0.856,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:21:11]   grad_norms [150]: anchor=0.4006 denoiser=0.1000 edge_encoder=0.0111 enc_attn=0.0048 encoder=0.0201 gat=0.2982 sc_gate=0.0010 sc_proj=0.0025 social_circle=0.0067
+[2026-06-20 04:21:11]   sda_gates [150]: L0=[0.851,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:21:42]   grad_norms [200]: anchor=0.4171 denoiser=0.1000 edge_encoder=0.0166 enc_attn=0.0006 encoder=0.0078 gat=0.2750 sc_gate=0.0003 sc_proj=0.0010 social_circle=0.0058
+[2026-06-20 04:21:42]   sda_gates [200]: L0=[0.851,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:22:13]   grad_norms [250]: anchor=0.4290 denoiser=0.1000 edge_encoder=0.0140 enc_attn=0.0125 encoder=0.0677 gat=0.2470 sc_gate=0.0005 sc_proj=0.0011 social_circle=0.0028
+[2026-06-20 04:22:13]   sda_gates [250]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:22:44]   grad_norms [300]: anchor=0.4341 denoiser=0.1000 edge_encoder=0.0087 enc_attn=0.0038 encoder=0.0409 gat=0.2446 sc_gate=0.0003 sc_proj=0.0008 social_circle=0.0018
+[2026-06-20 04:22:44]   sda_gates [300]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:23:15]   grad_norms [350]: anchor=0.4112 denoiser=0.1000 edge_encoder=0.0153 enc_attn=0.0017 encoder=0.0403 gat=0.2759 sc_gate=0.0043 sc_proj=0.0154 social_circle=0.0516
+[2026-06-20 04:23:15]   sda_gates [350]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:23:46]   grad_norms [400]: anchor=0.4826 denoiser=0.1000 edge_encoder=0.0047 enc_attn=0.0001 encoder=0.0029 gat=0.1308 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0005
+[2026-06-20 04:23:46]   sda_gates [400]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:24:17]   grad_norms [450]: anchor=0.4632 denoiser=0.1000 edge_encoder=0.0091 enc_attn=0.0011 encoder=0.0461 gat=0.1822 sc_gate=0.0003 sc_proj=0.0007 social_circle=0.0017
+[2026-06-20 04:24:17]   sda_gates [450]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:24:48]   grad_norms [500]: anchor=0.4718 denoiser=0.1000 edge_encoder=0.0066 enc_attn=0.0003 encoder=0.0082 gat=0.1651 sc_gate=0.0002 sc_proj=0.0004 social_circle=0.0010
+[2026-06-20 04:24:48]   sda_gates [500]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:25:19]   grad_norms [550]: anchor=0.2397 denoiser=0.1000 edge_encoder=0.0569 enc_attn=0.0000 encoder=0.0798 gat=0.4277 sc_gate=0.0005 sc_proj=0.0021 social_circle=0.0055
+[2026-06-20 04:25:19]   sda_gates [550]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:25:50]   grad_norms [600]: anchor=0.3162 denoiser=0.1000 edge_encoder=0.0118 enc_attn=0.0002 encoder=0.2882 gat=0.2578 sc_gate=0.0018 sc_proj=0.0068 social_circle=0.0176
+[2026-06-20 04:25:50]   sda_gates [600]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:26:21]   grad_norms [650]: anchor=0.3317 denoiser=0.1000 edge_encoder=0.0173 enc_attn=0.0002 encoder=0.0348 gat=0.3721 sc_gate=0.0004 sc_proj=0.0015 social_circle=0.0036
+[2026-06-20 04:26:21]   sda_gates [650]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:26:52]   grad_norms [700]: anchor=0.2973 denoiser=0.1000 edge_encoder=0.0139 enc_attn=0.0393 encoder=0.0308 gat=0.3981 sc_gate=0.0015 sc_proj=0.0060 social_circle=0.0209
+[2026-06-20 04:26:52]   sda_gates [700]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:27:23]   grad_norms [750]: anchor=0.4717 denoiser=0.1000 edge_encoder=0.0095 enc_attn=0.0025 encoder=0.1229 gat=0.1108 sc_gate=0.0006 sc_proj=0.0024 social_circle=0.0059
+[2026-06-20 04:27:23]   sda_gates [750]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:27:54]   grad_norms [800]: anchor=0.0574 denoiser=0.1000 edge_encoder=0.0558 enc_attn=0.0010 encoder=0.2281 gat=0.3683 sc_gate=0.0095 sc_proj=0.0330 social_circle=0.2339
+[2026-06-20 04:27:54]   sda_gates [800]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:28:25]   grad_norms [850]: anchor=0.0187 denoiser=0.1000 edge_encoder=0.0022 enc_attn=0.0007 encoder=0.1977 gat=0.3719 sc_gate=0.0159 sc_proj=0.0500 social_circle=0.2636
+[2026-06-20 04:28:25]   sda_gates [850]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:28:56]   grad_norms [900]: anchor=0.4509 denoiser=0.1000 edge_encoder=0.0111 enc_attn=0.0028 encoder=0.0135 gat=0.2152 sc_gate=0.0010 sc_proj=0.0025 social_circle=0.0047
+[2026-06-20 04:28:56]   sda_gates [900]: L0=[0.850,0.860,0.855,0.860] L1=[0.852,0.860,0.856,0.856]
+[2026-06-20 04:29:27]   grad_norms [950]: anchor=0.3748 denoiser=0.1000 edge_encoder=0.0185 enc_attn=0.0164 encoder=0.0410 gat=0.3241 sc_gate=0.0036 sc_proj=0.0141 social_circle=0.0445
+[2026-06-20 04:29:27]   sda_gates [950]: L0=[0.850,0.860,0.855,0.860] L1=[0.851,0.860,0.857,0.856]
+[2026-06-20 04:29:46] Epoch 75: loss=33.471487 dist=15.725551 fredf=17.244513 anchor=0.335814 nomoto=0.464707 div=-0.332627 pw_fde=0.8162nm lr=5.00e-05 gpu=330/15544MB t=608.6s
+[2026-06-20 04:39:54] Epoch 76: loss=32.862846 dist=16.246949 fredf=16.134486 anchor=0.334480 nomoto=0.392492 div=-0.278685 pw_fde=0.6840nm lr=5.00e-05 gpu=329/15544MB t=607.6s
+[2026-06-20 04:50:02] Epoch 77: loss=32.660441 dist=15.528495 fredf=16.621121 anchor=0.363377 nomoto=0.392328 div=-0.281447 pw_fde=0.6989nm lr=5.00e-05 gpu=327/15544MB t=608.7s
+[2026-06-20 05:00:11] Epoch 78: loss=31.632432 dist=15.047727 fredf=16.097334 anchor=0.382595 nomoto=0.371464 div=-0.305126 pw_fde=0.7335nm lr=5.00e-05 gpu=330/15544MB t=608.1s
+[2026-06-20 05:10:19] Epoch 79: loss=28.536046 dist=13.820799 fredf=14.360566 anchor=0.354247 nomoto=0.266946 div=-0.301865 pw_fde=0.6930nm lr=5.00e-05 gpu=330/15544MB t=609.0s
+[2026-06-20 05:10:19]   loss_ratios: dist=48.4% fredf=50.3% anchor=1.2% nomoto=0.9% div=-1.1%
+[2026-06-20 05:10:39]   Val: ADE=1.6513  FDE=1.8130  Anchor_ADE=0.0956  Anchor_FDE=0.1557  Diffusion_improvement=-1627.9%  CCR=43.66%(726)  DCPA_MAE=0.8992nm  pred_DCPA=3.7137nm  gt_DCPA=3.5574nm
+[2026-06-20 05:11:17]   CFG health: ADE_base=1.6513 ADE_cfg=1.7314 delta=+0.0801 [WARN: CFG hurts]
+[2026-06-20 05:11:17]   No improvement 13/20 (combined=1.629469, best=0.686340)
+[2026-06-20 05:11:19] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-20 05:11:20]   grad_norms [0]: anchor=0.2262 denoiser=0.1000 edge_encoder=0.0261 enc_attn=0.0103 encoder=0.0901 gat=0.4213 sc_gate=0.0086 sc_proj=0.0326 social_circle=0.1064
+[2026-06-20 05:11:20]   sda_gates [0]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:11:51]   grad_norms [50]: anchor=0.1171 denoiser=0.1000 edge_encoder=0.0217 enc_attn=0.0013 encoder=0.0114 gat=0.4855 sc_gate=0.0002 sc_proj=0.0007 social_circle=0.0021
+[2026-06-20 05:11:51]   sda_gates [50]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:12:22]   grad_norms [100]: anchor=0.2004 denoiser=0.1000 edge_encoder=0.0138 enc_attn=0.0049 encoder=0.0062 gat=0.4578 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0008
+[2026-06-20 05:12:22]   sda_gates [100]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:12:53]   grad_norms [150]: anchor=0.0070 denoiser=0.1000 edge_encoder=0.0043 enc_attn=0.0001 encoder=0.4566 gat=0.1402 sc_gate=0.0098 sc_proj=0.0304 social_circle=0.1442
+[2026-06-20 05:12:53]   sda_gates [150]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:13:24]   grad_norms [200]: anchor=0.1626 denoiser=0.1000 edge_encoder=0.0353 enc_attn=0.0043 encoder=0.0135 gat=0.4713 sc_gate=0.0006 sc_proj=0.0020 social_circle=0.0055
+[2026-06-20 05:13:24]   sda_gates [200]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:13:55]   grad_norms [250]: anchor=0.2961 denoiser=0.1000 edge_encoder=0.0142 enc_attn=0.0005 encoder=0.0060 gat=0.4026 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0010
+[2026-06-20 05:13:55]   sda_gates [250]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:14:26]   grad_norms [300]: anchor=0.4507 denoiser=0.1000 edge_encoder=0.0114 enc_attn=0.0033 encoder=0.0203 gat=0.2152 sc_gate=0.0002 sc_proj=0.0003 social_circle=0.0014
+[2026-06-20 05:14:26]   sda_gates [300]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:14:57]   grad_norms [350]: anchor=0.0642 denoiser=0.1000 edge_encoder=0.0295 enc_attn=0.0003 encoder=0.3995 gat=0.2913 sc_gate=0.0029 sc_proj=0.0066 social_circle=0.0233
+[2026-06-20 05:14:57]   sda_gates [350]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:15:28]   grad_norms [400]: anchor=0.0033 denoiser=0.1000 edge_encoder=0.0659 enc_attn=0.0001 encoder=0.2521 gat=0.3377 sc_gate=0.0078 sc_proj=0.0310 social_circle=0.2589
+[2026-06-20 05:15:28]   sda_gates [400]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:15:59]   grad_norms [450]: anchor=0.4805 denoiser=0.1000 edge_encoder=0.0046 enc_attn=0.0049 encoder=0.0006 gat=0.1380 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0001
+[2026-06-20 05:15:59]   sda_gates [450]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.859,0.856,0.855]
+[2026-06-20 05:16:29]   grad_norms [500]: anchor=0.4856 denoiser=0.1000 edge_encoder=0.0010 enc_attn=0.0005 encoder=0.0090 gat=0.1186 sc_gate=0.0005 sc_proj=0.0018 social_circle=0.0030
+[2026-06-20 05:16:29]   sda_gates [500]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:17:00]   grad_norms [550]: anchor=0.4625 denoiser=0.1000 edge_encoder=0.0121 enc_attn=0.0034 encoder=0.0566 gat=0.1741 sc_gate=0.0034 sc_proj=0.0075 social_circle=0.0488
+[2026-06-20 05:17:00]   sda_gates [550]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.859,0.856,0.855]
+[2026-06-20 05:17:31]   grad_norms [600]: anchor=0.0852 denoiser=0.1000 edge_encoder=0.0397 enc_attn=0.0096 encoder=0.3782 gat=0.3081 sc_gate=0.0070 sc_proj=0.0183 social_circle=0.0525
+[2026-06-20 05:17:31]   sda_gates [600]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:18:02]   grad_norms [650]: anchor=0.2863 denoiser=0.1000 edge_encoder=0.0219 enc_attn=0.0208 encoder=0.0868 gat=0.3992 sc_gate=0.0023 sc_proj=0.0072 social_circle=0.0138
+[2026-06-20 05:18:02]   sda_gates [650]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:18:33]   grad_norms [700]: anchor=0.2905 denoiser=0.1000 edge_encoder=0.0160 enc_attn=0.0032 encoder=0.0075 gat=0.4066 sc_gate=0.0003 sc_proj=0.0007 social_circle=0.0019
+[2026-06-20 05:18:33]   sda_gates [700]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:19:04]   grad_norms [750]: anchor=0.2239 denoiser=0.1000 edge_encoder=0.0221 enc_attn=0.0024 encoder=0.2938 gat=0.3362 sc_gate=0.0007 sc_proj=0.0012 social_circle=0.0058
+[2026-06-20 05:19:04]   sda_gates [750]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:19:35]   grad_norms [800]: anchor=0.2339 denoiser=0.1000 edge_encoder=0.0089 enc_attn=0.0004 encoder=0.4314 gat=0.0926 sc_gate=0.0060 sc_proj=0.0127 social_circle=0.0177
+[2026-06-20 05:19:35]   sda_gates [800]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:20:06]   grad_norms [850]: anchor=0.1796 denoiser=0.1000 edge_encoder=0.0067 enc_attn=0.0028 encoder=0.4530 gat=0.1116 sc_gate=0.0002 sc_proj=0.0006 social_circle=0.0019
+[2026-06-20 05:20:06]   sda_gates [850]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:20:37]   grad_norms [900]: anchor=0.1320 denoiser=0.1000 edge_encoder=0.0144 enc_attn=0.0001 encoder=0.4641 gat=0.1301 sc_gate=0.0005 sc_proj=0.0012 social_circle=0.0046
+[2026-06-20 05:20:37]   sda_gates [900]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:21:08]   grad_norms [950]: anchor=0.4576 denoiser=0.1000 edge_encoder=0.0092 enc_attn=0.0013 encoder=0.0372 gat=0.1929 sc_gate=0.0039 sc_proj=0.0082 social_circle=0.0429
+[2026-06-20 05:21:08]   sda_gates [950]: L0=[0.851,0.859,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 05:21:27] Epoch 80: loss=28.689007 dist=13.323849 fredf=14.973853 anchor=0.373653 nomoto=0.299203 div=-0.318739 pw_fde=0.7292nm lr=5.00e-05 gpu=330/15544MB t=608.0s
+[2026-06-20 05:31:35] Epoch 81: loss=29.862868 dist=15.258738 fredf=14.217479 anchor=0.397612 nomoto=0.288981 div=-0.339707 pw_fde=0.7718nm lr=5.00e-05 gpu=329/15544MB t=607.9s
+[2026-06-20 05:41:43] Epoch 82: loss=27.741264 dist=13.363373 fredf=13.960787 anchor=0.405798 nomoto=0.313454 div=-0.342690 pw_fde=0.7881nm lr=5.00e-05 gpu=329/15544MB t=608.3s
+[2026-06-20 05:51:51] Epoch 83: loss=26.019154 dist=12.022443 fredf=13.540955 anchor=0.397850 nomoto=0.309246 div=-0.291172 pw_fde=0.6498nm lr=5.00e-05 gpu=327/15544MB t=608.1s
+[2026-06-20 06:01:59] Epoch 84: loss=25.052014 dist=12.246075 fredf=12.356475 anchor=0.380081 nomoto=0.307974 div=-0.276707 pw_fde=0.6062nm lr=5.00e-05 gpu=330/15544MB t=608.0s
+[2026-06-20 06:01:59]   loss_ratios: dist=48.9% fredf=49.3% anchor=1.5% nomoto=1.2% div=-1.1%
+[2026-06-20 06:02:19]   Val: ADE=1.2600  FDE=1.4545  Anchor_ADE=0.1002  Anchor_FDE=0.1625  Diffusion_improvement=-1157.2%  CCR=23.00%(726)  DCPA_MAE=0.6879nm  pred_DCPA=3.6723nm  gt_DCPA=3.5574nm
+[2026-06-20 06:02:57]   CFG health: ADE_base=1.2600 ADE_cfg=1.7889 delta=+0.5289 [WARN: CFG hurts]
+[2026-06-20 06:02:57]   No improvement 14/20 (combined=1.248506, best=0.686340)
+[2026-06-20 06:02:58] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-20 06:02:59]   grad_norms [0]: anchor=0.3743 denoiser=0.1000 edge_encoder=0.0144 enc_attn=0.0314 encoder=0.0008 gat=0.3298 sc_gate=0.0001 sc_proj=0.0002 social_circle=0.0004
+[2026-06-20 06:02:59]   sda_gates [0]: L0=[0.851,0.858,0.855,0.859] L1=[0.851,0.859,0.856,0.855]
+[2026-06-20 06:03:30]   grad_norms [50]: anchor=0.4350 denoiser=0.1000 edge_encoder=0.0154 enc_attn=0.0002 encoder=0.0027 gat=0.2461 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0003
+[2026-06-20 06:03:30]   sda_gates [50]: L0=[0.851,0.858,0.855,0.860] L1=[0.851,0.859,0.856,0.855]
+[2026-06-20 06:04:01]   grad_norms [100]: anchor=0.2635 denoiser=0.1000 edge_encoder=0.0216 enc_attn=0.0001 encoder=0.0353 gat=0.4229 sc_gate=0.0007 sc_proj=0.0018 social_circle=0.0046
+[2026-06-20 06:04:01]   sda_gates [100]: L0=[0.851,0.858,0.855,0.860] L1=[0.851,0.859,0.856,0.855]
+[2026-06-20 06:04:32]   grad_norms [150]: anchor=0.4673 denoiser=0.1000 edge_encoder=0.0073 enc_attn=0.0124 encoder=0.0004 gat=0.1772 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-20 06:04:32]   sda_gates [150]: L0=[0.851,0.858,0.855,0.860] L1=[0.851,0.859,0.855,0.855]
+[2026-06-20 06:05:03]   grad_norms [200]: anchor=0.3856 denoiser=0.1000 edge_encoder=0.0143 enc_attn=0.0040 encoder=0.0015 gat=0.3179 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0004
+[2026-06-20 06:05:03]   sda_gates [200]: L0=[0.851,0.858,0.855,0.860] L1=[0.851,0.859,0.855,0.855]
+[2026-06-20 06:05:34]   grad_norms [250]: anchor=0.4046 denoiser=0.1000 edge_encoder=0.0171 enc_attn=0.0365 encoder=0.0028 gat=0.2910 sc_gate=0.0002 sc_proj=0.0008 social_circle=0.0010
+[2026-06-20 06:05:34]   sda_gates [250]: L0=[0.851,0.858,0.855,0.860] L1=[0.851,0.859,0.855,0.855]
+[2026-06-20 06:06:05]   grad_norms [300]: anchor=0.4122 denoiser=0.1000 edge_encoder=0.0175 enc_attn=0.0008 encoder=0.0076 gat=0.2824 sc_gate=0.0005 sc_proj=0.0013 social_circle=0.0024
+[2026-06-20 06:06:05]   sda_gates [300]: L0=[0.851,0.858,0.855,0.860] L1=[0.851,0.859,0.855,0.855]
+[2026-06-20 06:06:36]   grad_norms [350]: anchor=0.1927 denoiser=0.1000 edge_encoder=0.0338 enc_attn=0.0013 encoder=0.0203 gat=0.4596 sc_gate=0.0013 sc_proj=0.0051 social_circle=0.0066
+[2026-06-20 06:06:36]   sda_gates [350]: L0=[0.851,0.858,0.855,0.860] L1=[0.851,0.859,0.856,0.855]
+[2026-06-20 06:07:07]   grad_norms [400]: anchor=0.4731 denoiser=0.1000 edge_encoder=0.0063 enc_attn=0.0021 encoder=0.0216 gat=0.1600 sc_gate=0.0006 sc_proj=0.0017 social_circle=0.0043
+[2026-06-20 06:07:07]   sda_gates [400]: L0=[0.850,0.858,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 06:07:38]   grad_norms [450]: anchor=0.2302 denoiser=0.1000 edge_encoder=0.0109 enc_attn=0.0081 encoder=0.0005 gat=0.4436 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0003
+[2026-06-20 06:07:38]   sda_gates [450]: L0=[0.850,0.858,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 06:08:09]   grad_norms [500]: anchor=0.1914 denoiser=0.1000 edge_encoder=0.0021 enc_attn=0.0001 encoder=0.0040 gat=0.4619 sc_gate=0.0000 sc_proj=0.0001 social_circle=0.0002
+[2026-06-20 06:08:09]   sda_gates [500]: L0=[0.850,0.858,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 06:08:40]   grad_norms [550]: anchor=0.4943 denoiser=0.1000 edge_encoder=0.0032 enc_attn=0.0012 encoder=0.0029 gat=0.0752 sc_gate=0.0002 sc_proj=0.0006 social_circle=0.0022
+[2026-06-20 06:08:40]   sda_gates [550]: L0=[0.850,0.858,0.855,0.860] L1=[0.850,0.860,0.856,0.855]
+[2026-06-20 06:09:10]   grad_norms [600]: anchor=0.3034 denoiser=0.1000 edge_encoder=0.0138 enc_attn=0.0057 encoder=0.0096 gat=0.3970 sc_gate=0.0005 sc_proj=0.0018 social_circle=0.0043
+[2026-06-20 06:09:10]   sda_gates [600]: L0=[0.850,0.858,0.855,0.860] L1=[0.851,0.860,0.856,0.855]
+[2026-06-20 06:09:41]   grad_norms [650]: anchor=0.3080 denoiser=0.1000 edge_encoder=0.0117 enc_attn=0.0137 encoder=0.0089 gat=0.3934 sc_gate=0.0001 sc_proj=0.0001 social_circle=0.0005
+[2026-06-20 06:09:41]   sda_gates [650]: L0=[0.850,0.858,0.855,0.860] L1=[0.850,0.860,0.856,0.855]
+[2026-06-20 06:10:12]   grad_norms [700]: anchor=0.4910 denoiser=0.1000 edge_encoder=0.0041 enc_attn=0.0014 encoder=0.0071 gat=0.0932 sc_gate=0.0008 sc_proj=0.0029 social_circle=0.0116
+[2026-06-20 06:10:12]   sda_gates [700]: L0=[0.850,0.858,0.855,0.860] L1=[0.851,0.859,0.855,0.855]
+[2026-06-20 06:10:43]   grad_norms [750]: anchor=0.2367 denoiser=0.1000 edge_encoder=0.0287 enc_attn=0.0123 encoder=0.0028 gat=0.4393 sc_gate=0.0002 sc_proj=0.0006 social_circle=0.0010
+[2026-06-20 06:10:43]   sda_gates [750]: L0=[0.850,0.858,0.855,0.860] L1=[0.851,0.859,0.856,0.855]
+[2026-06-20 06:11:14]   grad_norms [800]: anchor=0.4396 denoiser=0.1000 edge_encoder=0.0142 enc_attn=0.0023 encoder=0.0029 gat=0.2377 sc_gate=0.0003 sc_proj=0.0006 social_circle=0.0012
+[2026-06-20 06:11:14]   sda_gates [800]: L0=[0.850,0.858,0.855,0.860] L1=[0.850,0.860,0.856,0.855]
+[2026-06-20 06:11:45]   grad_norms [850]: anchor=0.2302 denoiser=0.1000 edge_encoder=0.0292 enc_attn=0.0012 encoder=0.2600 gat=0.3475 sc_gate=0.0092 sc_proj=0.0246 social_circle=0.0842
+[2026-06-20 06:11:45]   sda_gates [850]: L0=[0.850,0.858,0.855,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:12:16]   grad_norms [900]: anchor=0.4341 denoiser=0.1000 edge_encoder=0.0137 enc_attn=0.0117 encoder=0.0211 gat=0.2462 sc_gate=0.0011 sc_proj=0.0048 social_circle=0.0101
+[2026-06-20 06:12:16]   sda_gates [900]: L0=[0.850,0.858,0.855,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:12:47]   grad_norms [950]: anchor=0.1106 denoiser=0.1000 edge_encoder=0.0220 enc_attn=0.0052 encoder=0.0152 gat=0.4869 sc_gate=0.0002 sc_proj=0.0006 social_circle=0.0014
+[2026-06-20 06:12:47]   sda_gates [950]: L0=[0.850,0.858,0.855,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:13:06] Epoch 85: loss=27.443275 dist=14.399680 fredf=12.511741 anchor=0.387698 nomoto=0.318092 div=-0.212767 pw_fde=0.4759nm lr=5.00e-05 gpu=328/15544MB t=607.7s
+[2026-06-20 06:23:14] Epoch 86: loss=31.056769 dist=18.425107 fredf=12.109653 anchor=0.363421 nomoto=0.295815 div=-0.173696 pw_fde=0.3985nm lr=5.00e-05 gpu=330/15544MB t=608.3s
+[2026-06-20 06:33:22] Epoch 87: loss=36.306324 dist=21.411891 fredf=14.449761 anchor=0.354543 nomoto=0.268135 div=-0.213424 pw_fde=0.5035nm lr=5.00e-05 gpu=328/15544MB t=608.2s
+[2026-06-20 06:43:31] Epoch 88: loss=34.040566 dist=18.886912 fredf=14.714022 anchor=0.352235 nomoto=0.237460 div=-0.185152 pw_fde=0.4370nm lr=5.00e-05 gpu=328/15544MB t=608.4s
+[2026-06-20 06:53:39] Epoch 89: loss=28.576664 dist=14.941809 fredf=13.185639 anchor=0.356695 nomoto=0.254306 div=-0.197370 pw_fde=0.4565nm lr=5.00e-05 gpu=329/15544MB t=608.2s
+[2026-06-20 06:53:39]   loss_ratios: dist=52.3% fredf=46.1% anchor=1.2% nomoto=0.9% div=-0.7%
+[2026-06-20 06:53:59]   Val: ADE=1.4748  FDE=1.6543  Anchor_ADE=0.0958  Anchor_FDE=0.1659  Diffusion_improvement=-1439.1%  CCR=45.18%(726)  DCPA_MAE=0.9230nm  pred_DCPA=3.7638nm  gt_DCPA=3.5574nm
+[2026-06-20 06:54:36]   CFG health: ADE_base=1.4748 ADE_cfg=1.7559 delta=+0.2810 [WARN: CFG hurts]
+[2026-06-20 06:54:36]   No improvement 15/20 (combined=1.452247, best=0.686340)
+[2026-06-20 06:54:38] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-20 06:54:39]   grad_norms [0]: anchor=0.4498 denoiser=0.1000 edge_encoder=0.0079 enc_attn=0.0055 encoder=0.0168 gat=0.2175 sc_gate=0.0003 sc_proj=0.0008 social_circle=0.0030
+[2026-06-20 06:54:39]   sda_gates [0]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:55:10]   grad_norms [50]: anchor=0.4111 denoiser=0.1000 edge_encoder=0.0099 enc_attn=0.0044 encoder=0.0297 gat=0.2825 sc_gate=0.0013 sc_proj=0.0034 social_circle=0.0125
+[2026-06-20 06:55:10]   sda_gates [50]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:55:41]   grad_norms [100]: anchor=0.3815 denoiser=0.1000 edge_encoder=0.0142 enc_attn=0.0156 encoder=0.0544 gat=0.3177 sc_gate=0.0008 sc_proj=0.0029 social_circle=0.0109
+[2026-06-20 06:55:41]   sda_gates [100]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:56:12]   grad_norms [150]: anchor=0.4064 denoiser=0.1000 edge_encoder=0.0170 enc_attn=0.0008 encoder=0.0222 gat=0.2889 sc_gate=0.0012 sc_proj=0.0038 social_circle=0.0244
+[2026-06-20 06:56:12]   sda_gates [150]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:56:43]   grad_norms [200]: anchor=0.4278 denoiser=0.1000 edge_encoder=0.0076 enc_attn=0.0096 encoder=0.0104 gat=0.2583 sc_gate=0.0004 sc_proj=0.0011 social_circle=0.0029
+[2026-06-20 06:56:43]   sda_gates [200]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:57:14]   grad_norms [250]: anchor=0.2668 denoiser=0.1000 edge_encoder=0.0237 enc_attn=0.0022 encoder=0.0203 gat=0.4216 sc_gate=0.0021 sc_proj=0.0060 social_circle=0.0082
+[2026-06-20 06:57:14]   sda_gates [250]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:57:44]   grad_norms [300]: anchor=0.1270 denoiser=0.1000 edge_encoder=0.0037 enc_attn=0.0004 encoder=0.3675 gat=0.3034 sc_gate=0.0172 sc_proj=0.0367 social_circle=0.0712
+[2026-06-20 06:57:44]   sda_gates [300]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:58:15]   grad_norms [350]: anchor=0.2070 denoiser=0.1000 edge_encoder=0.0146 enc_attn=0.0011 encoder=0.0390 gat=0.4532 sc_gate=0.0004 sc_proj=0.0008 social_circle=0.0045
+[2026-06-20 06:58:15]   sda_gates [350]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:58:46]   grad_norms [400]: anchor=0.2175 denoiser=0.1000 edge_encoder=0.0064 enc_attn=0.0030 encoder=0.4025 gat=0.2006 sc_gate=0.0013 sc_proj=0.0064 social_circle=0.0184
+[2026-06-20 06:58:46]   sda_gates [400]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.859,0.856,0.855]
+[2026-06-20 06:59:17]   grad_norms [450]: anchor=0.1194 denoiser=0.1000 edge_encoder=0.0067 enc_attn=0.0002 encoder=0.2491 gat=0.3925 sc_gate=0.0077 sc_proj=0.0502 social_circle=0.1304
+[2026-06-20 06:59:17]   sda_gates [450]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.860,0.856,0.855]
+[2026-06-20 06:59:48]   grad_norms [500]: anchor=0.4312 denoiser=0.1000 edge_encoder=0.0150 enc_attn=0.0009 encoder=0.0020 gat=0.2526 sc_gate=0.0001 sc_proj=0.0004 social_circle=0.0016
+[2026-06-20 06:59:48]   sda_gates [500]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.860,0.856,0.855]
+[2026-06-20 07:00:19]   grad_norms [550]: anchor=0.0632 denoiser=0.1000 edge_encoder=0.0109 enc_attn=0.0011 encoder=0.1972 gat=0.4404 sc_gate=0.0108 sc_proj=0.0450 social_circle=0.1045
+[2026-06-20 07:00:19]   sda_gates [550]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.860,0.856,0.855]
+[2026-06-20 07:00:50]   grad_norms [600]: anchor=0.4319 denoiser=0.1000 edge_encoder=0.0112 enc_attn=0.0014 encoder=0.0125 gat=0.2511 sc_gate=0.0010 sc_proj=0.0038 social_circle=0.0118
+[2026-06-20 07:00:50]   sda_gates [600]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.860,0.856,0.855]
+[2026-06-20 07:01:21]   grad_norms [650]: anchor=0.2554 denoiser=0.1000 edge_encoder=0.0166 enc_attn=0.0001 encoder=0.1047 gat=0.4124 sc_gate=0.0059 sc_proj=0.0234 social_circle=0.0540
+[2026-06-20 07:01:21]   sda_gates [650]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.860,0.856,0.855]
+[2026-06-20 07:01:52]   grad_norms [700]: anchor=0.3476 denoiser=0.1000 edge_encoder=0.0124 enc_attn=0.0003 encoder=0.0084 gat=0.3591 sc_gate=0.0004 sc_proj=0.0018 social_circle=0.0040
+[2026-06-20 07:01:52]   sda_gates [700]: L0=[0.850,0.858,0.854,0.860] L1=[0.850,0.860,0.856,0.855]
+[2026-06-20 07:02:23]   grad_norms [750]: anchor=0.4510 denoiser=0.1000 edge_encoder=0.0086 enc_attn=0.0027 encoder=0.0053 gat=0.2155 sc_gate=0.0004 sc_proj=0.0014 social_circle=0.0029
+[2026-06-20 07:02:23]   sda_gates [750]: L0=[0.850,0.858,0.854,0.860] L1=[0.849,0.860,0.856,0.855]
+[2026-06-20 07:02:54]   grad_norms [800]: anchor=0.4448 denoiser=0.1000 edge_encoder=0.0089 enc_attn=0.0037 encoder=0.0343 gat=0.2211 sc_gate=0.0019 sc_proj=0.0065 social_circle=0.0445
+[2026-06-20 07:02:54]   sda_gates [800]: L0=[0.849,0.858,0.854,0.860] L1=[0.849,0.860,0.856,0.855]
+[2026-06-20 07:03:25]   grad_norms [850]: anchor=0.0235 denoiser=0.1000 edge_encoder=0.0220 enc_attn=0.0000 encoder=0.0676 gat=0.4936 sc_gate=0.0023 sc_proj=0.0121 social_circle=0.0239
+[2026-06-20 07:03:25]   sda_gates [850]: L0=[0.849,0.858,0.854,0.860] L1=[0.849,0.860,0.856,0.855]
+[2026-06-20 07:03:56]   grad_norms [900]: anchor=0.1031 denoiser=0.1000 edge_encoder=0.0375 enc_attn=0.0004 encoder=0.0252 gat=0.4869 sc_gate=0.0014 sc_proj=0.0071 social_circle=0.0143
+[2026-06-20 07:03:56]   sda_gates [900]: L0=[0.849,0.858,0.854,0.860] L1=[0.849,0.860,0.856,0.855]
+[2026-06-20 07:04:27]   grad_norms [950]: anchor=0.1522 denoiser=0.1000 edge_encoder=0.0114 enc_attn=0.0101 encoder=0.1749 gat=0.4293 sc_gate=0.0076 sc_proj=0.0364 social_circle=0.1018
+[2026-06-20 07:04:27]   sda_gates [950]: L0=[0.849,0.858,0.854,0.860] L1=[0.849,0.860,0.856,0.855]
+[2026-06-20 07:04:46] Epoch 90: loss=29.919175 dist=16.583860 fredf=12.887829 anchor=0.358285 nomoto=0.276391 div=-0.222918 pw_fde=0.5241nm lr=5.00e-05 gpu=328/15544MB t=607.8s
+[2026-06-20 07:14:54] Epoch 91: loss=33.867024 dist=19.198648 fredf=14.237665 anchor=0.345701 nomoto=0.259474 div=-0.209081 pw_fde=0.4998nm lr=5.00e-05 gpu=327/15544MB t=608.5s
+[2026-06-20 07:25:03] Epoch 92: loss=31.203684 dist=16.041490 fredf=14.611259 anchor=0.374939 nomoto=0.405875 div=-0.267157 pw_fde=0.6476nm lr=5.00e-05 gpu=329/15544MB t=608.5s
+[2026-06-20 07:35:10] Epoch 93: loss=32.163127 dist=17.277010 fredf=14.442023 anchor=0.334850 nomoto=0.322016 div=-0.246613 pw_fde=0.5932nm lr=5.00e-05 gpu=330/15544MB t=607.8s
+[2026-06-20 07:45:18] Epoch 94: loss=31.137530 dist=16.714173 fredf=13.958257 anchor=0.332014 nomoto=0.352953 div=-0.253170 pw_fde=0.6129nm lr=5.00e-05 gpu=330/15544MB t=608.0s
+[2026-06-20 07:45:18]   loss_ratios: dist=53.7% fredf=44.8% anchor=1.1% nomoto=1.1% div=-0.8%
+[2026-06-20 07:45:38]   Val: ADE=1.8722  FDE=1.9156  Anchor_ADE=0.0888  Anchor_FDE=0.1514  Diffusion_improvement=-2007.4%  CCR=57.02%(726)  DCPA_MAE=1.0820nm  pred_DCPA=3.9451nm  gt_DCPA=3.5574nm
+[2026-06-20 07:46:16]   CFG health: ADE_base=1.8722 ADE_cfg=1.8740 delta=+0.0018 [WARN: CFG hurts]
+[2026-06-20 07:46:16]   No improvement 16/20 (combined=1.843698, best=0.686340)
+[2026-06-20 07:46:18] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt
+[2026-06-20 07:46:19]   grad_norms [0]: anchor=0.0043 denoiser=0.1000 edge_encoder=0.0008 enc_attn=0.0001 encoder=0.4996 gat=0.0170 sc_gate=0.0007 sc_proj=0.0023 social_circle=0.0076
+[2026-06-20 07:46:19]   sda_gates [0]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:46:50]   grad_norms [50]: anchor=0.2776 denoiser=0.1000 edge_encoder=0.0110 enc_attn=0.0003 encoder=0.0660 gat=0.4057 sc_gate=0.0041 sc_proj=0.0245 social_circle=0.0569
+[2026-06-20 07:46:50]   sda_gates [50]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:47:21]   grad_norms [100]: anchor=0.4053 denoiser=0.1000 edge_encoder=0.0184 enc_attn=0.0145 encoder=0.0313 gat=0.2897 sc_gate=0.0011 sc_proj=0.0047 social_circle=0.0151
+[2026-06-20 07:47:21]   sda_gates [100]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:47:52]   grad_norms [150]: anchor=0.4944 denoiser=0.1000 edge_encoder=0.0027 enc_attn=0.0001 encoder=0.0120 gat=0.0727 sc_gate=0.0006 sc_proj=0.0039 social_circle=0.0099
+[2026-06-20 07:47:52]   sda_gates [150]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:48:23]   grad_norms [200]: anchor=0.4418 denoiser=0.1000 edge_encoder=0.0059 enc_attn=0.0015 encoder=0.0216 gat=0.2326 sc_gate=0.0005 sc_proj=0.0030 social_circle=0.0156
+[2026-06-20 07:48:23]   sda_gates [200]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:48:54]   grad_norms [250]: anchor=0.3598 denoiser=0.1000 edge_encoder=0.0305 enc_attn=0.0146 encoder=0.1105 gat=0.2882 sc_gate=0.0056 sc_proj=0.0179 social_circle=0.1543
+[2026-06-20 07:48:54]   sda_gates [250]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:49:25]   grad_norms [300]: anchor=0.0431 denoiser=0.1000 edge_encoder=0.0021 enc_attn=0.0001 encoder=0.4759 gat=0.1332 sc_gate=0.0049 sc_proj=0.0212 social_circle=0.0583
+[2026-06-20 07:49:25]   sda_gates [300]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:49:56]   grad_norms [350]: anchor=0.3906 denoiser=0.1000 edge_encoder=0.0126 enc_attn=0.0020 encoder=0.0338 gat=0.3100 sc_gate=0.0007 sc_proj=0.0027 social_circle=0.0071
+[2026-06-20 07:49:56]   sda_gates [350]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:50:27]   grad_norms [400]: anchor=0.2233 denoiser=0.1000 edge_encoder=0.0097 enc_attn=0.0020 encoder=0.1040 gat=0.4247 sc_gate=0.0105 sc_proj=0.0382 social_circle=0.0852
+[2026-06-20 07:50:27]   sda_gates [400]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:50:58]   grad_norms [450]: anchor=0.2666 denoiser=0.1000 edge_encoder=0.0142 enc_attn=0.0001 encoder=0.2471 gat=0.3416 sc_gate=0.0029 sc_proj=0.0114 social_circle=0.0288
+[2026-06-20 07:50:58]   sda_gates [450]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:51:29]   grad_norms [500]: anchor=0.2884 denoiser=0.1000 edge_encoder=0.0107 enc_attn=0.0028 encoder=0.0390 gat=0.4045 sc_gate=0.0034 sc_proj=0.0112 social_circle=0.0374
+[2026-06-20 07:51:29]   sda_gates [500]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:52:00]   grad_norms [550]: anchor=0.1950 denoiser=0.1000 edge_encoder=0.0069 enc_attn=0.0026 encoder=0.1817 gat=0.4100 sc_gate=0.0086 sc_proj=0.0436 social_circle=0.0938
+[2026-06-20 07:52:00]   sda_gates [550]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:52:31]   grad_norms [600]: anchor=0.3995 denoiser=0.1000 edge_encoder=0.0111 enc_attn=0.0220 encoder=0.0613 gat=0.2876 sc_gate=0.0056 sc_proj=0.0156 social_circle=0.0552
+[2026-06-20 07:52:31]   sda_gates [600]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:53:02]   grad_norms [650]: anchor=0.0844 denoiser=0.1000 edge_encoder=0.0082 enc_attn=0.0002 encoder=0.2005 gat=0.4409 sc_gate=0.0130 sc_proj=0.0480 social_circle=0.0757
+[2026-06-20 07:53:02]   sda_gates [650]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:53:33]   grad_norms [700]: anchor=0.4168 denoiser=0.1000 edge_encoder=0.0087 enc_attn=0.0025 encoder=0.1629 gat=0.2222 sc_gate=0.0014 sc_proj=0.0027 social_circle=0.0165
+[2026-06-20 07:53:33]   sda_gates [700]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:54:03]   grad_norms [750]: anchor=0.3305 denoiser=0.1000 edge_encoder=0.0139 enc_attn=0.0239 encoder=0.1189 gat=0.3521 sc_gate=0.0045 sc_proj=0.0181 social_circle=0.0394
+[2026-06-20 07:54:03]   sda_gates [750]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:54:34]   grad_norms [800]: anchor=0.4071 denoiser=0.1000 edge_encoder=0.0078 enc_attn=0.0013 encoder=0.0905 gat=0.2556 sc_gate=0.0064 sc_proj=0.0248 social_circle=0.1002
+[2026-06-20 07:54:34]   sda_gates [800]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:55:05]   grad_norms [850]: anchor=0.3476 denoiser=0.1000 edge_encoder=0.0147 enc_attn=0.0024 encoder=0.0408 gat=0.3557 sc_gate=0.0020 sc_proj=0.0090 social_circle=0.0254
+[2026-06-20 07:55:05]   sda_gates [850]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:55:36]   grad_norms [900]: anchor=0.3929 denoiser=0.1000 edge_encoder=0.0142 enc_attn=0.0231 encoder=0.0118 gat=0.3078 sc_gate=0.0005 sc_proj=0.0022 social_circle=0.0055
+[2026-06-20 07:55:36]   sda_gates [900]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:56:07]   grad_norms [950]: anchor=0.0314 denoiser=0.1000 edge_encoder=0.0013 enc_attn=0.0002 encoder=0.4951 gat=0.0567 sc_gate=0.0021 sc_proj=0.0087 social_circle=0.0236
+[2026-06-20 07:56:07]   sda_gates [950]: L0=[0.849,0.856,0.854,0.859] L1=[0.849,0.859,0.855,0.855]
+[2026-06-20 07:56:26] Epoch 95: loss=28.246086 dist=13.807788 fredf=14.131046 anchor=0.323704 nomoto=0.306205 div=-0.355099 pw_fde=0.8536nm lr=5.00e-05 gpu=330/15544MB t=608.2s
+[2026-06-20 08:06:34] Epoch 96: loss=27.401051 dist=12.638590 fredf=14.402038 anchor=0.326701 nomoto=0.370719 div=-0.369598 pw_fde=0.8792nm lr=5.00e-05 gpu=330/15544MB t=608.3s
+[2026-06-20 08:16:42] Epoch 97: loss=28.173630 dist=13.132677 fredf=14.525074 anchor=0.352223 nomoto=0.503608 div=-0.375223 pw_fde=0.9148nm lr=5.00e-05 gpu=329/15544MB t=608.3s
+[2026-06-20 08:26:51] Epoch 98: loss=28.244891 dist=12.229270 fredf=15.620395 anchor=0.340410 nomoto=0.518332 div=-0.497622 pw_fde=1.2576nm lr=5.00e-05 gpu=327/15544MB t=608.1s
+[2026-06-20 08:36:59] Epoch 99: loss=30.133052 dist=13.042731 fredf=16.743372 anchor=0.319896 nomoto=0.476173 div=-0.481111 pw_fde=1.2245nm lr=2.50e-05 gpu=330/15544MB t=608.0s
+[2026-06-20 08:36:59]   loss_ratios: dist=43.3% fredf=55.6% anchor=1.1% nomoto=1.6% div=-1.6%
+[2026-06-20 08:37:18]   Val: ADE=1.1449  FDE=0.8970  Anchor_ADE=0.1023  Anchor_FDE=0.1506  Diffusion_improvement=-1019.3%  CCR=48.07%(726)  DCPA_MAE=0.7036nm  pred_DCPA=3.5870nm  gt_DCPA=3.5574nm
+[2026-06-20 08:37:56]   CFG health: ADE_base=1.1449 ADE_cfg=2.1618 delta=+1.0169 [WARN: CFG hurts]
+[2026-06-20 08:37:56]   No improvement 17/20 (combined=1.120913, best=0.686340)
+[2026-06-20 08:37:58] Saved checkpoint: results/transformer_ecr/checkpoint_latest.pt

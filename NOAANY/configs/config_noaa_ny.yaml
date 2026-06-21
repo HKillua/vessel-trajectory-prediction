@@ -1,0 +1,80 @@
+# NOAA New York AIS Data Pipeline Configuration
+# Optimized for 60s sampling, NY port encounter-centric extraction
+
+region:
+  name: "newyork"
+  bbox:
+    lat_min: 40.45
+    lat_max: 40.75
+    lon_min: -74.2
+    lon_max: -73.95
+
+download:
+  base_url: "https://coast.noaa.gov/htdata/CMSP/AISDataHandler/2024"
+  date_range:
+    start: "2024-06-01"
+    end: "2024-09-30"
+  max_workers: 4
+  raw_dir: "2024"
+
+preprocess:
+  sampling_interval: 60
+  min_trajectory_steps: 60
+  status_filter: [1, 5]
+  heading_filter: true
+  min_mean_sog: 0.5
+  stationary_sog_threshold: 0.5
+  stationary_max_duration: 300
+  gap_split_threshold: 600
+  position_jump_speed: 50
+  jump_speed_factor: 1.5
+  gps_freeze_window: 4
+  gps_freeze_sog_thr: 5.0
+  sog_median_window: 3
+  max_sog_change_per_step: 9.0
+  max_sog_knots: 35
+  min_sog_for_cog: 1.0
+  heading_cog_max_diff_deg: 90
+  sog_position_align_alpha: 0.7
+  processed_dir: "data/processed"
+
+scenes:
+  radius_nm: 4
+  time_window_min: 60
+  max_ships: 20
+  min_ships: 2
+  encounter_distance_nm: 2.0
+  coverage_ratio: 0.8
+  min_coexist_min: 30
+  merge_distance_nm: 2.0
+  min_temporal_coverage: 0.85
+  min_scene_steps: 60
+  scenes_dir: "data/scenes"
+
+encounters:
+  dcpa_threshold_nm: 1.0
+  tcpa_threshold_min: 20
+  tcpa_max_sec: 1800
+  cri_d0_nm: 1.0
+  cri_t0_sec: 600
+  cri_threshold: 0.5
+  head_on_min_diff: 170.0
+  stern_half_arc: 112.5
+
+splits:
+  train:
+    start: "2024-06-01"
+    end: "2024-08-24"
+  val:
+    start: "2024-08-25"
+    end: "2024-09-05"
+  test:
+    start: "2024-09-06"
+    end: "2024-09-30"
+  obs_steps: 30
+  pred_variants: [10, 20, 30]
+  slide_step: 10
+  min_pred_mean_sog: 0.5
+  min_obs_tail_sog: 1.0
+  obs_tail_steps: 5
+  output_dir: "data/final"

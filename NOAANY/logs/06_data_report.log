@@ -1,0 +1,54 @@
+# NOAA NY AIS Dataset Quality Report
+
+Generated: 2026-06-21 05:19:32
+
+## Scenes
+
+- Total scenes: 7376
+- Ships per scene: min=2, mean=7.0, max=18
+- Duration (min): min=60, mean=68.5, max=119
+- Min DCPA (nm): mean=0.01, median=0.00, min=0.000
+
+## Encounter Types
+
+| Type | Count | % |
+|------|-------|---|
+| safe | 43455 | 21.6% |
+| head_on | 15846 | 7.9% |
+| crossing_give_way | 29047 | 14.5% |
+| crossing_stand_on | 28504 | 14.2% |
+| overtaking | 41341 | 20.6% |
+| being_overtaken | 42558 | 21.2% |
+
+## Risk Assessment (threshold-based)
+
+- DCPA threshold: 1.0 nm | TCPA threshold: 20 min | CRI threshold: 0.5
+- Total ship pairs across all scenes: 200751
+- Close encounters (DCPA < 1.0nm): 198549 (98.9%)
+- Urgent encounters (TCPA < 20min): 200604 (99.9%)
+- High-risk encounters (CRI > 0.5): 112123 (55.9%)
+
+## Samples
+
+- pred10/train: 12854 samples (obs=(5, 30, 5), pred=(5, 10, 5))
+- pred10/val: 3190 samples (obs=(13, 30, 5), pred=(13, 10, 5))
+- pred10/test: 10249 samples (obs=(6, 30, 5), pred=(6, 10, 5))
+- pred20/train: 9268 samples (obs=(9, 30, 5), pred=(9, 20, 5))
+- pred20/val: 2278 samples (obs=(2, 30, 5), pred=(2, 20, 5))
+- pred20/test: 7386 samples (obs=(4, 30, 5), pred=(4, 20, 5))
+- pred30/train: 5681 samples (obs=(2, 30, 5), pred=(2, 30, 5))
+- pred30/val: 1365 samples (obs=(6, 30, 5), pred=(6, 30, 5))
+- pred30/test: 4522 samples (obs=(7, 30, 5), pred=(7, 30, 5))
+
+- **Total samples: 56793**
+
+## Config Summary
+
+- Region: newyork
+- BBox: [40.45,40.75] x [-74.2,-73.95]
+- Sampling: 60s
+- Obs/Pred: 30 / [10, 20, 30]
+- Scene radius: 4nm (encounter-centric)
+- Min trajectory: 60 steps
+
+Report saved to /home/wangguangjie/djs/vessel-trajectory-prediction/NOAANY/data/data_report.md

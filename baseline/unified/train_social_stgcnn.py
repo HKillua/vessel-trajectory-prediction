@@ -10,6 +10,8 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 from functools import partial
 
+import argparse
+
 sys.path.insert(0, '/home/wangguangjie/djs/vessel-trajectory-prediction')
 sys.path.insert(0, '/home/wangguangjie/djs/baseline/social-stgcnn')
 torch.backends.cudnn.enabled = False
@@ -17,14 +19,14 @@ torch.backends.cudnn.enabled = False
 from data_provider.dataloader_multivessel import MultiVesselDataset
 from model import social_stgcnn
 
-DATA_ROOT = '/home/wangguangjie/djs/vessel-trajectory-prediction/ship_trajectory_prediction/data/final/obs10_pred10'
-RESULTS_DIR = '/home/wangguangjie/djs/baseline/results/social_stgcnn'
+DEFAULT_DATA_ROOT = '/home/wangguangjie/djs/vessel-trajectory-prediction/ship_trajectory_prediction/data/final/obs10_pred10'
+RESULTS_BASE_DIR = '/home/wangguangjie/djs/vessel-trajectory-prediction/baseline/results'
 DEVICE = 'cuda:0'
 BATCH_SIZE = 32
 EPOCHS = 100
 LR = 1e-3
 PATIENCE = 20
-MAX_SHIPS = 8
+MAX_SHIPS = 18
 
 
 class STGCNNDataset(Dataset):
@@ -145,8 +147,19 @@ def run_epoch(model, loader, adj_tensor, device, norm_params, criterion, optimiz
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data_root', type=str, default=DEFAULT_DATA_ROOT)
+    parser.add_argument('--gpu', type=int, default=0)
+    args = parser.parse_args()
+
+    DATA_ROOT = args.data_root
+    device_str = f'cuda:{args.gpu}'
+    dataset_name = os.path.basename(DATA_ROOT)
+    RESULTS_DIR = os.path.join(RESULTS_BASE_DIR, f'social_stgcnn_{dataset_name}') if dataset_name != 'obs10_pred10' else os.path.join(RESULTS_BASE_DIR, 'social_stgcnn')
+
     print("=" * 60)
     print("  Social-STGCNN 训练")
+    print(f"  Data: {DATA_ROOT}")
     print("=" * 60)
 
     train_dir = os.path.join(DATA_ROOT, 'train')
@@ -171,7 +184,7 @@ def main():
     val_loader = DataLoader(val_set, batch_size=BATCH_SIZE, shuffle=False,
         collate_fn=_collate, num_workers=2)
 
-    device = torch.device(DEVICE)
+    device = torch.device(device_str)
     model = social_stgcnn(
         n_stgcnn=1, n_txpcnn=1,
         input_feat=2, output_feat=5,

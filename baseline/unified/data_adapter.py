@@ -10,7 +10,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 
 # 让本脚本能 import vessel-trajectory-prediction 的数据加载器
-_REPO_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'vessel-trajectory-prediction'))
+_REPO_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 if _REPO_DIR not in sys.path:
     sys.path.insert(0, _REPO_DIR)
 
@@ -59,7 +59,7 @@ class SocialBaselineDataset(Dataset):
       mask:          [N_max]
     """
 
-    def __init__(self, data_dir, normalize=True, norm_params=None, split=None, max_neighbors=5):
+    def __init__(self, data_dir, normalize=True, norm_params=None, split=None, max_neighbors=15):
         self.inner = MultiVesselDataset(
             data_dir, normalize=normalize,
             random_target=True, norm_params=norm_params, split=split,

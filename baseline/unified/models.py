@@ -12,13 +12,20 @@ import torch.nn.functional as F
 
 # ===================== LSTM / GRU / Bi-LSTM / Bi-GRU =====================
 class RNNBaseline(nn.Module):
-    """通用 RNN baseline: 支持 LSTM/GRU + 单向/双向"""
+    """通用 RNN baseline: 支持 LSTM/GRU + 单向/双向
+    
+    Fixed: 使用 Linear(H, T_pred*2) 替代 repeat+Linear(H,2)
+    每个预测步有独立的输出，而非共享同一个 hidden state
+    """
 
     def __init__(self, rnn_type='lstm', input_size=7, hidden_size=128,
-                 num_layers=2, dropout=0.1, pred_dim=2, bidirectional=False):
+                 num_layers=2, dropout=0.1, pred_dim=2, bidirectional=False,
+                 pred_steps=30):
         super().__init__()
         self.bidirectional = bidirectional
         self.rnn_type = rnn_type.lower()
+        self.pred_dim = pred_dim
+        self._t_pred = pred_steps
         rnn_cls = nn.LSTM if self.rnn_type == 'lstm' else nn.GRU
         self.rnn = rnn_cls(
             input_size=input_size, hidden_size=hidden_size,
@@ -27,20 +34,19 @@ class RNNBaseline(nn.Module):
             bidirectional=bidirectional,
         )
         enc_dim = hidden_size * (2 if bidirectional else 1)
+        # Fixed: 输出 T_pred * pred_dim，每步独立预测
         self.decoder = nn.Sequential(
             nn.Linear(enc_dim, hidden_size),
             nn.ReLU(),
-            nn.Linear(hidden_size, pred_dim),
+            nn.Linear(hidden_size, pred_steps * pred_dim),
         )
 
     def forward(self, obs_seq):
         """obs_seq: [B, T_obs, D] -> [B, T_pred, 2]"""
         rnn_out, _ = self.rnn(obs_seq)          # [B, T_obs, H*(1+bi)]
         last_h = rnn_out[:, -1, :]              # [B, H*(1+bi)]
-        # Repeat last hidden state for each prediction step
-        T_pred = self._t_pred
-        pred = self.decoder(last_h.unsqueeze(1).expand(-1, T_pred, -1))  # [B, T_pred, 2]
-        return pred
+        pred = self.decoder(last_h)             # [B, T_pred * pred_dim]
+        return pred.view(-1, self._t_pred, self.pred_dim)  # [B, T_pred, 2]
 
     def set_pred_steps(self, t_pred):
         self._t_pred = t_pred
@@ -223,25 +229,31 @@ class MambaBlock(nn.Module):
 
 
 class MambaBaseline(nn.Module):
-    """Mamba encoder + linear decoder"""
+    """Mamba encoder + linear decoder
+    
+    Fixed: 使用 Linear(H, T_pred*2) 替代 repeat+Linear(H,2)
+    """
 
-    def __init__(self, input_size=7, d_model=128, n_layers=2, pred_dim=2):
+    def __init__(self, input_size=7, d_model=128, n_layers=2, pred_dim=2, pred_steps=30):
         super().__init__()
+        self.pred_dim = pred_dim
+        self._t_pred = pred_steps
         self.proj_in = nn.Linear(input_size, d_model)
         self.blocks = nn.ModuleList([MambaBlock(d_model) for _ in range(n_layers)])
+        # Fixed: 输出 T_pred * pred_dim
         self.decoder = nn.Sequential(
             nn.Linear(d_model, d_model),
             nn.ReLU(),
-            nn.Linear(d_model, pred_dim),
+            nn.Linear(d_model, pred_steps * pred_dim),
         )
-        self._t_pred = 30
 
     def forward(self, obs_seq):
         h = self.proj_in(obs_seq)
         for block in self.blocks:
             h = block(h)
         last_h = h[:, -1, :]
-        return self.decoder(last_h.unsqueeze(1).expand(-1, self._t_pred, -1))
+        pred = self.decoder(last_h)  # [B, T_pred * pred_dim]
+        return pred.view(-1, self._t_pred, self.pred_dim)  # [B, T_pred, 2]
 
     def set_pred_steps(self, t_pred):
         self._t_pred = t_pred
@@ -252,15 +264,17 @@ class iTransformerBaseline(nn.Module):
     """iTransformer: 把每个特征通道当作一个 token（变量维度做 attention）"""
 
     def __init__(self, input_size=7, d_model=128, n_heads=4, n_layers=2,
-                 dim_ff=256, dropout=0.1, pred_dim=2):
+                 dim_ff=256, dropout=0.1, pred_dim=2, obs_steps=30, pred_steps=30):
         super().__init__()
         self.d_model = d_model
         self.n_variates = input_size
         self.pred_dim = pred_dim
+        self._obs_steps = obs_steps
+        self._t_pred = pred_steps
 
         # Each variate is embedded independently
         self.variate_embed = nn.ModuleList([
-            nn.Sequential(nn.Linear(30, d_model), nn.ReLU(), nn.Linear(d_model, d_model))
+            nn.Sequential(nn.Linear(obs_steps, d_model), nn.ReLU(), nn.Linear(d_model, d_model))
             for _ in range(input_size)
         ])
         # Learnable variate tokens
@@ -273,10 +287,12 @@ class iTransformerBaseline(nn.Module):
         self.encoder = nn.TransformerEncoder(enc_layer, num_layers=n_layers,
                                               norm=nn.LayerNorm(d_model))
         # Decoder: from variate tokens to predictions
-        self.decoder = nn.Linear(d_model * input_size, pred_dim * 30)
+        self.decoder = nn.Linear(d_model * input_size, pred_dim * pred_steps)
 
-    def forward(self, obs_seq, pred_steps=30):
-        """obs_seq: [B, T_obs=30, D=7] -> [B, T_pred, 2]"""
+    def forward(self, obs_seq, pred_steps=None):
+        """obs_seq: [B, T_obs, D=7] -> [B, T_pred, 2]"""
+        if pred_steps is None:
+            pred_steps = self._t_pred
         B, T, D = obs_seq.shape
         # obs_seq: [B, T, D] -> transpose to [B, D, T]
         obs_t = obs_seq.transpose(1, 2)  # [B, D, T]
@@ -304,14 +320,18 @@ class SocialLSTM(nn.Module):
     """Social-LSTM: LSTM + social pooling for multi-vessel interaction
     
     参考: Alahi et al. "Social LSTM" (CVPR 2016)
+    
+    Fixed: 使用 Linear(H, T_pred*2) 替代 repeat+Linear(H,2)
     """
 
     def __init__(self, input_size=7, hidden_size=128, num_layers=2,
-                 dropout=0.1, pred_dim=2, grid_size=4, grid_radius=5.0):
+                 dropout=0.1, pred_dim=2, grid_size=4, grid_radius=5.0, pred_steps=30):
         super().__init__()
         self.grid_size = grid_size
         self.grid_radius = grid_radius  # in nautical miles
         self.hidden_size = hidden_size
+        self.pred_dim = pred_dim
+        self._t_pred = pred_steps
         social_pool_dim = hidden_size * grid_size * grid_size
 
         # Embedding for social pooling features
@@ -322,12 +342,12 @@ class SocialLSTM(nn.Module):
         self.rnn = nn.LSTM(input_size + hidden_size, hidden_size,
                            num_layers=num_layers, batch_first=True,
                            dropout=dropout if num_layers > 1 else 0.0)
+        # Fixed: 输出 T_pred * pred_dim
         self.decoder = nn.Sequential(
             nn.Linear(hidden_size, hidden_size),
             nn.ReLU(),
-            nn.Linear(hidden_size, pred_dim),
+            nn.Linear(hidden_size, pred_steps * pred_dim),
         )
-        self._t_pred = 30
 
     def _build_social_pool(self, obs_seq, neighbor_obs):
         """构建 social pooling grid
@@ -377,31 +397,31 @@ class SocialLSTM(nn.Module):
 
         rnn_out, _ = self.rnn(rnn_in)
         last_h = rnn_out[:, -1, :]
-        return self.decoder(last_h.unsqueeze(1).expand(-1, self._t_pred, -1))
+        pred = self.decoder(last_h)  # [B, T_pred * pred_dim]
+        return pred.view(-1, self._t_pred, self.pred_dim)  # [B, T_pred, 2]
 
     def set_pred_steps(self, t_pred):
         self._t_pred = t_pred
 
 
 # ===================== Model Registry =====================
+# Registry uses factory functions that accept pred_steps and obs_steps
 MODEL_REGISTRY = {
-    'lstm': lambda: RNNBaseline(rnn_type='lstm', bidirectional=False),
-    'gru': lambda: RNNBaseline(rnn_type='gru', bidirectional=False),
-    'bilstm': lambda: RNNBaseline(rnn_type='lstm', bidirectional=True),
-    'bigru': lambda: RNNBaseline(rnn_type='gru', bidirectional=True),
-    'seq2seq_lstm': lambda: RNNSeq2Seq(rnn_type='lstm', bidirectional=False),
-    'seq2seq_gru': lambda: RNNSeq2Seq(rnn_type='gru', bidirectional=False),
-    'transformer': lambda: TransformerBaseline(),
-    'mamba': lambda: MambaBaseline(),
-    'itransformer': lambda: iTransformerBaseline(),
-    'social_lstm': lambda: SocialLSTM(),
+    'lstm':         lambda pred_steps, obs_steps: RNNBaseline(rnn_type='lstm', bidirectional=False, pred_steps=pred_steps),
+    'gru':          lambda pred_steps, obs_steps: RNNBaseline(rnn_type='gru', bidirectional=False, pred_steps=pred_steps),
+    'bilstm':       lambda pred_steps, obs_steps: RNNBaseline(rnn_type='lstm', bidirectional=True, pred_steps=pred_steps),
+    'bigru':        lambda pred_steps, obs_steps: RNNBaseline(rnn_type='gru', bidirectional=True, pred_steps=pred_steps),
+    'seq2seq_lstm': lambda pred_steps, obs_steps: RNNSeq2Seq(rnn_type='lstm', bidirectional=False),
+    'seq2seq_gru':  lambda pred_steps, obs_steps: RNNSeq2Seq(rnn_type='gru', bidirectional=False),
+    'transformer':  lambda pred_steps, obs_steps: TransformerBaseline(),
+    'mamba':        lambda pred_steps, obs_steps: MambaBaseline(pred_steps=pred_steps),
+    'itransformer': lambda pred_steps, obs_steps: iTransformerBaseline(obs_steps=obs_steps, pred_steps=pred_steps),
+    'social_lstm':  lambda pred_steps, obs_steps: SocialLSTM(pred_steps=pred_steps),
 }
 
 
-def build_model(model_name, pred_steps=30):
+def build_model(model_name, pred_steps=30, obs_steps=30):
     if model_name not in MODEL_REGISTRY:
         raise ValueError(f"Unknown model: {model_name}. Available: {list(MODEL_REGISTRY.keys())}")
-    model = MODEL_REGISTRY[model_name]()
-    if hasattr(model, 'set_pred_steps'):
-        model.set_pred_steps(pred_steps)
+    model = MODEL_REGISTRY[model_name](pred_steps, obs_steps)
     return model

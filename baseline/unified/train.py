@@ -16,14 +16,17 @@ from datetime import datetime
 
 # 确保能找到模块
 _this_dir = os.path.dirname(os.path.abspath(__file__))
+_repo_root = os.path.abspath(os.path.join(_this_dir, '..', '..'))
 if _this_dir not in sys.path:
     sys.path.insert(0, _this_dir)
+if _repo_root not in sys.path:
+    sys.path.insert(0, _repo_root)
 
 from data_adapter import build_dataloaders
 from models import build_model, MODEL_REGISTRY
 
-# 数据路径 (绝对路径)
-DATA_ROOT = '/home/wangguangjie/djs/vessel-trajectory-prediction/ship_trajectory_prediction/data/final/obs10_pred10'
+# 默认数据路径 (可通过 --data_root 覆盖)
+DEFAULT_DATA_ROOT = '/home/wangguangjie/djs/vessel-trajectory-prediction/ship_trajectory_prediction/data/final/obs10_pred10'
 
 
 def compute_metrics(pred_nm, target_nm, norm_params):
@@ -83,17 +86,19 @@ def train_one_model(model_name, args):
 
     # Data
     model_type = 'social' if model_name in ('social_lstm',) else 'simple'
+    data_root = args.data_root
     train_loader, val_loader, test_loader, norm_params = build_dataloaders(
-        DATA_ROOT, batch_size=args.batch_size, num_workers=args.num_workers,
+        data_root, batch_size=args.batch_size, num_workers=args.num_workers,
         model_type=model_type,
     )
+    obs_steps = train_loader.dataset.obs_steps
     pred_steps = train_loader.dataset.pred_steps
     print(f"  Data: train={len(train_loader.dataset)}, val={len(val_loader.dataset)}, test={len(test_loader.dataset)}")
     print(f"  Pred steps: {pred_steps}")
     print(f"  Norm std (nm): lat={norm_params['std'][0]:.4f} lon={norm_params['std'][1]:.4f}")
 
     # Model
-    model = build_model(model_name, pred_steps=pred_steps).to(device)
+    model = build_model(model_name, pred_steps=pred_steps, obs_steps=obs_steps).to(device)
     n_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print(f"  Model params: {n_params:,}")
 
@@ -103,7 +108,10 @@ def train_one_model(model_name, args):
     criterion = nn.MSELoss()
 
     # Results dir
-    results_dir = os.path.join(os.path.dirname(__file__), '..', 'results', model_name)
+    if args.results_dir:
+        results_dir = os.path.join(args.results_dir, model_name)
+    else:
+        results_dir = os.path.join(os.path.dirname(__file__), '..', 'results', model_name)
     os.makedirs(results_dir, exist_ok=True)
 
     best_val_loss = float('inf')
@@ -219,8 +227,12 @@ def train_one_model(model_name, args):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--data_root', type=str, default=DEFAULT_DATA_ROOT,
+                        help='Path to data directory (e.g. .../obs10_pred10 or .../pred10)')
     parser.add_argument('--model', type=str, required=True, choices=list(MODEL_REGISTRY.keys()))
     parser.add_argument('--gpu', type=int, default=1)
+    parser.add_argument('--results_dir', type=str, default=None,
+                        help='Custom results directory (default: ../results/{model})')
     parser.add_argument('--epochs', type=int, default=100)
     parser.add_argument('--batch_size', type=int, default=128)
     parser.add_argument('--lr', type=float, default=1e-3)

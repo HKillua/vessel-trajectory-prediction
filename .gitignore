@@ -15,11 +15,16 @@ ship_trajectory_prediction/data/raw/
 ship_trajectory_prediction/data/processed/
 ship_trajectory_prediction/data/final/
 ship_trajectory_prediction/data/final.zip
+NOAANY/data/
+NOAANY/raw_data/
+ship_trajectory_prediction_DMA/data/
+ship_trajectory_prediction_DMA/raw_data/
 
 # Model checkpoints (large)
 *.pt
 *.pth
 !baseline/results/*/best.pt
+!baseline/results_noaa_*/**/best.pt
 *.bin
 
 # Baseline: exclude only caches/data/large files (NOT source code)
@@ -36,6 +41,10 @@ baseline/social-lstm/model/
 baseline/star/data/
 baseline/LLM4STP/temp_save_dir/
 baseline/LLM4STP/dataset/
+
+# Logs
+baseline/logs_noaa_pred10/
+baseline/logs_noaa_pred30/
 
 # Misc
 *.zip

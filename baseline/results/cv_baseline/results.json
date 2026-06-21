@@ -1,0 +1,6 @@
+{
+  "model": "constant_velocity",
+  "test_ade_nm": 0.07029435804229935,
+  "test_fde_nm": 0.1672797110437195,
+  "description": "Linear extrapolation using last 2 steps velocity"
+}
