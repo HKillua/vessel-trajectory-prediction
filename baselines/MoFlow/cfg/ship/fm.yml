@@ -1,0 +1,78 @@
+# ------------------- General Options -------------------------
+description                  : Ship Flow Matching
+results_root_dir             : results_ship
+dataset                      : ship
+
+# ------------------- Dataset -------------------------
+past_frames                  : 30
+future_frames                : 10
+agents                       : 15
+input_feat_dim               : 7
+pred_feat_dim                : 2
+
+checkpt_freq                 : 10
+
+# -------------------- Flow matching config -----------------------------
+denoising_method             : 'fm'
+sampling_steps               : 10
+t_schedule                   : 'logit_normal'
+objective                    : 'pred_data'
+sigma_data                   : 0.13
+
+# -------------------- Logger config -----------------------------
+notes                        : 'Ship Flow Matching'
+
+# ---------------------------- Model ----------------------------
+MODEL:
+    NUM_PROPOSED_QUERY: 20
+    MODEL_OUT_DIM: 20
+    REGRESSION_MLPS: [128, 256, 20]
+    CLASSIFICATION_MLPS: [128, 128, 1]
+
+    CONTEXT_ENCODER:
+        NAME: ShipEncoder
+        D_MODEL: 128
+        NUM_ATTN_LAYERS: 4
+        NUM_ATTN_HEAD: 8
+        DROPOUT_OF_ATTN: 0.1
+        INPUT_FEAT_DIM: 7
+        PAST_FRAMES: 30
+
+    MOTION_DECODER:
+        NAME: MTRDecoder
+        D_MODEL: 128
+        NUM_DECODER_BLOCKS: 4
+        NUM_ATTN_HEAD: 8
+        DROPOUT_OF_ATTN: 0.1
+
+    INTERACTION:
+        ENABLED: true
+        NUM_HEADS: 8
+
+denoising_head_preds         : 20
+k_preds                      : 20
+
+# ------------------------------- Optimizer ---------------------------------
+train_batch_size             : 64
+test_batch_size              : 256
+
+OPTIMIZATION:
+    NUM_EPOCHS: 150
+
+    OPTIMIZER: AdamW
+    LR: 0.0001
+    WEIGHT_DECAY: 0.01
+
+    SCHEDULER: cosineAnnealingLRwithWarmup
+    LR_CLIP: 0.000001
+
+    GRAD_NORM_CLIP: 1.0
+
+    LOSS_WEIGHTS: {
+      'cls': 1.0,
+      'reg': 1.0,
+      'vel': 0.0,
+    }
+    LOSS_NN_MODE: 'agent'
+    LOSS_REG_REDUCTION: 'mean'
+    LOSS_REG_SQUARED: false

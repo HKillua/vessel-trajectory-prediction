@@ -1,7 +1,7 @@
 """
 Social-STGCNN 统一评估脚本
 输入: [B, 7, T_obs, V], 邻接矩阵: [B, T_obs, V, V] (per-sample)
-输出: [B, output_feat, T_pred, V] → 取 target ship 前2维
+输出: [B, 2, T_pred, V] (lat, lon)
 """
 import os, sys, glob, json, time
 import numpy as np
@@ -12,11 +12,31 @@ from torch.utils.data import Dataset, DataLoader
 import argparse
 
 sys.path.insert(0, '/home/wangguangjie/djs/vessel-trajectory-prediction')
-sys.path.insert(0, '/home/wangguangjie/djs/baseline/social-stgcnn')
+sys.path.insert(0, '/home/wangguangjie/djs/vessel-trajectory-prediction/baseline/social-stgcnn')
 torch.backends.cudnn.enabled = False
 
 from data_provider.dataloader_multivessel import MultiVesselDataset
 from model import social_stgcnn
+
+
+class SocialSTGCNNWrapper(nn.Module):
+    """Wrapper: internal hidden_dim for capacity + 1x1 projection to pred_dim.
+
+    The raw social_stgcnn uses output_feat as both the internal channel width
+    and the output channel count. Setting output_feat=256 wastes 254 channels
+    when only 2 are used. This wrapper keeps a moderate hidden_dim for the
+    graph/temporal convolutions and projects to the exact pred_dim at the end.
+    """
+
+    def __init__(self, hidden_dim=64, pred_dim=2, **stgcnn_kwargs):
+        super().__init__()
+        self.stgcnn = social_stgcnn(output_feat=hidden_dim, **stgcnn_kwargs)
+        self.output_proj = nn.Conv2d(hidden_dim, pred_dim, kernel_size=1)
+
+    def forward(self, v, a):
+        v, a = self.stgcnn(v, a)
+        v = self.output_proj(v)
+        return v, a
 
 DEFAULT_DATA_ROOT = '/home/wangguangjie/djs/vessel-trajectory-prediction/ship_trajectory_prediction/data/final/obs10_pred10'
 RESULTS_BASE_DIR = '/home/wangguangjie/djs/vessel-trajectory-prediction/baseline/results'
@@ -25,7 +45,7 @@ BATCH_SIZE = 32
 EPOCHS = 100
 LR = 1e-3
 PATIENCE = 20
-MAX_SHIPS = 18
+MAX_SHIPS = 12
 
 
 class STGCNNDataset(Dataset):
@@ -66,6 +86,10 @@ class STGCNNDataset(Dataset):
         adj[:n_adj, :n_adj] = adj_raw[:n_adj, :n_adj]
         for s in range(n_adj):
             adj[s, s] = 1.0
+        # Row-normalize: D^{-1} A
+        row_sum = adj.sum(axis=1, keepdims=True)
+        row_sum[row_sum == 0] = 1.0
+        adj = adj / row_sum
 
         return {
             'obs': torch.from_numpy(obs),
@@ -103,11 +127,10 @@ def run_epoch(model, loader, device, norm_params, criterion, optimizer=None):
         if is_train:
             optimizer.zero_grad()
 
-        out, _ = model(obs, adj)  # [B, output_feat, T_pred, V]
-        pred_xy = out[:, :2, :, :]  # [B, 2, T_pred, V]
+        out, _ = model(obs, adj)  # [B, 2, T_pred, V]
 
-        ti = target_idx.view(-1, 1, 1, 1).expand(-1, 2, pred_xy.shape[2], 1)
-        pred_target = pred_xy.gather(3, ti).squeeze(3)  # [B, 2, T_pred]
+        ti = target_idx.view(-1, 1, 1, 1).expand(-1, 2, out.shape[2], 1)
+        pred_target = out.gather(3, ti).squeeze(3)  # [B, 2, T_pred]
         gt_target = pred.gather(3, ti).squeeze(3)        # [B, 2, T_pred]
         loss = criterion(pred_target, gt_target)
 
@@ -122,7 +145,7 @@ def run_epoch(model, loader, device, norm_params, criterion, optimizer=None):
             B = out.shape[0]
             for b in range(B):
                 t_idx = target_idx[b]
-                p = out[b, :2, :, t_idx].permute(1, 0) * std_t + mean_t  # [T_pred, 2]
+                p = out[b, :, :, t_idx].permute(1, 0) * std_t + mean_t  # [T_pred, 2]
                 t = pred[b, :, :, t_idx].permute(1, 0) * std_t + mean_t  # [T_pred, 2]
                 dist = torch.norm(p - t, dim=-1)
                 all_ades.append(dist.mean().item())
@@ -167,9 +190,10 @@ def main():
         collate_fn=collate_stgcnn, num_workers=2)
 
     device = torch.device(device_str)
-    model = social_stgcnn(
-        n_stgcnn=2, n_txpcnn=2,
-        input_feat=7, output_feat=32,
+    model = SocialSTGCNNWrapper(
+        hidden_dim=128, pred_dim=2,
+        n_stgcnn=2, n_txpcnn=5,
+        input_feat=7,
         seq_len=obs_steps, pred_seq_len=pred_steps,
         kernel_size=3
     ).to(device)

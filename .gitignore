@@ -41,6 +41,12 @@ baseline/star/data/
 baseline/LLM4STP/temp_save_dir/
 baseline/LLM4STP/dataset/
 
+# MoFlow baselines
+baselines/MoFlow/data/eth_ucy/
+baselines/MoFlow/data/sdd/
+baselines/MoFlow/data/nba/
+baselines/MoFlow/results_ship/
+
 # Logs
 baseline/logs_*/
 baseline/logs/

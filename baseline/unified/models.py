@@ -376,8 +376,8 @@ class SocialLSTM(nn.Module):
     """
 
     def __init__(self, input_size=7, hidden_size=128, num_layers=1,
-                 dropout=0.1, pred_dim=2, grid_size=4, grid_radius=2.0,
-                 embedding_size=64, pred_steps=30):
+                 dropout=0.3, pred_dim=2, grid_size=4, grid_radius=2.0,
+                 embedding_size=64, pred_steps=30, neighbor_social_mode='mean'):
         super().__init__()
         self.hidden_size = hidden_size
         self.grid_size = grid_size
@@ -385,6 +385,7 @@ class SocialLSTM(nn.Module):
         self.pred_dim = pred_dim
         self._t_pred = pred_steps
         self.embedding_size = embedding_size
+        self.neighbor_social_mode = neighbor_social_mode
 
         self.input_embed = nn.Linear(input_size, embedding_size)
         social_pool_dim = grid_size * grid_size * hidden_size
@@ -395,8 +396,11 @@ class SocialLSTM(nn.Module):
         self.decoder = nn.Sequential(
             nn.Linear(hidden_size, hidden_size),
             nn.ReLU(),
+            nn.Dropout(dropout),
             nn.Linear(hidden_size, pred_steps * pred_dim),
         )
+        if neighbor_social_mode == 'mean':
+            self.nb_social_proj = nn.Linear(hidden_size, embedding_size)
 
     def _compute_social_tensor(self, positions, hidden_states, full_mask):
         """Compute social tensor using neighbor hidden states in spatial grid.
@@ -476,10 +480,19 @@ class SocialLSTM(nn.Module):
 
             if N_total > 1:
                 N_nb = N_total - 1
-                zero_social = torch.zeros(B * N_nb, self.embedding_size, device=device)
+                if self.neighbor_social_mode == 'mean':
+                    h_sum = (h * full_mask.unsqueeze(-1)).sum(dim=1, keepdim=True)
+                    h_nb_cur = h[:, 1:, :]
+                    nb_count = full_mask.sum(dim=1, keepdim=True).unsqueeze(-1).clamp(min=2) - 1
+                    nb_mean = (h_sum - h_nb_cur) / nb_count
+                    nb_social_emb = self.dropout(self.relu(
+                        self.nb_social_proj(nb_mean.reshape(B * N_nb, self.hidden_size))
+                    ))
+                else:
+                    nb_social_emb = torch.zeros(B * N_nb, self.embedding_size, device=device)
                 nb_input = torch.cat([
                     input_emb[:, 1:, :].reshape(B * N_nb, self.embedding_size),
-                    zero_social
+                    nb_social_emb
                 ], dim=-1)
                 h_nb, c_nb = self.cell(
                     nb_input,
@@ -515,7 +528,9 @@ MODEL_REGISTRY = {
     'itransformer': lambda pred_steps, obs_steps: iTransformerBaseline(
         d_model=256, n_heads=8, n_layers=3, dim_ff=512,
         obs_steps=obs_steps, pred_steps=pred_steps),
-    'social_lstm':  lambda pred_steps, obs_steps: SocialLSTM(pred_steps=pred_steps),
+    'social_lstm':  lambda pred_steps, obs_steps: SocialLSTM(
+        hidden_size=128, embedding_size=64, grid_size=4, dropout=0.3,
+        neighbor_social_mode='mean', pred_steps=pred_steps),
 }
 
 
