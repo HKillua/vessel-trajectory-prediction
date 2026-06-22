@@ -10,7 +10,7 @@ agents                       : 15
 input_feat_dim               : 7
 pred_feat_dim                : 2
 
-checkpt_freq                 : 10
+checkpt_freq                 : 5
 
 # -------------------- Flow matching config -----------------------------
 denoising_method             : 'fm'
@@ -60,13 +60,14 @@ OPTIMIZATION:
     NUM_EPOCHS: 200
 
     OPTIMIZER: AdamW
-    LR: 0.0003
+    LR: 0.0001
     WEIGHT_DECAY: 0.05
 
     SCHEDULER: cosineAnnealingLRwithWarmup
     LR_CLIP: 0.000001
 
     GRAD_NORM_CLIP: 1.0
+    WARMUP_EPOCHS: 10
 
     LOSS_WEIGHTS: {
       'cls': 1.0,

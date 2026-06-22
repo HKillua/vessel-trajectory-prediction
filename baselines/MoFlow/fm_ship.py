@@ -27,7 +27,7 @@ def parse_config():
     parser.add_argument('--pred_len', type=int, default=30, choices=[10, 20, 30])
     parser.add_argument('--epochs', type=int, default=None)
     parser.add_argument('--batch_size', type=int, default=None)
-    parser.add_argument('--checkpt_freq', type=int, default=10)
+    parser.add_argument('--checkpt_freq', type=int, default=5)
     parser.add_argument('--seed', type=int, default=42)
 
     # FM parameters
@@ -45,7 +45,7 @@ def parse_config():
 
     # Loss configuration
     parser.add_argument('--loss_nn_mode', type=str, default='agent')
-    parser.add_argument('--loss_reg_reduction', type=str, default='sum')
+    parser.add_argument('--loss_reg_reduction', type=str, default='mean')
     parser.add_argument('--loss_reg_squared', default=False, action='store_true')
 
     # Optimization
