@@ -42,7 +42,8 @@ htmlcov/
 # Logs and temporary files
 *.log
 *.log.*
-logs/
+!logs/
+!logs/*.log
 *.tmp
 temp/
 
