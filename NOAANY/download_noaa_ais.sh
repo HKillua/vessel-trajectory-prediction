@@ -25,7 +25,7 @@ echo "  Total days to download: $TOTAL_DAYS"
 echo ""
 
 # 创建子目录
-mkdir -p "$SAVE_DIR/2024"
+mkdir -p "$SAVE_DIR/2024" "$SAVE_DIR/2025"
 
 CURRENT_DATE="$START_DATE"
 DAY_NUM=0
@@ -82,5 +82,5 @@ echo "  Skipped: $SKIP"
 echo "  Total:   $TOTAL_DAYS"
 echo ""
 echo "  Total size:"
-du -sh "$SAVE_DIR/2024/"
+du -sh "$SAVE_DIR"/20*/  2>/dev/null
 echo "============================================"

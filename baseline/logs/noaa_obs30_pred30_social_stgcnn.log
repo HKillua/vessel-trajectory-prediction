@@ -1,0 +1,112 @@
+============================================================
+  Social-STGCNN 训练
+  Data: /home/wangguangjie/djs/vessel-trajectory-prediction/NOAANY/data/final/pred30
+============================================================
+Train: 7805, Val: 1137
+Max ships: 12, Obs: 30, Pred: 30
+Model params: 167,447
+  Epoch   1/100 | train=0.141212 val=0.111062 | ADE=1.0749nm FDE=1.9279nm | lr=1.00e-03 t=20.0s
+  Epoch   2/100 | train=0.096112 val=0.095366 | ADE=0.9922nm FDE=1.7883nm | lr=1.00e-03 t=19.0s
+  Epoch   3/100 | train=0.082448 val=0.088483 | ADE=0.9482nm FDE=1.7140nm | lr=1.00e-03 t=18.8s
+  Epoch   4/100 | train=0.074545 val=0.074523 | ADE=0.8285nm FDE=1.6052nm | lr=1.00e-03 t=19.9s
+  Epoch   5/100 | train=0.071767 val=0.074039 | ADE=0.8556nm FDE=1.5911nm | lr=1.00e-03 t=18.9s
+  Epoch   6/100 | train=0.067550 val=0.071436 | ADE=0.8290nm FDE=1.5633nm | lr=1.00e-03 t=19.6s
+  Epoch   7/100 | train=0.064791 val=0.065866 | ADE=0.7913nm FDE=1.5000nm | lr=1.00e-03 t=18.9s
+  Epoch   8/100 | train=0.062541 val=0.064091 | ADE=0.7720nm FDE=1.4922nm | lr=1.00e-03 t=19.5s
+  Epoch   9/100 | train=0.059622 val=0.063567 | ADE=0.7829nm FDE=1.4752nm | lr=1.00e-03 t=19.6s
+  Epoch  10/100 | train=0.060437 val=0.063844 | ADE=0.7660nm FDE=1.4739nm | lr=1.00e-03 t=19.6s
+  Epoch  11/100 | train=0.057508 val=0.061885 | ADE=0.7609nm FDE=1.4561nm | lr=1.00e-03 t=19.0s
+  Epoch  12/100 | train=0.055709 val=0.063458 | ADE=0.7931nm FDE=1.4590nm | lr=1.00e-03 t=19.3s
+  Epoch  13/100 | train=0.054553 val=0.059801 | ADE=0.7507nm FDE=1.4332nm | lr=1.00e-03 t=19.3s
+  Epoch  14/100 | train=0.053514 val=0.060587 | ADE=0.7412nm FDE=1.4315nm | lr=1.00e-03 t=19.0s
+  Epoch  15/100 | train=0.052445 val=0.057063 | ADE=0.7249nm FDE=1.3990nm | lr=1.00e-03 t=19.4s
+  Epoch  16/100 | train=0.052056 val=0.057828 | ADE=0.7230nm FDE=1.3883nm | lr=1.00e-03 t=18.7s
+  Epoch  17/100 | train=0.050504 val=0.057071 | ADE=0.7256nm FDE=1.3957nm | lr=1.00e-03 t=19.2s
+  Epoch  18/100 | train=0.051359 val=0.056172 | ADE=0.7208nm FDE=1.3807nm | lr=1.00e-03 t=19.3s
+  Epoch  19/100 | train=0.051859 val=0.059665 | ADE=0.7528nm FDE=1.4151nm | lr=1.00e-03 t=18.7s
+  Epoch  20/100 | train=0.050618 val=0.058030 | ADE=0.7339nm FDE=1.4082nm | lr=5.00e-04 t=19.3s
+  Epoch  21/100 | train=0.046006 val=0.051412 | ADE=0.6745nm FDE=1.3268nm | lr=5.00e-04 t=19.3s
+  Epoch  22/100 | train=0.043985 val=0.052015 | ADE=0.6878nm FDE=1.3203nm | lr=5.00e-04 t=19.5s
+  Epoch  23/100 | train=0.044123 val=0.056085 | ADE=0.7115nm FDE=1.3617nm | lr=5.00e-04 t=18.8s
+  Epoch  24/100 | train=0.042056 val=0.051297 | ADE=0.6802nm FDE=1.3312nm | lr=5.00e-04 t=18.9s
+  Epoch  25/100 | train=0.043163 val=0.051253 | ADE=0.6749nm FDE=1.3148nm | lr=5.00e-04 t=19.1s
+  Epoch  26/100 | train=0.042633 val=0.050882 | ADE=0.6705nm FDE=1.2971nm | lr=5.00e-04 t=19.3s
+  Epoch  27/100 | train=0.042092 val=0.050486 | ADE=0.6713nm FDE=1.3046nm | lr=5.00e-04 t=18.7s
+  Epoch  28/100 | train=0.043096 val=0.049298 | ADE=0.6581nm FDE=1.2968nm | lr=5.00e-04 t=19.4s
+  Epoch  29/100 | train=0.040761 val=0.050358 | ADE=0.6771nm FDE=1.2942nm | lr=5.00e-04 t=18.8s
+  Epoch  30/100 | train=0.042631 val=0.049262 | ADE=0.6606nm FDE=1.2901nm | lr=5.00e-04 t=18.5s
+  Epoch  31/100 | train=0.041395 val=0.051282 | ADE=0.6799nm FDE=1.3311nm | lr=5.00e-04 t=19.2s
+  Epoch  32/100 | train=0.041242 val=0.048996 | ADE=0.6605nm FDE=1.2914nm | lr=5.00e-04 t=18.9s
+  Epoch  33/100 | train=0.040102 val=0.048533 | ADE=0.6625nm FDE=1.2762nm | lr=5.00e-04 t=19.4s
+  Epoch  34/100 | train=0.039548 val=0.050588 | ADE=0.6760nm FDE=1.2981nm | lr=5.00e-04 t=18.8s
+  Epoch  35/100 | train=0.040541 val=0.048487 | ADE=0.6578nm FDE=1.2814nm | lr=5.00e-04 t=19.1s
+  Epoch  36/100 | train=0.040209 val=0.049381 | ADE=0.6599nm FDE=1.2967nm | lr=5.00e-04 t=19.4s
+  Epoch  37/100 | train=0.038714 val=0.049094 | ADE=0.6603nm FDE=1.2903nm | lr=5.00e-04 t=18.8s
+  Epoch  38/100 | train=0.039201 val=0.049938 | ADE=0.6642nm FDE=1.2861nm | lr=5.00e-04 t=19.1s
+  Epoch  39/100 | train=0.039492 val=0.047847 | ADE=0.6453nm FDE=1.2571nm | lr=5.00e-04 t=19.5s
+  Epoch  40/100 | train=0.040140 val=0.048826 | ADE=0.6641nm FDE=1.2673nm | lr=2.50e-04 t=19.2s
+  Epoch  41/100 | train=0.036783 val=0.046389 | ADE=0.6345nm FDE=1.2435nm | lr=2.50e-04 t=19.1s
+  Epoch  42/100 | train=0.035523 val=0.044695 | ADE=0.6262nm FDE=1.2280nm | lr=2.50e-04 t=19.6s
+  Epoch  43/100 | train=0.035769 val=0.045226 | ADE=0.6269nm FDE=1.2342nm | lr=2.50e-04 t=19.1s
+  Epoch  44/100 | train=0.035856 val=0.045869 | ADE=0.6377nm FDE=1.2357nm | lr=2.50e-04 t=18.7s
+  Epoch  45/100 | train=0.036062 val=0.045997 | ADE=0.6304nm FDE=1.2427nm | lr=2.50e-04 t=18.8s
+  Epoch  46/100 | train=0.034456 val=0.046182 | ADE=0.6410nm FDE=1.2251nm | lr=2.50e-04 t=19.1s
+  Epoch  47/100 | train=0.034412 val=0.045421 | ADE=0.6285nm FDE=1.2248nm | lr=2.50e-04 t=18.9s
+  Epoch  48/100 | train=0.035249 val=0.044385 | ADE=0.6234nm FDE=1.2195nm | lr=2.50e-04 t=19.2s
+  Epoch  49/100 | train=0.034542 val=0.044073 | ADE=0.6214nm FDE=1.2183nm | lr=2.50e-04 t=18.7s
+  Epoch  50/100 | train=0.034656 val=0.044317 | ADE=0.6216nm FDE=1.2205nm | lr=2.50e-04 t=19.0s
+  Epoch  51/100 | train=0.033713 val=0.044664 | ADE=0.6204nm FDE=1.2195nm | lr=2.50e-04 t=19.1s
+  Epoch  52/100 | train=0.033990 val=0.044450 | ADE=0.6144nm FDE=1.2085nm | lr=2.50e-04 t=18.8s
+  Epoch  53/100 | train=0.033689 val=0.045144 | ADE=0.6341nm FDE=1.2262nm | lr=2.50e-04 t=18.8s
+  Epoch  54/100 | train=0.033072 val=0.044937 | ADE=0.6225nm FDE=1.2152nm | lr=2.50e-04 t=18.9s
+  Epoch  55/100 | train=0.034072 val=0.045487 | ADE=0.6365nm FDE=1.2379nm | lr=2.50e-04 t=19.0s
+  Epoch  56/100 | train=0.033082 val=0.046015 | ADE=0.6379nm FDE=1.2511nm | lr=2.50e-04 t=18.7s
+  Epoch  57/100 | train=0.032789 val=0.043449 | ADE=0.6155nm FDE=1.2108nm | lr=2.50e-04 t=18.5s
+  Epoch  58/100 | train=0.033170 val=0.043367 | ADE=0.6157nm FDE=1.2104nm | lr=2.50e-04 t=18.2s
+  Epoch  59/100 | train=0.033289 val=0.044640 | ADE=0.6227nm FDE=1.2209nm | lr=2.50e-04 t=19.4s
+  Epoch  60/100 | train=0.033678 val=0.043492 | ADE=0.6136nm FDE=1.2046nm | lr=1.25e-04 t=20.2s
+  Epoch  61/100 | train=0.030429 val=0.042571 | ADE=0.6083nm FDE=1.1902nm | lr=1.25e-04 t=19.2s
+  Epoch  62/100 | train=0.030542 val=0.042628 | ADE=0.6083nm FDE=1.2001nm | lr=1.25e-04 t=19.1s
+  Epoch  63/100 | train=0.029852 val=0.043012 | ADE=0.6125nm FDE=1.2065nm | lr=1.25e-04 t=19.8s
+  Epoch  64/100 | train=0.030360 val=0.042037 | ADE=0.6023nm FDE=1.1873nm | lr=1.25e-04 t=19.6s
+  Epoch  65/100 | train=0.030071 val=0.042087 | ADE=0.6019nm FDE=1.1895nm | lr=1.25e-04 t=19.7s
+  Epoch  66/100 | train=0.029958 val=0.042953 | ADE=0.6129nm FDE=1.2065nm | lr=1.25e-04 t=19.2s
+  Epoch  67/100 | train=0.030059 val=0.042112 | ADE=0.6051nm FDE=1.1913nm | lr=1.25e-04 t=19.1s
+  Epoch  68/100 | train=0.029242 val=0.041877 | ADE=0.5987nm FDE=1.1824nm | lr=1.25e-04 t=19.5s
+  Epoch  69/100 | train=0.029477 val=0.043335 | ADE=0.6154nm FDE=1.2101nm | lr=1.25e-04 t=18.8s
+  Epoch  70/100 | train=0.029380 val=0.042252 | ADE=0.6039nm FDE=1.1888nm | lr=1.25e-04 t=19.1s
+  Epoch  71/100 | train=0.029195 val=0.042350 | ADE=0.6037nm FDE=1.1908nm | lr=1.25e-04 t=19.1s
+  Epoch  72/100 | train=0.029491 val=0.042372 | ADE=0.6115nm FDE=1.1976nm | lr=1.25e-04 t=18.9s
+  Epoch  73/100 | train=0.029726 val=0.042924 | ADE=0.6076nm FDE=1.1983nm | lr=1.25e-04 t=18.8s
+  Epoch  74/100 | train=0.028426 val=0.043729 | ADE=0.6169nm FDE=1.2095nm | lr=1.25e-04 t=19.7s
+  Epoch  75/100 | train=0.029633 val=0.042123 | ADE=0.6055nm FDE=1.1944nm | lr=1.25e-04 t=19.0s
+  Epoch  76/100 | train=0.029170 val=0.042908 | ADE=0.6094nm FDE=1.1974nm | lr=1.25e-04 t=19.5s
+  Epoch  77/100 | train=0.028568 val=0.042418 | ADE=0.6086nm FDE=1.1866nm | lr=1.25e-04 t=18.7s
+  Epoch  78/100 | train=0.028481 val=0.042155 | ADE=0.6015nm FDE=1.1850nm | lr=1.25e-04 t=18.9s
+  Epoch  79/100 | train=0.028899 val=0.042724 | ADE=0.6093nm FDE=1.1920nm | lr=1.25e-04 t=19.3s
+  Epoch  80/100 | train=0.028591 val=0.043120 | ADE=0.6119nm FDE=1.2048nm | lr=6.25e-05 t=19.3s
+  Epoch  81/100 | train=0.028005 val=0.041703 | ADE=0.5976nm FDE=1.1763nm | lr=6.25e-05 t=19.4s
+  Epoch  82/100 | train=0.027163 val=0.041601 | ADE=0.5969nm FDE=1.1812nm | lr=6.25e-05 t=19.4s
+  Epoch  83/100 | train=0.027892 val=0.041274 | ADE=0.5964nm FDE=1.1780nm | lr=6.25e-05 t=19.1s
+  Epoch  84/100 | train=0.027066 val=0.041221 | ADE=0.5973nm FDE=1.1750nm | lr=6.25e-05 t=19.4s
+  Epoch  85/100 | train=0.027552 val=0.040672 | ADE=0.5926nm FDE=1.1719nm | lr=6.25e-05 t=19.2s
+  Epoch  86/100 | train=0.026587 val=0.040780 | ADE=0.5934nm FDE=1.1745nm | lr=6.25e-05 t=19.2s
+  Epoch  87/100 | train=0.027078 val=0.041645 | ADE=0.6030nm FDE=1.1768nm | lr=6.25e-05 t=19.1s
+  Epoch  88/100 | train=0.026687 val=0.040961 | ADE=0.5940nm FDE=1.1679nm | lr=6.25e-05 t=19.4s
+  Epoch  89/100 | train=0.026535 val=0.041697 | ADE=0.6035nm FDE=1.1844nm | lr=6.25e-05 t=19.4s
+  Epoch  90/100 | train=0.026382 val=0.041668 | ADE=0.6004nm FDE=1.1856nm | lr=6.25e-05 t=19.5s
+  Epoch  91/100 | train=0.026610 val=0.041462 | ADE=0.5991nm FDE=1.1830nm | lr=6.25e-05 t=19.8s
+  Epoch  92/100 | train=0.026653 val=0.041569 | ADE=0.6003nm FDE=1.1836nm | lr=6.25e-05 t=19.9s
+  Epoch  93/100 | train=0.026842 val=0.041201 | ADE=0.5965nm FDE=1.1772nm | lr=6.25e-05 t=20.2s
+  Epoch  94/100 | train=0.026732 val=0.041337 | ADE=0.5981nm FDE=1.1798nm | lr=6.25e-05 t=19.9s
+  Epoch  95/100 | train=0.026866 val=0.041750 | ADE=0.6045nm FDE=1.1858nm | lr=6.25e-05 t=19.7s
+  Epoch  96/100 | train=0.026578 val=0.041446 | ADE=0.5979nm FDE=1.1809nm | lr=6.25e-05 t=20.3s
+  Epoch  97/100 | train=0.026299 val=0.041224 | ADE=0.5974nm FDE=1.1771nm | lr=6.25e-05 t=20.0s
+  Epoch  98/100 | train=0.026642 val=0.041416 | ADE=0.5992nm FDE=1.1836nm | lr=6.25e-05 t=19.5s
+  Epoch  99/100 | train=0.026765 val=0.041236 | ADE=0.5988nm FDE=1.1766nm | lr=6.25e-05 t=19.6s
+  Epoch 100/100 | train=0.026584 val=0.041204 | ADE=0.5978nm FDE=1.1785nm | lr=3.13e-05 t=18.4s
+
+  Testing (best val ADE=0.5926nm)
+  TEST ADE = 0.5729 nm
+  TEST FDE = 1.1312 nm
+  Saved to /home/wangguangjie/djs/vessel-trajectory-prediction/baseline/results/NOAANY/obs30_pred30/social_stgcnn/results.json

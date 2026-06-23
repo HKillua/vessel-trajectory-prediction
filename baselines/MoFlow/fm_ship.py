@@ -31,7 +31,7 @@ def parse_config():
     parser.add_argument('--seed', type=int, default=42)
 
     # FM parameters
-    parser.add_argument('--sampling_steps', type=int, default=10)
+    parser.add_argument('--sampling_steps', type=int, default=20)
     parser.add_argument('--t_schedule', type=str, default='logit_normal')
     parser.add_argument('--logit_norm_mean', default=-0.5, type=float)
     parser.add_argument('--logit_norm_std', default=1.5, type=float)
@@ -44,8 +44,8 @@ def parse_config():
     parser.add_argument('--tied_noise', default=False, action='store_true')
 
     # Loss configuration
-    parser.add_argument('--loss_nn_mode', type=str, default='agent')
-    parser.add_argument('--loss_reg_reduction', type=str, default='mean')
+    parser.add_argument('--loss_nn_mode', type=str, default='scene')
+    parser.add_argument('--loss_reg_reduction', type=str, default='sum')
     parser.add_argument('--loss_reg_squared', default=False, action='store_true')
 
     # Optimization

@@ -293,8 +293,8 @@ class FlowMatcher(nn.Module):
 
         if self.solver == 'euler':
             dt = 1.0 / self.sampling_steps
-            t_ls = dt * np.arange(self.sampling_steps)
-            dt_ls = dt * np.ones(self.sampling_steps)
+            t_ls = (dt * np.arange(self.sampling_steps)).tolist()
+            dt_ls = (dt * np.ones(self.sampling_steps)).tolist()
         elif self.solver == 'lin_poly':
             # linear time growth in the first half with small dt
             # polinomial growth of dt in the second half

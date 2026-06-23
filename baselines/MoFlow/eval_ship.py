@@ -21,7 +21,7 @@ def parse_config():
     parser.add_argument('--pred_len', type=int, default=10, choices=[10, 20, 30])
     parser.add_argument('--batch_size', type=int, default=256)
     parser.add_argument('--ckpt', type=str, default='best', choices=['best', 'last'])
-    parser.add_argument('--sampling_steps', type=int, default=10)
+    parser.add_argument('--sampling_steps', type=int, default=20)
     parser.add_argument('--seed', type=int, default=42)
 
     # These need to match the training run
@@ -32,8 +32,8 @@ def parse_config():
     parser.add_argument('--drop_logi_k', default=20.0, type=float)
     parser.add_argument('--drop_logi_m', default=0.5, type=float)
     parser.add_argument('--tied_noise', default=False, action='store_true')
-    parser.add_argument('--loss_nn_mode', type=str, default='agent')
-    parser.add_argument('--loss_reg_reduction', type=str, default='sum')
+    parser.add_argument('--loss_nn_mode', type=str, default='scene')
+    parser.add_argument('--loss_reg_reduction', type=str, default='mean')
 
     return parser.parse_args()
 

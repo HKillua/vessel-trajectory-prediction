@@ -6,7 +6,7 @@ dataset                      : ship
 # ------------------- Dataset -------------------------
 past_frames                  : 30
 future_frames                : 10
-agents                       : 15
+agents                       : 8
 input_feat_dim               : 7
 pred_feat_dim                : 2
 
@@ -14,7 +14,7 @@ checkpt_freq                 : 5
 
 # -------------------- Flow matching config -----------------------------
 denoising_method             : 'fm'
-sampling_steps               : 10
+sampling_steps               : 20
 t_schedule                   : 'logit_normal'
 objective                    : 'pred_data'
 sigma_data                   : 0.13
@@ -24,7 +24,7 @@ notes                        : 'Ship Flow Matching'
 
 # ---------------------------- Model ----------------------------
 MODEL:
-    NUM_PROPOSED_QUERY: 10
+    NUM_PROPOSED_QUERY: 3
     MODEL_OUT_DIM: 20
     REGRESSION_MLPS: [128, 256, 20]
     CLASSIFICATION_MLPS: [128, 128, 1]
@@ -37,11 +37,12 @@ MODEL:
         DROPOUT_OF_ATTN: 0.15
         INPUT_FEAT_DIM: 7
         PAST_FRAMES: 30
+        MAX_AGENTS: 8
 
     MOTION_DECODER:
         NAME: MTRDecoder
         D_MODEL: 128
-        NUM_DECODER_BLOCKS: 3
+        NUM_DECODER_BLOCKS: 2
         NUM_ATTN_HEAD: 8
         DROPOUT_OF_ATTN: 0.15
 
@@ -49,8 +50,8 @@ MODEL:
         ENABLED: true
         NUM_HEADS: 8
 
-denoising_head_preds         : 10
-k_preds                      : 10
+denoising_head_preds         : 3
+k_preds                      : 3
 
 # ------------------------------- Optimizer ---------------------------------
 train_batch_size             : 32
@@ -61,7 +62,7 @@ OPTIMIZATION:
 
     OPTIMIZER: AdamW
     LR: 0.0001
-    WEIGHT_DECAY: 0.05
+    WEIGHT_DECAY: 0.01
 
     SCHEDULER: cosineAnnealingLRwithWarmup
     LR_CLIP: 0.000001
@@ -74,6 +75,6 @@ OPTIMIZATION:
       'reg': 1.0,
       'vel': 0.0,
     }
-    LOSS_NN_MODE: 'agent'
-    LOSS_REG_REDUCTION: 'mean'
+    LOSS_NN_MODE: 'scene'
+    LOSS_REG_REDUCTION: 'sum'
     LOSS_REG_SQUARED: false

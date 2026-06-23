@@ -1,7 +1,7 @@
 """
 Social-STGCNN 统一评估脚本
 输入: [B, 7, T_obs, V], 邻接矩阵: [B, T_obs, V, V] (per-sample)
-输出: [B, 2, T_pred, V] (lat, lon)
+输出: [B, output_feat, T_pred, V] → 取 target ship 前2维
 """
 import os, sys, glob, json, time
 import numpy as np
@@ -19,23 +19,17 @@ from data_provider.dataloader_multivessel import MultiVesselDataset
 from model import social_stgcnn
 
 
-class SocialSTGCNNWrapper(nn.Module):
-    """Wrapper: internal hidden_dim for capacity + 1x1 projection to pred_dim.
+class STGCNNProjection(nn.Module):
+    """Wrap social_stgcnn with 1x1 Conv2d projection to pred_dim=2."""
 
-    The raw social_stgcnn uses output_feat as both the internal channel width
-    and the output channel count. Setting output_feat=256 wastes 254 channels
-    when only 2 are used. This wrapper keeps a moderate hidden_dim for the
-    graph/temporal convolutions and projects to the exact pred_dim at the end.
-    """
-
-    def __init__(self, hidden_dim=64, pred_dim=2, **stgcnn_kwargs):
+    def __init__(self, hidden_dim=32, pred_dim=2, **stgcnn_kwargs):
         super().__init__()
         self.stgcnn = social_stgcnn(output_feat=hidden_dim, **stgcnn_kwargs)
-        self.output_proj = nn.Conv2d(hidden_dim, pred_dim, kernel_size=1)
+        self.proj = nn.Conv2d(hidden_dim, pred_dim, kernel_size=1)
 
     def forward(self, v, a):
         v, a = self.stgcnn(v, a)
-        v = self.output_proj(v)
+        v = self.proj(v)
         return v, a
 
 DEFAULT_DATA_ROOT = '/home/wangguangjie/djs/vessel-trajectory-prediction/ship_trajectory_prediction/data/final/obs10_pred10'
@@ -49,7 +43,7 @@ MAX_SHIPS = 12
 
 
 class STGCNNDataset(Dataset):
-    def __init__(self, data_dir, normalize=True, norm_params=None, split=None, max_ships=8):
+    def __init__(self, data_dir, normalize=True, norm_params=None, split=None, max_ships=MAX_SHIPS):
         self.inner = MultiVesselDataset(data_dir, normalize=normalize,
             random_target=(split == 'train' or split is None),
             norm_params=norm_params, split=split)
@@ -86,11 +80,11 @@ class STGCNNDataset(Dataset):
         adj[:n_adj, :n_adj] = adj_raw[:n_adj, :n_adj]
         for s in range(n_adj):
             adj[s, s] = 1.0
-        # Threshold weak edges
         adj[adj < 0.05] = 0.0
         for s in range(n_adj):
             adj[s, s] = 1.0
-        # Row-normalize: D^{-1} A
+
+        # Row-normalize adjacency: D^{-1}A
         row_sum = adj.sum(axis=1, keepdims=True)
         row_sum[row_sum == 0] = 1.0
         adj = adj / row_sum
@@ -133,7 +127,6 @@ def run_epoch(model, loader, device, norm_params, criterion, optimizer=None):
 
         out, _ = model(obs, adj)  # [B, 2, T_pred, V]
 
-        # Primary loss: target ship
         ti = target_idx.view(-1, 1, 1, 1).expand(-1, 2, out.shape[2], 1)
         pred_target = out.gather(3, ti).squeeze(3)  # [B, 2, T_pred]
         gt_target = pred.gather(3, ti).squeeze(3)        # [B, 2, T_pred]
@@ -152,14 +145,11 @@ def run_epoch(model, loader, device, norm_params, criterion, optimizer=None):
         total_loss += loss.item()
 
         with torch.no_grad():
-            B = out.shape[0]
-            for b in range(B):
-                t_idx = target_idx[b]
-                p = out[b, :, :, t_idx].permute(1, 0) * std_t + mean_t  # [T_pred, 2]
-                t = pred[b, :, :, t_idx].permute(1, 0) * std_t + mean_t  # [T_pred, 2]
-                dist = torch.norm(p - t, dim=-1)
-                all_ades.append(dist.mean().item())
-                all_fdes.append(dist[-1].item())
+            pred_denorm = pred_target.permute(0, 2, 1) * std_t + mean_t  # [B, T_pred, 2]
+            gt_denorm = gt_target.permute(0, 2, 1) * std_t + mean_t      # [B, T_pred, 2]
+            dist = torch.norm(pred_denorm - gt_denorm, dim=-1)            # [B, T_pred]
+            all_ades.extend(dist.mean(dim=-1).cpu().tolist())
+            all_fdes.extend(dist[:, -1].cpu().tolist())
 
     return total_loss / len(loader), np.mean(all_ades), np.mean(all_fdes)
 
@@ -200,7 +190,7 @@ def main():
         collate_fn=collate_stgcnn, num_workers=2)
 
     device = torch.device(device_str)
-    model = SocialSTGCNNWrapper(
+    model = STGCNNProjection(
         hidden_dim=128, pred_dim=2,
         n_stgcnn=2, n_txpcnn=5,
         input_feat=7,
@@ -213,7 +203,7 @@ def main():
 
     optimizer = torch.optim.Adam(model.parameters(), lr=LR, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.5)
-    criterion = nn.MSELoss()
+    criterion = nn.SmoothL1Loss()
 
     best_val_ade = float('inf')
     best_state = None
