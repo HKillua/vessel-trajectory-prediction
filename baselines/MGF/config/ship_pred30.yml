@@ -1,0 +1,38 @@
+# MGF Ship Trajectory Prediction — pred30 config
+
+data:
+  data_root: "NOAANY/data/final/pred30"
+  obs_len: 30
+  pred_len: 30
+  batch_size: 64
+  num_workers: 4
+
+model:
+  input_dim: 7
+  d_model: 64
+  cond_dim: 16
+  n_heads: 4
+  n_enc_layers: 3
+  n_dec_layers: 3
+  dropout: 0.1
+
+  # Flow
+  n_blocks: 3
+  flow_hidden: 64
+  n_hidden: 2
+
+  # GMM
+  n_clusters: 8
+  var_init: 0.1
+  learn_var: true
+
+training:
+  lr: 0.001
+  weight_decay: 0.00001
+  epochs: 200
+  w_mse: 0.0          # 0 = NLL only; >0 enables NLL+MSE
+  w_mse_start_epoch: 50
+  dequantize: false
+  eval_every: 5
+  save_dir: "output/MGF_ship_pred30"
+  grad_clip: 1.0

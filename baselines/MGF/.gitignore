@@ -1,0 +1,31 @@
+*.pyc*
+*DS_Store*
+.pre-commit-config.yaml
+wandb/*
+
+# Data
+src/data/TP/processed_data/*
+src/data/TP/raw_data/
+checkpoint/
+
+# Models and clustering
+src/clustering/models/
+*.ckpt
+*.pkl
+
+# Results
+results_ship/
+output/
+
+# Logs (keep only in logs/ directory)
+*.log
+!logs/*.log
+
+# Python
+__pycache__/
+*.pyc*
+*DS_Store*
+.pre-commit-config.yaml
+wandb/*
+
+src/data/TP/processed_data/*
