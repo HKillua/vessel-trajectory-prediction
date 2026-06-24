@@ -26,7 +26,7 @@ notes                        : 'Ship Flow Matching'
 MODEL:
     NUM_PROPOSED_QUERY: 3
     MODEL_OUT_DIM: 20
-    REGRESSION_MLPS: [128, 256, 20]
+    REGRESSION_MLPS: [128, 256, 60]
     CLASSIFICATION_MLPS: [128, 128, 1]
 
     CONTEXT_ENCODER:

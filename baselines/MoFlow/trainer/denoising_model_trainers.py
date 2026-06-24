@@ -549,6 +549,9 @@ class Trainer(object):
         if self.cfg.dataset == 'ship' and hasattr(self.cfg, 'norm_params') and self.cfg.norm_params is not None:
             ship_mean_xy = torch.tensor(self.cfg.norm_params['mean'][:2], device=self.device)
             ship_std_xy = torch.tensor(self.cfg.norm_params['std'][:2], device=self.device)
+            self.logger.info(f'[DENORM] Using norm_params: mean={self.cfg.norm_params["mean"][:2]}, std={self.cfg.norm_params["std"][:2]}')
+        else:
+            self.logger.info(f'[DENORM] NOT denormalizing: dataset={self.cfg.dataset}, has_norm_params={hasattr(self.cfg, "norm_params")}')
 
         for i_batch, data in enumerate(dl): 
             bs = int(data['batch_size'])

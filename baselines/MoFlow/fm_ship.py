@@ -45,7 +45,8 @@ def parse_config():
 
     # Loss configuration
     parser.add_argument('--loss_nn_mode', type=str, default='scene')
-    parser.add_argument('--loss_reg_reduction', type=str, default='sum')
+    parser.add_argument('--loss_reg_reduction', type=str, default=None,
+                        help='Override YAML LOSS_REG_REDUCTION (sum/mean)')
     parser.add_argument('--loss_reg_squared', default=False, action='store_true')
 
     # Optimization
@@ -67,7 +68,10 @@ def main():
     out_dim = args.pred_len * 2
     cfg.future_frames = args.pred_len
     cfg.MODEL.MODEL_OUT_DIM = out_dim
-    cfg.MODEL.REGRESSION_MLPS = [128, 256, out_dim]
+    # REGRESSION_MLPS last element must be out_dim; keep first layers from YAML
+    reg_mlps = list(cfg.MODEL.REGRESSION_MLPS)
+    reg_mlps[-1] = out_dim
+    cfg.MODEL.REGRESSION_MLPS = reg_mlps
 
     cfg.sampling_steps = args.sampling_steps
     cfg.sigma_data = args.sigma_data
@@ -82,7 +86,8 @@ def main():
     cfg.drop_logi_k = args.drop_logi_k
     cfg.drop_logi_m = args.drop_logi_m
     cfg.LOSS_NN_MODE = args.loss_nn_mode
-    cfg.LOSS_REG_REDUCTION = args.loss_reg_reduction
+    if args.loss_reg_reduction is not None:
+        cfg.LOSS_REG_REDUCTION = args.loss_reg_reduction
     cfg.LOSS_REG_SQUARED = args.loss_reg_squared
     cfg.objective = 'pred_data'
 
